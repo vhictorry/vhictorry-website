@@ -1748,6 +1748,41 @@ function closeLightbox(e){
   document.getElementById('lightbox').classList.remove('open');
   document.body.style.overflow='';
 }
+
+/* Lightbox for artworks loaded from Sanity Studio */
+function openLightboxSanity(aw){
+  if(!aw)return;
+  const cap=u=>u.toLowerCase().endsWith('.gif')?u:u+'?w=1600&fit=max&auto=format';
+  const st=aw.status==='available'?'Available':aw.status==='sold'?'Sold':'Details Soon';
+  const price=aw.status==='available'?'On Inquiry':aw.status==='sold'?'Sold':'—';
+  const tagLine=[aw.series||(Array.isArray(aw.category)?aw.category[0]:''),aw.year].filter(Boolean).join(' · ');
+  document.getElementById('lbImg').innerHTML=aw.imageUrl
+    ?`<div style="width:100%;height:100%;min-height:400px;background:#160B26 url('${cap(aw.imageUrl)}') center/contain no-repeat;"></div>`
+    :`<div style="width:100%;height:100%;min-height:400px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
+  const buyBtn=aw.buyUrl
+    ?`<a href="${aw.buyUrl}" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;text-decoration:none;padding:14px;background:var(--gold);color:var(--ink);margin-bottom:10px;">${aw.buyUrl.includes('saatchi')?'Buy on Saatchi Art →':aw.buyUrl.includes('opensea')?'View on OpenSea →':'Buy This Work →'}</a>`
+    :'';
+  document.getElementById('lbInfo').innerHTML=`
+    <div>
+      <div class="lb-series">${tagLine}</div>
+      <div class="lb-title">${aw.title||'Untitled'}</div>
+      <div class="lb-meta">
+        ${aw.medium?`<div class="lb-meta-item"><span class="lb-meta-key">Medium</span><span class="lb-meta-val">${aw.medium}</span></div>`:''}
+        ${aw.dimensions?`<div class="lb-meta-item"><span class="lb-meta-key">Size</span><span class="lb-meta-val">${aw.dimensions}</span></div>`:''}
+        ${aw.year?`<div class="lb-meta-item"><span class="lb-meta-key">Year</span><span class="lb-meta-val">${aw.year}</span></div>`:''}
+        <div class="lb-meta-item"><span class="lb-meta-key">Status</span><span class="lb-meta-val" style="color:var(--gold)">${st}</span></div>
+      </div>
+      <p class="lb-desc">${aw.description||''}</p>
+    </div>
+    <div>
+      <div class="lb-price">${price}</div>
+      ${buyBtn}
+      <a href="#commissions" class="btn-primary" onclick="closeLightbox()" style="display:block;text-align:center;text-decoration:none;padding:14px;">Inquire to Acquire →</a>
+    </div>
+  `;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox({}); });
 
 /* COMMISSION SUBMIT */
@@ -1821,14 +1856,16 @@ const heights=[520,380,300,450,340,420,360,480,320];
   const grid=document.getElementById('galleryGrid');
   if(!grid)return;
   try{
-    const works=await sanityFetch(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,"series":series->title}`);
+    const works=await sanityFetch(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,description,buyUrl,"series":series->title}`);
     if(!works.length)return;
     grid.innerHTML=works.map((w,i)=>masonryCard(w,heights[i%heights.length])).join('');
     const af=document.querySelector('.filter-btn.active');
     const f=af?af.dataset.filter:'all';
     grid.querySelectorAll('.art-card').forEach(c=>{c.style.display=(f==='all'||(c.dataset.category||'').includes(f))?'':'none';});
     grid.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
-    grid.querySelectorAll('.art-card').forEach(el=>{
+    grid.querySelectorAll('.art-card').forEach((el,i)=>{
+      el.style.cursor='pointer';
+      el.addEventListener('click',()=>openLightboxSanity(works[i]));
       el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='50px';ring.style.height='50px';});
       el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
     });
