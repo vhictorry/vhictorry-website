@@ -1909,7 +1909,7 @@ function interviewCard(iv){
 /* Featured works — "In Focus" section, driven by the Featured switch in Sanity Studio */
 (async()=>{
   try{
-    const fw=await sanityFetch(`*[_type=="artwork" && featured==true]|order(order asc){title,description,"imageUrl":image.asset->url,category,status,medium,year,"series":series->title}`);
+    const fw=await sanityFetch(`*[_type=="artwork" && defined(featuredSpot)]|order(featuredSpot asc){title,description,"imageUrl":image.asset->url,category,status,medium,year,featuredSpot,"series":series->title}`);
     if(!fw.length)return;
     const cap=u=>u.toLowerCase().endsWith('.gif')?u:u+'?w=1400&fit=max&auto=format';
     const stTxt=s=>s==='available'?'Available':s==='sold'?'Sold':'Details Soon';
