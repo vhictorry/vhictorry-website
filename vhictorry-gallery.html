@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — vhictorry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--white); color:var(--ink); font-family:'Cormorant Garamond',serif; cursor:none; overflow-x:hidden; }
+    a { text-decoration:none; color:inherit; }
+    button { font-family:inherit; cursor:none; border:none; }
+
+    :root {
+      --white:#FDFCFF; --offwhite:#F6F3FC;
+      --purple:#6B2FA0; --purple-mid:#8B4DBF; --purple-light:#B07DD9;
+      --purple-pale:#EDE4F8; --purple-xpale:#F7F2FD;
+      --ink:#1A0E2E; --ink-mid:#3D2B5C; --muted:#7A6B94;
+      --border:rgba(107,47,160,0.15); --border-strong:rgba(107,47,160,0.35);
+      --gold:#C9A84C;
+    }
+
+    .cursor { position:fixed; width:8px; height:8px; background:var(--purple); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
+    .cursor-ring { position:fixed; width:32px; height:32px; border:1.5px solid rgba(107,47,160,0.4); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s, height .3s; }
+
+    .fade-up { opacity:0; transform:translateY(28px); transition:opacity .7s, transform .7s; }
+    .fade-up.visible { opacity:1; transform:translateY(0); }
+
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:20px 56px;
+      background:rgba(253,252,255,0.92); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border); transition:padding .3s;
+    }
+    .nav-logo { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; font-style:italic; color:var(--ink); letter-spacing:1px; }
+    .nav-links { display:flex; gap:36px; list-style:none; }
+    .nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); transition:color .2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--ink); }
+    .nav-cta { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px; text-transform:uppercase; padding:10px 20px; background:var(--purple); color:var(--white); border-radius:2px; transition:background .2s; }
+    .nav-cta:hover { background:var(--purple-mid); }
+    .nav-mobile-toggle { display:none; background:none; flex-direction:column; gap:5px; padding:4px; }
+    .nav-mobile-toggle span { display:block; width:22px; height:1.5px; background:var(--ink); }
+
+    .gallery-hero {
+      padding:160px 56px 80px;
+      display:flex; align-items:flex-end; justify-content:space-between; gap:48px;
+      border-bottom:1px solid var(--border);
+    }
+    .gallery-hero-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--purple); margin-bottom:20px; }
+    .gallery-hero-heading { font-family:'Playfair Display',serif; font-size:64px; font-weight:700; font-style:italic; color:var(--ink); line-height:1.08; margin-bottom:24px; }
+    .gallery-hero-sub { font-size:18px; line-height:1.9; color:var(--muted); font-weight:300; max-width:380px; }
+    .gallery-hero-stats { display:flex; gap:56px; flex-shrink:0; padding-bottom:8px; }
+    .gallery-stat { text-align:center; }
+    .gallery-stat-num { font-family:'Playfair Display',serif; font-size:52px; font-weight:700; font-style:italic; color:var(--purple); line-height:1; }
+    .gallery-stat-label { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-top:8px; }
+
+    .filter-bar {
+      position:sticky; top:60px; z-index:90;
+      padding:18px 56px;
+      background:rgba(253,252,255,0.96); backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--border);
+      display:flex; align-items:center; gap:28px;
+    }
+    .filter-label { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+    .filter-pills { display:flex; gap:8px; flex-wrap:wrap; }
+    .filter-pill { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; padding:7px 18px; border:1.5px solid var(--border); border-radius:2px; background:transparent; color:var(--muted); transition:all .2s; cursor:pointer; }
+    .filter-pill:hover { border-color:var(--purple-mid); color:var(--ink); }
+    .filter-pill.active { background:var(--purple); border-color:var(--purple); color:var(--white); }
+    .gallery-count { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-left:auto; white-space:nowrap; }
+
+    .gallery-section { padding:48px 56px 120px; }
+    .gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .gallery-loading { color:var(--muted); font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; padding:80px 0; grid-column:1/-1; text-align:center; }
+
+    .gallery-card { position:relative; aspect-ratio:4/3; overflow:hidden; border-radius:2px; cursor:pointer; transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; }
+    .gallery-card:hover { transform:scale(1.015); box-shadow:0 20px 56px rgba(26,14,46,0.2); }
+    .gallery-card.hidden { display:none; }
+    .card-img { position:absolute; inset:0; background-size:cover; background-position:center; transition:transform .6s cubic-bezier(.22,1,.36,1); }
+    .gallery-card:hover .card-img { transform:scale(1.06); }
+    .card-badge { position:absolute; top:14px; right:14px; z-index:2; font-family:'DM Mono',monospace; font-size:7px; letter-spacing:2px; text-transform:uppercase; padding:5px 11px; border-radius:1px; }
+    .card-badge.available { background:var(--gold); color:var(--ink); }
+    .card-badge.soon { background:rgba(26,14,46,0.55); color:rgba(253,252,255,0.55); }
+    .card-overlay { position:absolute; inset:0; z-index:3; background:linear-gradient(to top, rgba(26,14,46,0.92) 0%, rgba(26,14,46,0.3) 55%, transparent 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:28px 24px; opacity:0; transition:opacity .35s; }
+    .gallery-card:hover .card-overlay { opacity:1; }
+    .card-overlay-title { font-family:'Playfair Display',serif; font-size:21px; font-weight:700; font-style:italic; color:var(--white); line-height:1.2; margin-bottom:6px; }
+    .card-overlay-meta { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:rgba(253,252,255,0.55); margin-bottom:14px; }
+    .card-overlay-cta { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--purple-light); }
+
+    .lightbox { display:none; position:fixed; inset:0; z-index:1000; background:rgba(26,14,46,0.92); backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:32px; }
+    .lightbox.open { display:flex; }
+    .lightbox-inner { display:grid; grid-template-columns:1fr 380px; max-width:1080px; width:100%; max-height:88vh; background:var(--white); border-radius:4px; overflow:hidden; }
+    .lightbox-img-wrap { position:relative; overflow:hidden; }
+    .lightbox-img { width:100%; height:100%; min-height:400px; background-size:cover; background-position:center; }
+    .lightbox-panel { padding:48px 40px; overflow-y:auto; display:flex; flex-direction:column; }
+    .lightbox-badge { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
+    .lightbox-badge.soon { color:var(--muted); }
+    .lightbox-title { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; font-style:italic; color:var(--ink); line-height:1.2; margin-bottom:12px; }
+    .lightbox-meta { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:28px; line-height:2.2; }
+    .lightbox-desc { font-size:17px; line-height:1.9; color:var(--muted); font-weight:300; margin-bottom:36px; flex:1; }
+    .lightbox-cta { display:inline-block; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px; text-transform:uppercase; padding:14px 28px; background:var(--purple); color:var(--white); border-radius:2px; transition:background .2s; text-align:center; }
+    .lightbox-cta:hover { background:var(--purple-mid); }
+    .lightbox-close { position:fixed; top:24px; right:32px; z-index:1001; width:44px; height:44px; background:rgba(253,252,255,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; color:var(--white); cursor:pointer; transition:background .2s; }
+    .lightbox-close:hover { background:rgba(253,252,255,0.2); }
+
+    footer { background:var(--ink); padding:32px 56px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(176,125,217,0.15); }
+    .footer-copy { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:rgba(253,252,255,.35); }
+    .footer-logo { font-family:'Playfair Display',serif; font-size:18px; letter-spacing:1px; font-weight:700; font-style:italic; color:var(--purple-light); }
+
+    @media (max-width:900px) {
+      nav { padding:16px 20px; }
+      .nav-links { display:none; position:fixed; top:60px; left:0; right:0; background:var(--white); flex-direction:column; padding:24px 20px; gap:20px; border-bottom:1px solid var(--border); z-index:99; box-shadow:0 8px 24px rgba(26,14,46,0.08); }
+      .nav-links.open { display:flex; }
+      .nav-cta { display:none; }
+      .nav-mobile-toggle { display:flex; }
+      .gallery-hero { flex-direction:column; padding:120px 24px 60px; gap:40px; }
+      .gallery-hero-heading { font-size:40px; }
+      .gallery-hero-stats { gap:32px; }
+      .filter-bar { padding:16px 20px; gap:12px; top:56px; flex-wrap:wrap; }
+      .gallery-count { display:none; }
+      .gallery-section { padding:32px 20px 60px; }
+      .gallery-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+      .lightbox-inner { grid-template-columns:1fr; max-height:92vh; overflow-y:auto; }
+      .lightbox-img-wrap { height:240px; flex-shrink:0; }
+      .lightbox-img { min-height:0; height:100%; }
+      .lightbox-panel { padding:32px 24px; }
+      footer { flex-direction:column; gap:12px; text-align:center; padding:24px; }
+    }
+    @media (max-width:540px) {
+      .gallery-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">vhictorry</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="vhictorry-art.html" class="active">Art</a></li>
+    <li><a href="index.html#expertise">Services</a></li>
+    <li><a href="index.html#testimonials">Testimonials</a></li>
+    <li><a href="index.html#events">Speaking</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="vhictorry-art.html#commissions" class="nav-cta">Acquire a Piece</a>
+</nav>
+
+<section class="gallery-hero">
+  <div class="fade-up">
+    <div class="gallery-hero-label">The Collection</div>
+    <h1 class="gallery-hero-heading">Every canvas<br><em>tells a different truth.</em></h1>
+    <p class="gallery-hero-sub">Original paintings, NFT editions, and commissioned works available for acquisition.</p>
+  </div>
+  <div class="gallery-hero-stats fade-up">
+    <div class="gallery-stat">
+      <div class="gallery-stat-num" id="statTotal">—</div>
+      <div class="gallery-stat-label">Original Works</div>
+    </div>
+    <div class="gallery-stat">
+      <div class="gallery-stat-num" id="statAvail">—</div>
+      <div class="gallery-stat-label">Available Now</div>
+    </div>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter by</span>
+  <div class="filter-pills">
+    <button class="filter-pill active" data-filter="all">All Works</button>
+    <button class="filter-pill" data-filter="conceptual">Conceptual</button>
+    <button class="filter-pill" data-filter="figurative">Figurative</button>
+    <button class="filter-pill" data-filter="abstract">Abstract</button>
+    <button class="filter-pill" data-filter="available">Available</button>
+    <button class="filter-pill" data-filter="web3">Web3 / NFT</button>
+  </div>
+  <span class="gallery-count" id="galleryCount"></span>
+</div>
+
+<!-- Gallery cards are loaded from Sanity Studio — manage your artworks at https://vhictorry.sanity.studio -->
+<section class="gallery-section">
+  <div class="gallery-grid" id="galleryGrid">
+    <p class="gallery-loading" id="galleryMsg">Loading works…</p>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <div class="lightbox-inner">
+    <div class="lightbox-img-wrap">
+      <div class="lightbox-img" id="lightboxImg"></div>
+    </div>
+    <div class="lightbox-panel">
+      <div class="lightbox-badge" id="lightboxBadge"></div>
+      <h2 class="lightbox-title" id="lightboxTitle"></h2>
+      <div class="lightbox-meta" id="lightboxMeta"></div>
+      <p class="lightbox-desc" id="lightboxDesc"></p>
+      <a href="vhictorry-art.html#commissions" class="lightbox-cta">Inquire About This Work →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copy">© 2025 Victory Adewojo · All Rights Reserved</div>
+  <a href="index.html" class="footer-logo">vhictorry</a>
+  <div class="footer-copy">Art · Web3 · Community · Strategy</div>
+</footer>
+
+<script>
+/* CURSOR */
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx=-100,my=-100,rx=-100,ry=-100;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function a(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cursorRing.style.left=rx+'px';cursorRing.style.top=ry+'px';requestAnimationFrame(a);})();
+function addHover(el){
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(1.8)';cursorRing.style.width='52px';cursorRing.style.height='52px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';cursorRing.style.width='32px';cursorRing.style.height='32px';});
+}
+document.querySelectorAll('a,button').forEach(addHover);
+
+/* FADE-UP */
+const obs = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.08});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+/* NAV SCROLL */
+const mainNav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>{mainNav.style.padding=window.scrollY>40?'14px 56px':'20px 56px';},{passive:true});
+
+/* LIGHTBOX */
+const lightbox=document.getElementById('lightbox');
+const lbImg=document.getElementById('lightboxImg');
+const lbBadge=document.getElementById('lightboxBadge');
+const lbTitle=document.getElementById('lightboxTitle');
+const lbMeta=document.getElementById('lightboxMeta');
+const lbDesc=document.getElementById('lightboxDesc');
+
+function openLightbox(card){
+  const img=card.querySelector('.card-img');
+  lbImg.style.cssText=img.style.cssText+'width:100%;height:100%;';
+  const av=card.dataset.avail;
+  lbBadge.textContent=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
+  lbBadge.className='lightbox-badge'+(av!=='available'?' soon':'');
+  lbTitle.textContent=card.dataset.title||'';
+  const sz=(card.dataset.size&&card.dataset.size!=='—')?' · '+card.dataset.size:'';
+  lbMeta.textContent=[card.dataset.medium,card.dataset.year].filter(Boolean).join(' · ')+sz;
+  lbDesc.textContent=card.dataset.desc||'';
+  lightbox.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){lightbox.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
+lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+
+/* FILTER */
+const pills=document.querySelectorAll('.filter-pill');
+const countEl=document.getElementById('galleryCount');
+function getVisible(){return document.querySelectorAll('.gallery-card:not(.hidden)').length;}
+function updateCount(){const v=getVisible();countEl.textContent=v+(v===1?' work':' works');}
+function applyFilter(){
+  const f=(document.querySelector('.filter-pill.active')||{}).dataset&&document.querySelector('.filter-pill.active').dataset.filter||'all';
+  document.querySelectorAll('.gallery-card').forEach(c=>{
+    if(f==='all'){c.classList.remove('hidden');}
+    else if(f==='available'){c.classList.toggle('hidden',c.dataset.avail!=='available');}
+    else{c.classList.toggle('hidden',!(c.dataset.cat||'').split(' ').includes(f));}
+  });
+  updateCount();
+}
+pills.forEach(p=>p.addEventListener('click',()=>{pills.forEach(x=>x.classList.remove('active'));p.classList.add('active');applyFilter();}));
+
+/* SANITY */
+const PROJ='3ihweswz', DS='production';
+async function sanity(q){
+  const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=${encodeURIComponent(q)}`);
+  return(await r.json()).result||[];
+}
+
+function cardHTML(aw){
+  const cats=Array.isArray(aw.category)?aw.category.join(' '):(aw.category||'');
+  const bg=aw.imageUrl?`background-image:url('${aw.imageUrl}');background-size:cover;background-position:center;`:`background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);`;
+  const av=aw.status||'soon';
+  const bClass=av==='available'?'available':'soon';
+  const bText=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
+  const meta=[aw.medium,aw.year].filter(Boolean).join(' · ');
+  const desc=(aw.description||'').replace(/"/g,'&quot;');
+  const dims=(aw.dimensions||'—').replace(/"/g,'&quot;');
+  const title=(aw.title||'Untitled').replace(/"/g,'&quot;');
+  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-title="${title}" data-medium="${(aw.medium||'').replace(/"/g,'&quot;')}" data-year="${aw.year||''}" data-size="${dims}" data-desc="${desc}">
+  <div class="card-img" style="${bg}"></div>
+  <div class="card-badge ${bClass}">${bText}</div>
+  <div class="card-overlay">
+    <div class="card-overlay-title">${aw.title||'Untitled'}</div>
+    <div class="card-overlay-meta">${meta}</div>
+    <span class="card-overlay-cta">View Work →</span>
+  </div>
+</article>`;
+}
+
+async function loadGallery(){
+  const grid=document.getElementById('galleryGrid');
+  const msg=document.getElementById('galleryMsg');
+  try{
+    const works=await sanity(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,description}`);
+    if(!works.length){
+      msg.innerHTML='No artworks yet — <a href="https://vhictorry.sanity.studio" target="_blank" style="color:var(--purple);">add your first piece in Sanity Studio.</a>';
+      return;
+    }
+    if(msg)msg.remove();
+    grid.insertAdjacentHTML('beforeend',works.map(cardHTML).join(''));
+    document.querySelectorAll('.gallery-card').forEach(c=>{obs.observe(c);addHover(c);c.addEventListener('click',()=>openLightbox(c));});
+    const total=works.length;
+    const avail=works.filter(w=>w.status==='available').length;
+    document.getElementById('statTotal').textContent=total;
+    document.getElementById('statAvail').textContent=avail;
+    applyFilter();
+  }catch(e){
+    if(msg)msg.textContent='Could not load artworks. Please check your connection.';
+  }
+}
+loadGallery();
+
+/* MOBILE NAV */
+const navToggle=document.getElementById('navToggle');
+if(navToggle)navToggle.addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+</script>
+</body>
+</html>

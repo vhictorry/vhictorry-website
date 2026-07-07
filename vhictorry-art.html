@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art — Vhictorry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:         #FDFCFF;
+  --offwhite:      #F6F3FC;
+  --purple:        #6B2FA0;
+  --purple-mid:    #8B4DBF;
+  --purple-light:  #B07DD9;
+  --purple-pale:   #EDE4F8;
+  --purple-xpale:  #F7F2FD;
+  --ink:           #1A0E2E;
+  --ink-mid:       #3D2B5C;
+  --muted:         #7A6B94;
+  --border:        rgba(107,47,160,0.15);
+  --border-strong: rgba(107,47,160,0.35);
+  --gold:          #C9A84C;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--white);
+  color:var(--ink);
+  font-family:'Cormorant Garamond', serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── CURSOR ── */
+.cursor {
+  position:fixed; width:10px; height:10px;
+  background:var(--purple); border-radius:50%;
+  pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .15s, height .15s;
+  mix-blend-mode:multiply;
+}
+.cursor-ring {
+  position:fixed; width:32px; height:32px;
+  border:1.5px solid var(--purple-mid); border-radius:50%;
+  pointer-events:none; z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:all .12s ease; opacity:.5;
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 56px;
+  background:rgba(253,252,255,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo {
+  font-family:'Playfair Display',serif; font-size:20px;
+  letter-spacing:1px; color:var(--purple);
+  text-decoration:none; font-weight:700; font-style:italic;
+}
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--ink-mid); text-decoration:none; opacity:.7;
+  transition:opacity .2s, color .2s;
+}
+.nav-links a:hover, .nav-links a.active { opacity:1; color:var(--purple); }
+.nav-cta {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--white); background:var(--purple);
+  border:none; padding:10px 24px;
+  text-decoration:none; display:inline-block;
+  border-radius:2px; transition:background .2s;
+}
+.nav-cta:hover { background:var(--purple-mid); }
+
+/* ── PAGE HERO ── */
+.page-hero {
+  min-height:60vh;
+  display:grid; grid-template-columns:1fr 1fr;
+  padding:140px 56px 80px;
+  align-items:center; gap:80px;
+  position:relative; overflow:hidden;
+  background:var(--ink);
+}
+.page-hero::before {
+  content:'';
+  position:absolute; top:-30%; right:-5%;
+  width:70%; height:130%;
+  background:radial-gradient(ellipse at 60% 40%,
+    rgba(107,47,160,0.45) 0%, rgba(107,47,160,0.12) 40%, transparent 70%);
+  pointer-events:none;
+}
+.page-hero::after {
+  content:'VHICTORRY';
+  position:absolute; bottom:-30px; left:-10px;
+  font-family:'Playfair Display',serif;
+  font-size:200px; font-weight:700; font-style:italic;
+  color:rgba(255,255,255,0.02);
+  pointer-events:none; line-height:1; letter-spacing:-8px;
+  white-space:nowrap;
+}
+.hero-text { position:relative; z-index:2; }
+.hero-eyebrow {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:4px; text-transform:uppercase;
+  color:var(--purple-light); margin-bottom:20px;
+  display:flex; align-items:center; gap:12px;
+}
+.hero-eyebrow::before {
+  content:''; display:block; width:32px; height:1.5px; background:var(--purple-light);
+}
+.page-hero h1 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(54px,7vw,96px); line-height:.92;
+  font-weight:700; color:var(--white); margin-bottom:24px;
+}
+.page-hero h1 em { font-style:italic; color:var(--purple-light); display:block; }
+.hero-statement {
+  font-size:19px; line-height:1.9; color:rgba(253,252,255,.6);
+  font-weight:300; max-width:480px; margin-bottom:36px;
+  font-family:'Cormorant Garamond',serif;
+}
+.hero-stats {
+  display:flex; gap:40px;
+  padding-top:32px; border-top:1px solid rgba(176,125,217,0.2);
+}
+.hstat-num {
+  font-family:'Playfair Display',serif; font-size:44px; color:var(--purple-light);
+  line-height:1; font-weight:700;
+}
+.hstat-label {
+  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
+  text-transform:uppercase; color:rgba(253,252,255,.4); margin-top:4px;
+}
+.hero-featured {
+  position:relative; z-index:2;
+  display:flex; flex-direction:column; gap:12px;
+}
+.hero-featured-label {
+  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px;
+  text-transform:uppercase; color:var(--purple-light); opacity:.7;
+}
+.featured-stack {
+  position:relative; height:420px;
+}
+.feat-img {
+  position:absolute; border-radius:2px;
+  box-shadow:0 24px 64px rgba(0,0,0,0.5);
+  overflow:hidden; transition:transform .4s ease;
+}
+.feat-img img { width:100%; height:100%; object-fit:cover; display:block; }
+.feat-img:nth-child(1) {
+  width:75%; height:360px; top:0; left:0; z-index:3;
+  border:2px solid rgba(176,125,217,0.3);
+}
+.feat-img:nth-child(2) {
+  width:58%; height:270px; bottom:0; right:0; z-index:4;
+  border:3px solid var(--white);
+  transform:rotate(2deg);
+}
+.feat-img:nth-child(3) {
+  width:40%; height:200px; top:20%; right:5%; z-index:2;
+  opacity:.5; transform:rotate(-3deg);
+}
+.featured-stack:hover .feat-img:nth-child(1) { transform:rotate(-1deg) scale(1.01); }
+.featured-stack:hover .feat-img:nth-child(2) { transform:rotate(3.5deg) scale(1.02); }
+.feat-caption {
+  font-family:'Playfair Display',serif; font-size:13px; font-style:italic;
+  color:rgba(253,252,255,.45); text-align:right;
+}
+
+/* ── MARQUEE ── */
+.marquee-bar { background:var(--purple); padding:11px 0; overflow:hidden; white-space:nowrap; }
+.marquee-inner { display:inline-flex; animation:marquee 28s linear infinite; }
+.marquee-item {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:3px; text-transform:uppercase;
+  color:rgba(255,255,255,.85); padding:0 36px;
+}
+.marquee-item::before { content:'◇'; margin-right:14px; font-size:8px; }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ── SHARED ── */
+.section-label {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:4px; text-transform:uppercase;
+  color:var(--purple); margin-bottom:16px;
+  display:flex; align-items:center; gap:10px;
+}
+.section-label::after {
+  content:''; display:block; width:36px; height:1.5px; background:var(--purple-light);
+}
+.section-heading {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(34px,3.5vw,50px); font-weight:700;
+  line-height:1.1; margin-bottom:24px; color:var(--ink);
+}
+.section-heading em { font-style:italic; color:var(--purple); }
+.fade-up { opacity:0; transform:translateY(28px); transition:opacity .65s ease, transform .65s ease; }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+
+/* ── FILTER BAR ── */
+.filter-section {
+  padding:56px 56px 0;
+  background:var(--white);
+}
+.filter-bar {
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  padding-bottom:24px; border-bottom:1.5px solid var(--border);
+}
+.filter-label {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:3px; text-transform:uppercase; color:var(--muted);
+  margin-right:8px;
+}
+.filter-btn {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--muted); background:transparent;
+  border:1.5px solid var(--border); padding:8px 18px;
+  border-radius:2px; cursor:none; transition:all .2s;
+}
+.filter-btn:hover, .filter-btn.active {
+  color:var(--purple); border-color:var(--border-strong);
+  background:var(--purple-xpale);
+}
+.filter-btn.active {
+  color:var(--white); background:var(--purple); border-color:var(--purple);
+}
+
+/* ── MASONRY GALLERY ── */
+.gallery-section {
+  padding:48px 56px 80px;
+  background:var(--white); position:relative;
+}
+.gallery-section::before {
+  content:'ART'; position:absolute; bottom:-20px; right:-10px;
+  font-family:'Playfair Display',serif; font-size:320px; font-weight:700; font-style:italic;
+  color:rgba(107,47,160,0.03); pointer-events:none; line-height:1; letter-spacing:-12px;
+}
+.masonry-grid {
+  columns:3; column-gap:18px;
+}
+.art-card {
+  break-inside:avoid; margin-bottom:18px;
+  position:relative; overflow:hidden; border-radius:2px;
+  transition:transform .3s ease; cursor:none;
+}
+.art-card:hover { transform:translateY(-4px); }
+.art-card-img {
+  width:100%; display:block;
+  transition:transform .6s cubic-bezier(0.25,0.46,0.45,0.94), filter .4s ease;
+  filter:saturate(0.9);
+}
+.art-card:hover .art-card-img { transform:scale(1.05); filter:saturate(1.1); }
+.art-card-placeholder {
+  width:100%; display:block;
+  background:var(--purple-pale);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif; font-style:italic;
+  color:var(--purple-light);
+}
+.art-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(26,14,46,0.88) 0%, rgba(26,14,46,0.2) 50%, transparent 75%);
+  opacity:0; transition:opacity .4s ease;
+  display:flex; flex-direction:column; justify-content:flex-end; padding:24px 22px;
+}
+.art-card:hover .art-overlay { opacity:1; }
+.art-series {
+  font-family:'DM Mono',monospace; font-size:8px;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--purple-light); margin-bottom:4px;
+}
+.art-name {
+  font-family:'Playfair Display',serif; font-size:20px;
+  color:var(--white); font-weight:400; font-style:italic; line-height:1.2;
+  margin-bottom:6px;
+}
+.art-details {
+  display:flex; justify-content:space-between; align-items:flex-end;
+}
+.art-medium {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:1.5px; text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+}
+.art-price {
+  font-family:'Playfair Display',serif; font-size:15px;
+  color:var(--gold); font-style:italic;
+}
+.art-price.available { color:var(--purple-light); }
+.art-price.sold { color:rgba(255,255,255,.3); }
+.art-badge {
+  position:absolute; top:14px; right:14px;
+  font-family:'DM Mono',monospace; font-size:8px;
+  letter-spacing:2px; text-transform:uppercase;
+  padding:5px 10px; border-radius:2px;
+}
+.art-badge.sold-badge { background:rgba(26,14,46,0.8); color:rgba(255,255,255,.5); }
+.art-badge.nft-badge { background:var(--purple); color:var(--white); }
+.art-badge.avail-badge { background:rgba(201,168,76,0.9); color:var(--ink); }
+.art-expand-btn {
+  position:absolute; top:14px; left:14px;
+  width:34px; height:34px; background:rgba(253,252,255,0.12);
+  backdrop-filter:blur(6px); border:1.5px solid rgba(255,255,255,0.2);
+  border-radius:2px; display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .3s; cursor:none; font-size:14px; color:var(--white);
+}
+.art-card:hover .art-expand-btn { opacity:1; }
+
+/* ── FEATURED WORK ── */
+.featured-section {
+  padding:100px 56px;
+  background:var(--offwhite);
+  position:relative; overflow:hidden;
+}
+.featured-section::before {
+  content:'';
+  position:absolute; top:-20%; left:-10%;
+  width:500px; height:500px;
+  background:radial-gradient(circle, rgba(107,47,160,0.07) 0%, transparent 70%);
+  pointer-events:none;
+}
+.featured-header {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:48px; align-items:end; margin-bottom:64px;
+}
+.featured-header-right {
+  font-size:16px; line-height:1.9; color:var(--muted); font-weight:300;
+  font-family:'Cormorant Garamond',serif;
+}
+.featured-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:0; }
+.featured-main-work {
+  position:relative; overflow:hidden;
+  height:620px;
+}
+.featured-main-work img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .8s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.featured-main-work:hover img { transform:scale(1.04); }
+.featured-main-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(26,14,46,0.9) 0%, transparent 55%);
+  display:flex; flex-direction:column; justify-content:flex-end; padding:44px;
+}
+.featured-main-title {
+  font-family:'Playfair Display',serif; font-size:36px; font-style:italic;
+  color:var(--white); font-weight:400; line-height:1.15; margin-bottom:12px;
+}
+.featured-main-sub {
+  font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px;
+  text-transform:uppercase; color:var(--purple-light); margin-bottom:20px;
+}
+.featured-main-desc {
+  font-size:15px; line-height:1.8; color:rgba(253,252,255,.7);
+  font-weight:300; margin-bottom:28px; max-width:400px;
+}
+.featured-sidebar {
+  display:flex; flex-direction:column;
+  background:var(--ink);
+}
+.sidebar-item {
+  flex:1; position:relative; overflow:hidden;
+  border-bottom:1px solid rgba(176,125,217,0.1);
+  transition:flex .4s ease;
+}
+.sidebar-item:last-child { border-bottom:none; }
+.sidebar-item img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  opacity:.55; transition:opacity .4s ease, transform .5s ease;
+}
+.sidebar-item:hover img { opacity:.8; transform:scale(1.06); }
+.sidebar-overlay {
+  position:absolute; inset:0; padding:20px;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  background:linear-gradient(to top, rgba(26,14,46,0.75) 0%, transparent 60%);
+}
+.sidebar-name {
+  font-family:'Playfair Display',serif; font-size:18px; font-style:italic;
+  color:var(--white); line-height:1.2; margin-bottom:4px;
+}
+.sidebar-meta {
+  font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px;
+  text-transform:uppercase; color:var(--purple-light);
+}
+
+/* ── ARTIST STATEMENT ── */
+.statement-section {
+  padding:100px 56px;
+  background:var(--ink); position:relative; overflow:hidden;
+  display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
+}
+.statement-section::before {
+  content:'';
+  position:absolute; top:-30%; right:-5%;
+  width:600px; height:600px;
+  background:radial-gradient(circle, rgba(107,47,160,0.25) 0%, transparent 65%);
+  pointer-events:none;
+}
+.statement-deco {
+  font-family:'Playfair Display',serif; font-size:220px; font-style:italic;
+  font-weight:700; color:rgba(255,255,255,0.02);
+  position:absolute; bottom:-40px; left:-10px; line-height:1;
+  pointer-events:none;
+}
+.statement-left { position:relative; z-index:2; }
+.statement-left .section-label { color:var(--purple-light); }
+.statement-left .section-label::after { background:var(--purple-light); }
+.statement-left h2 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(34px,3.5vw,50px); font-weight:700; color:var(--white);
+  line-height:1.1; margin-bottom:28px;
+}
+.statement-left h2 em { font-style:italic; color:var(--purple-light); }
+.statement-body {
+  font-size:18px; line-height:2; color:rgba(253,252,255,.65);
+  font-weight:300; margin-bottom:16px;
+}
+.statement-body strong { color:rgba(253,252,255,.9); font-weight:500; font-style:italic; }
+.statement-signature {
+  margin-top:40px; display:flex; align-items:center; gap:16px;
+}
+.statement-sig-line { width:48px; height:1.5px; background:var(--purple-light); }
+.statement-sig-text {
+  font-family:'Playfair Display',serif; font-size:18px; font-style:italic;
+  color:var(--purple-light);
+}
+.statement-right { position:relative; z-index:2; }
+.symbols-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+}
+.symbol-card {
+  aspect-ratio:1;
+  background:rgba(255,255,255,0.04);
+  border:1.5px solid rgba(176,125,217,0.15);
+  border-radius:4px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; transition:all .3s ease; cursor:none;
+  padding:16px;
+}
+.symbol-card:hover {
+  background:rgba(107,47,160,0.2);
+  border-color:rgba(176,125,217,0.4);
+  transform:translateY(-4px);
+}
+.symbol-icon { font-size:32px; }
+.symbol-name {
+  font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px;
+  text-transform:uppercase; color:var(--purple-light); text-align:center;
+}
+
+/* ── PROCESS ── */
+.process-section {
+  padding:100px 56px;
+  background:var(--white);
+}
+.process-header {
+  display:grid; grid-template-columns:1fr 1fr; gap:48px;
+  align-items:end; margin-bottom:64px;
+}
+.process-header-right {
+  font-size:16px; line-height:1.9; color:var(--muted);
+  font-weight:300;
+}
+.process-steps {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+  border:1.5px solid var(--border);
+}
+.process-step {
+  padding:44px 36px; border-right:1.5px solid var(--border);
+  position:relative; transition:background .3s;
+}
+.process-step:last-child { border-right:none; }
+.process-step:hover { background:var(--purple-xpale); }
+.step-num {
+  font-family:'Playfair Display',serif; font-size:72px;
+  font-style:italic; font-weight:700;
+  color:rgba(107,47,160,0.06); position:absolute;
+  top:12px; right:18px; line-height:1;
+}
+.step-icon { font-size:26px; margin-bottom:16px; }
+.step-title {
+  font-family:'Playfair Display',serif; font-size:20px;
+  font-weight:600; color:var(--ink); margin-bottom:10px; line-height:1.25;
+}
+.step-desc {
+  font-size:14px; line-height:1.85; color:var(--muted); font-weight:300;
+}
+
+/* ── WEB3 + ART ── */
+.web3art-section {
+  padding:80px 56px;
+  background:var(--purple-xpale);
+  display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;
+}
+.web3art-text h2 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,3.5vw,48px); font-weight:700; color:var(--ink);
+  line-height:1.1; margin-bottom:20px;
+}
+.web3art-text h2 em { font-style:italic; color:var(--purple); }
+.web3art-text p {
+  font-size:16px; line-height:1.9; color:var(--muted); font-weight:300; margin-bottom:32px;
+}
+.nft-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px; }
+.nft-tag {
+  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--purple);
+  border:1.5px solid var(--border-strong); padding:6px 14px; border-radius:2px;
+  transition:background .2s;
+}
+.nft-tag:hover { background:var(--purple); color:var(--white); border-color:var(--purple); }
+.web3art-visual {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+}
+.web3-card {
+  background:var(--white); padding:28px 24px;
+  border:1.5px solid var(--border); border-radius:4px;
+  transition:all .3s ease;
+}
+.web3-card:hover { border-color:var(--border-strong); box-shadow:0 8px 28px rgba(107,47,160,0.1); transform:translateY(-3px); }
+.web3-card-icon { font-size:28px; margin-bottom:12px; }
+.web3-card-title {
+  font-family:'Playfair Display',serif; font-size:16px; font-weight:600;
+  color:var(--ink); margin-bottom:6px; line-height:1.25;
+}
+.web3-card-desc {
+  font-size:13px; line-height:1.75; color:var(--muted); font-weight:300;
+}
+
+/* ── BLOG ── */
+.blog-section {
+  padding:100px 56px;
+  background:var(--offwhite); position:relative;
+}
+.blog-header {
+  display:grid; grid-template-columns:1fr 1fr; gap:48px;
+  align-items:end; margin-bottom:56px;
+}
+.blog-header-right {
+  font-size:16px; line-height:1.9; color:var(--muted); font-weight:300;
+}
+.blog-grid {
+  display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:24px;
+}
+.blog-card {
+  background:var(--white); border-radius:2px;
+  border:1.5px solid var(--border);
+  overflow:hidden; transition:box-shadow .3s, border-color .3s, transform .3s;
+  cursor:none;
+}
+.blog-card:hover {
+  box-shadow:0 12px 40px rgba(107,47,160,0.11);
+  border-color:var(--border-strong); transform:translateY(-4px);
+}
+.blog-card-img {
+  width:100%; display:block; overflow:hidden;
+}
+.blog-card-img-inner {
+  width:100%; transition:transform .5s ease;
+}
+.blog-card:hover .blog-card-img-inner { transform:scale(1.04); }
+.blog-card-body { padding:28px 28px 32px; }
+.blog-tag {
+  font-family:'DM Mono',monospace; font-size:8px;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--purple); margin-bottom:12px;
+  display:flex; align-items:center; gap:8px;
+}
+.blog-tag::before { content:''; display:block; width:20px; height:1.5px; background:var(--purple-light); }
+.blog-title {
+  font-family:'Playfair Display',serif; font-size:20px;
+  font-weight:600; color:var(--ink); line-height:1.25; margin-bottom:12px;
+}
+.blog-card.featured .blog-title { font-size:26px; }
+.blog-excerpt {
+  font-size:14px; line-height:1.85; color:var(--muted); font-weight:300; margin-bottom:20px;
+}
+.blog-meta {
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:16px; border-top:1.5px solid var(--border);
+}
+.blog-date {
+  font-family:'DM Mono',monospace; font-size:8px;
+  letter-spacing:2px; text-transform:uppercase; color:var(--muted);
+}
+.blog-read {
+  font-family:'DM Mono',monospace; font-size:8px;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--purple); text-decoration:none;
+  display:flex; align-items:center; gap:6px;
+  transition:gap .2s;
+}
+.blog-read:hover { gap:10px; }
+
+/* ── COMMISSIONS ── */
+.commission-section {
+  padding:100px 56px;
+  background:var(--ink); position:relative; overflow:hidden;
+}
+.commission-section::before {
+  content:'';
+  position:absolute; bottom:-20%; left:50%;
+  width:600px; height:600px;
+  background:radial-gradient(circle, rgba(107,47,160,0.3) 0%, transparent 65%);
+  pointer-events:none;
+}
+.commission-inner {
+  position:relative; z-index:2;
+  display:grid; grid-template-columns:1fr 1.1fr; gap:72px; align-items:start;
+}
+.commission-text .section-label { color:var(--purple-light); }
+.commission-text .section-label::after { background:var(--purple-light); }
+.commission-text h2 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(38px,4.5vw,60px); font-weight:700; color:var(--white);
+  line-height:1.05; margin-bottom:24px;
+}
+.commission-text h2 em { font-style:italic; color:var(--purple-light); }
+.commission-text p { font-size:16px; line-height:1.9; color:rgba(253,252,255,.6); font-weight:300; margin-bottom:36px; }
+.commission-features { list-style:none; display:flex; flex-direction:column; gap:14px; }
+.commission-features li {
+  display:flex; align-items:center; gap:14px;
+  font-size:15px; color:rgba(253,252,255,.75); font-weight:300;
+}
+.commission-features li::before {
+  content:'◇'; color:var(--purple-light); font-size:10px; flex-shrink:0;
+}
+
+/* Commission Form */
+.commission-form {
+  background:rgba(255,255,255,0.04);
+  border:1.5px solid rgba(176,125,217,0.2);
+  padding:44px 40px; border-radius:4px;
+  display:flex; flex-direction:column; gap:20px;
+}
+.commission-form h3 {
+  font-family:'Playfair Display',serif; font-size:26px; color:var(--white);
+  font-weight:600; margin-bottom:2px;
+}
+.commission-form-sub {
+  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
+  text-transform:uppercase; color:var(--purple-light); margin-bottom:4px;
+}
+.form-group { display:flex; flex-direction:column; gap:7px; }
+.form-group-hint {
+  font-size:13px; color:rgba(253,252,255,.38); font-style:italic;
+  font-family:'Cormorant Garamond',serif; margin-top:-2px; margin-bottom:2px;
+}
+.form-label {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:2px; text-transform:uppercase; color:var(--purple-light);
+}
+.form-label span { color:rgba(176,125,217,.5); font-size:8px; margin-left:6px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.form-input, .form-textarea, .form-select {
+  background:rgba(255,255,255,0.06);
+  border:1.5px solid rgba(176,125,217,0.2);
+  color:var(--white); font-family:'Cormorant Garamond',serif; font-size:16px;
+  padding:13px 16px; outline:none; border-radius:2px; resize:none;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+  width:100%;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus { border-color:var(--purple-light); }
+.form-input::placeholder, .form-textarea::placeholder { color:rgba(253,252,255,.25); font-style:italic; }
+.form-select option { background:var(--ink-mid); color:var(--white); }
+.form-textarea { height:130px; }
+
+/* File Upload */
+.form-upload {
+  border:1.5px dashed rgba(176,125,217,0.3);
+  border-radius:2px; padding:28px 20px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; cursor:pointer; transition:border-color .2s, background .2s;
+  position:relative;
+}
+.form-upload:hover { border-color:var(--purple-light); background:rgba(107,47,160,0.08); }
+.form-upload input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+.form-upload-icon {
+  width:36px; height:36px; border:1.5px solid rgba(176,125,217,0.35);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:rgba(176,125,217,.6);
+}
+.form-upload-label {
+  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
+  text-transform:uppercase; color:rgba(176,125,217,.6);
+}
+
+/* Budget Radio */
+.budget-options { display:flex; flex-direction:column; gap:10px; }
+.budget-option {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 18px;
+  border:1.5px solid rgba(176,125,217,0.2);
+  border-radius:2px; cursor:pointer;
+  transition:border-color .2s, background .2s;
+  position:relative;
+}
+.budget-option:hover { border-color:rgba(176,125,217,0.5); background:rgba(107,47,160,0.08); }
+.budget-option input[type=radio] { position:absolute; opacity:0; }
+.budget-option input[type=radio]:checked ~ .budget-radio-ring { border-color:var(--purple-light); }
+.budget-option input[type=radio]:checked ~ .budget-radio-ring::after { opacity:1; }
+.budget-option:has(input:checked) { border-color:var(--purple-light); background:rgba(107,47,160,0.12); }
+.budget-label {
+  font-family:'Cormorant Garamond',serif; font-size:16px; color:rgba(253,252,255,.8);
+  font-style:italic; pointer-events:none;
+}
+.budget-radio-ring {
+  width:20px; height:20px; border-radius:50%;
+  border:1.5px solid rgba(176,125,217,0.4);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; pointer-events:none; transition:border-color .2s;
+}
+.budget-radio-ring::after {
+  content:''; width:10px; height:10px; border-radius:50%;
+  background:var(--purple-light); opacity:0; transition:opacity .2s;
+}
+
+/* Date picker */
+.form-date {
+  background:rgba(255,255,255,0.06);
+  border:1.5px solid rgba(176,125,217,0.2);
+  color:var(--white); font-family:'Cormorant Garamond',serif; font-size:16px;
+  padding:13px 16px; outline:none; border-radius:2px;
+  transition:border-color .2s; width:100%;
+  color-scheme:dark;
+}
+.form-date:focus { border-color:var(--purple-light); }
+
+/* Newsletter & Confirm checkbox */
+.form-checkbox-group {
+  display:flex; align-items:flex-start; gap:12px; cursor:pointer;
+  padding:14px 18px; background:rgba(255,255,255,0.03);
+  border:1.5px solid rgba(176,125,217,0.15); border-radius:2px;
+}
+.form-checkbox-group input[type=checkbox] { display:none; }
+.custom-checkbox {
+  width:18px; height:18px; flex-shrink:0; margin-top:2px;
+  border:1.5px solid rgba(176,125,217,0.4); border-radius:2px;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s; background:transparent;
+}
+.form-checkbox-group input:checked + .custom-checkbox {
+  background:var(--purple-light); border-color:var(--purple-light);
+}
+.form-checkbox-group input:checked + .custom-checkbox::after {
+  content:'✓'; color:var(--white); font-size:11px; font-family:'DM Mono',monospace;
+}
+.form-checkbox-label {
+  font-family:'Cormorant Garamond',serif; font-size:14px;
+  color:rgba(253,252,255,.65); line-height:1.6; font-style:italic;
+}
+.form-checkbox-label strong { color:rgba(253,252,255,.85); font-weight:500; font-style:normal; }
+
+/* Budget confirmation box */
+.budget-confirm-box {
+  background:rgba(107,47,160,0.08); border:1.5px solid rgba(176,125,217,0.2);
+  border-radius:2px; padding:18px 20px;
+}
+.budget-confirm-box p {
+  font-size:13px; line-height:1.75; color:rgba(253,252,255,.5);
+  font-family:'Cormorant Garamond',serif; margin-bottom:14px;
+}
+
+.btn-primary {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--white); background:var(--purple); border:none;
+  padding:14px 32px; text-decoration:none; display:inline-block;
+  border-radius:2px; transition:background .2s, transform .2s; cursor:none;
+}
+.btn-primary:hover { background:var(--purple-mid); transform:translateY(-2px); }
+.btn-ghost-light {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--purple-light); background:transparent;
+  border:1.5px solid rgba(176,125,217,0.35);
+  padding:14px 32px; text-decoration:none; display:inline-block; border-radius:2px;
+  transition:all .2s; cursor:none;
+}
+.btn-ghost-light:hover { border-color:var(--purple-light); background:rgba(107,47,160,0.2); }
+
+/* ── LIGHTBOX ── */
+.lightbox {
+  position:fixed; inset:0; z-index:500;
+  background:rgba(26,14,46,0.96);
+  backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity .3s ease;
+}
+.lightbox.open { opacity:1; pointer-events:all; }
+.lightbox-inner {
+  position:relative; max-width:900px; width:90%;
+  display:grid; grid-template-columns:1fr 380px; gap:0;
+  max-height:90vh; overflow:hidden; border-radius:4px;
+}
+.lightbox-img {
+  background:var(--ink);
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+.lightbox-img img { width:100%; height:100%; object-fit:cover; }
+.lightbox-info {
+  background:var(--white); padding:48px 40px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  overflow-y:auto;
+}
+.lb-series {
+  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px;
+  text-transform:uppercase; color:var(--purple); margin-bottom:8px;
+}
+.lb-title {
+  font-family:'Playfair Display',serif; font-size:32px; font-style:italic;
+  font-weight:400; color:var(--ink); line-height:1.2; margin-bottom:16px;
+}
+.lb-meta {
+  display:flex; flex-direction:column; gap:8px; margin-bottom:24px;
+  padding-bottom:24px; border-bottom:1.5px solid var(--border);
+}
+.lb-meta-item {
+  display:flex; justify-content:space-between; align-items:center;
+}
+.lb-meta-key {
+  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
+  text-transform:uppercase; color:var(--muted);
+}
+.lb-meta-val { font-size:14px; color:var(--ink-mid); font-style:italic; }
+.lb-desc { font-size:15px; line-height:1.9; color:var(--muted); font-weight:300; margin-bottom:28px; }
+.lb-price {
+  font-family:'Playfair Display',serif; font-size:28px; color:var(--purple);
+  font-style:italic; margin-bottom:20px;
+}
+.lightbox-close {
+  position:absolute; top:20px; right:20px;
+  width:40px; height:40px; border:1.5px solid rgba(176,125,217,0.3);
+  background:transparent; border-radius:2px;
+  font-size:18px; color:var(--white);
+  display:flex; align-items:center; justify-content:center;
+  cursor:none; transition:all .2s;
+}
+.lightbox-close:hover { border-color:var(--purple-light); background:rgba(107,47,160,0.3); }
+
+/* ── FOOTER ── */
+footer {
+  background:var(--ink); padding:32px 56px;
+  display:flex; justify-content:space-between; align-items:center;
+  border-top:1px solid rgba(176,125,217,0.15);
+}
+.footer-copy {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:2px; text-transform:uppercase; color:rgba(253,252,255,.35);
+}
+.footer-logo {
+  font-family:'Playfair Display',serif; font-size:18px;
+  letter-spacing:1px; font-weight:700; font-style:italic; color:var(--purple-light);
+}
+
+/* ── EXHIBITIONS ── */
+.exhibitions-section { padding:100px 56px; background:var(--offwhite); }
+.exhibitions-header { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:end; margin-bottom:48px; }
+.exhibitions-header-right { font-size:16px; line-height:1.9; color:var(--muted); font-weight:300; }
+.exhibition-list { border-top:1.5px solid var(--border); }
+.exhibition-item {
+  display:grid; grid-template-columns:80px 1fr 1fr 120px;
+  gap:32px; align-items:center;
+  padding:24px 0; border-bottom:1.5px solid var(--border);
+  transition:background .2s;
+}
+.exhibition-item:hover { background:var(--white); }
+.exhibition-year {
+  font-family:'Playfair Display',serif; font-size:40px; font-style:italic;
+  font-weight:700; color:rgba(107,47,160,0.1); line-height:1;
+}
+.exhibition-title {
+  font-family:'Playfair Display',serif; font-size:18px;
+  font-weight:600; color:var(--ink); line-height:1.3;
+}
+.exhibition-venue {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:2px; text-transform:uppercase; color:var(--muted);
+}
+.exhibition-tag {
+  font-family:'DM Mono',monospace; font-size:8px;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--muted); text-align:right;
+}
+.exhibition-tag.featured { color:var(--purple); }
+
+/* ── INTERVIEWS ── */
+.interviews-section { padding:100px 56px; background:var(--white); }
+.interviews-header { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:end; margin-bottom:56px; }
+.interviews-header-right { font-size:16px; line-height:1.9; color:var(--muted); font-weight:300; }
+.interviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.interview-card {
+  border:1.5px solid var(--border); border-radius:4px; overflow:hidden;
+  transition:box-shadow .3s, border-color .3s, transform .3s;
+}
+.interview-card:hover { box-shadow:0 12px 36px rgba(107,47,160,0.1); border-color:var(--border-strong); transform:translateY(-4px); }
+.interview-thumb {
+  width:100%; aspect-ratio:16/9;
+  display:flex; align-items:center; justify-content:center; font-size:36px;
+  position:relative; overflow:hidden;
+}
+.interview-play {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(26,14,46,0.45); opacity:0; transition:opacity .3s;
+}
+.interview-card:hover .interview-play { opacity:1; }
+.interview-play-btn {
+  width:52px; height:52px; background:var(--purple); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.interview-play-btn::after {
+  content:''; border-left:18px solid white;
+  border-top:11px solid transparent; border-bottom:11px solid transparent; margin-left:4px;
+}
+.interview-body { padding:20px 22px 24px; }
+.interview-year {
+  font-family:'DM Mono',monospace; font-size:8px;
+  letter-spacing:3px; text-transform:uppercase; color:var(--purple); margin-bottom:8px;
+}
+.interview-title {
+  font-family:'Playfair Display',serif; font-size:17px;
+  font-weight:600; color:var(--ink); line-height:1.3; margin-bottom:8px;
+}
+.interview-desc { font-size:13px; line-height:1.75; color:var(--muted); font-weight:300; }
+
+/* ── NAV MOBILE TOGGLE ── */
+.nav-mobile-toggle { display:none; background:none; border:none; cursor:pointer; flex-direction:column; gap:5px; padding:4px; }
+.nav-mobile-toggle span { display:block; width:22px; height:1.5px; background:var(--ink); transition:all .3s; }
+
+/* ── MOBILE ── */
+@media (max-width:900px) {
+  nav { padding:16px 20px; }
+  .nav-links { display:none; position:fixed; top:60px; left:0; right:0; background:var(--white); flex-direction:column; padding:24px 20px; gap:20px; border-bottom:1px solid var(--border); z-index:99; box-shadow:0 8px 24px rgba(26,14,46,0.08); }
+  .nav-links.open { display:flex; }
+  .nav-cta { display:none; }
+  .nav-mobile-toggle { display:flex; }
+  .page-hero { grid-template-columns:1fr; padding:120px 24px 64px; gap:40px; }
+  .hero-featured { display:none; }
+  .filter-section { padding:40px 24px 0; }
+  .gallery-section { padding:36px 24px 60px; }
+  .masonry-grid { columns:2; }
+  .featured-section { padding:80px 24px; }
+  .featured-header { grid-template-columns:1fr; }
+  .featured-grid { grid-template-columns:1fr; }
+  .featured-main-work { height:380px; }
+  .featured-sidebar { flex-direction:row; height:200px; }
+  .statement-section { grid-template-columns:1fr; padding:80px 24px; gap:48px; }
+  .process-section { padding:80px 24px; }
+  .process-header { grid-template-columns:1fr; }
+  .process-steps { grid-template-columns:1fr 1fr; }
+  .process-step { border-right:1.5px solid var(--border); border-bottom:1.5px solid var(--border); }
+  .process-step:nth-child(2n) { border-right:none; }
+  .process-step:nth-last-child(-n+2) { border-bottom:none; }
+  .web3art-section { grid-template-columns:1fr; padding:60px 24px; }
+  .exhibitions-section { padding:60px 24px; }
+  .exhibitions-header { grid-template-columns:1fr; }
+  .exhibition-item { grid-template-columns:60px 1fr; gap:16px; }
+  .exhibition-venue, .exhibition-tag { display:none; }
+  .interviews-section { padding:60px 24px; }
+  .interviews-header { grid-template-columns:1fr; }
+  .interviews-grid { grid-template-columns:1fr; }
+  .blog-section { padding:60px 24px; }
+  .blog-header { grid-template-columns:1fr; gap:16px; }
+  .blog-grid { grid-template-columns:1fr; }
+  .commission-section { padding:80px 24px; }
+  .commission-inner { grid-template-columns:1fr; gap:48px; }
+  .commission-form { padding:32px 24px; }
+  .form-row { grid-template-columns:1fr; }
+  .lightbox-inner { grid-template-columns:1fr; max-height:95vh; }
+  .lightbox-img { height:280px; }
+  footer { flex-direction:column; gap:12px; text-align:center; padding:24px; }
+}
+@media (max-width:540px) {
+  .masonry-grid { columns:1; }
+  .process-steps { grid-template-columns:1fr; }
+  .process-step { border-right:none; border-bottom:1.5px solid var(--border); }
+  .process-step:last-child { border-bottom:none; }
+  .hero-stats { gap:24px; }
+  .web3art-visual { grid-template-columns:1fr; }
+  .blog-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">vhictorry</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="#" class="active">Art</a></li>
+    <li><a href="index.html#expertise">Services</a></li>
+    <li><a href="index.html#testimonials">Testimonials</a></li>
+    <li><a href="index.html#events">Speaking</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="#commissions" class="nav-cta">Acquire a Piece</a>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="hero-text fade-up">
+    <div class="hero-eyebrow">Fine Art · Oil on Canvas · Mixed Media</div>
+    <h1>The world<br>as I <em>see it.</em></h1>
+    <p class="hero-statement">
+      Each painting is a philosophical question. A chess move. A symbol of transformation held still on canvas — waiting for you to sit with it.
+    </p>
+    <div class="hero-stats">
+      <div>
+        <div class="hstat-num">12+</div>
+        <div class="hstat-label">Original Works</div>
+      </div>
+      <div>
+        <div class="hstat-num">4</div>
+        <div class="hstat-label">Collectors</div>
+      </div>
+      <div>
+        <div class="hstat-num">2</div>
+        <div class="hstat-label">On Exhibition</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-featured fade-up">
+    <div class="hero-featured-label">Selected Works</div>
+    <div class="featured-stack">
+      <div class="feat-img">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#EDE4F8 0%,#B07DD9 50%,#6B2FA0 100%);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:48px;font-style:italic;color:rgba(255,255,255,0.6);">♟</div>
+      </div>
+      <div class="feat-img">
+        <div style="width:100%;height:100%;background:linear-gradient(225deg,#1A0E2E 0%,#3D2B5C 50%,#6B2FA0 100%);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:36px;font-style:italic;color:rgba(176,125,217,0.7);">◉</div>
+      </div>
+      <div class="feat-img">
+        <div style="width:100%;height:100%;background:linear-gradient(45deg,#F7F2FD 0%,#EDE4F8 100%);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:32px;font-style:italic;color:rgba(107,47,160,0.5);">🦋</div>
+      </div>
+    </div>
+    <div class="feat-caption">Victory Adewojo · vhictorry studio</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-inner">
+    <span class="marquee-item">Oil on Canvas</span>
+    <span class="marquee-item">Same Board Different Rules</span>
+    <span class="marquee-item">Seen</span>
+    <span class="marquee-item">Chess as Philosophy</span>
+    <span class="marquee-item">Death & Transformation</span>
+    <span class="marquee-item">Web3 Collector Editions</span>
+    <span class="marquee-item">Paintings that Ask Questions</span>
+    <span class="marquee-item">vhictorry studio · Lagos</span>
+    <span class="marquee-item">Oil on Canvas</span>
+    <span class="marquee-item">Same Board Different Rules</span>
+    <span class="marquee-item">Seen</span>
+    <span class="marquee-item">Chess as Philosophy</span>
+    <span class="marquee-item">Death & Transformation</span>
+    <span class="marquee-item">Web3 Collector Editions</span>
+    <span class="marquee-item">Paintings that Ask Questions</span>
+    <span class="marquee-item">vhictorry studio · Lagos</span>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-section">
+  <div class="filter-bar fade-up">
+    <span class="filter-label">Filter by</span>
+    <button class="filter-btn active" data-filter="all">All Works</button>
+    <button class="filter-btn" data-filter="figurative">Figurative</button>
+    <button class="filter-btn" data-filter="conceptual">Conceptual</button>
+    <button class="filter-btn" data-filter="abstract">Abstract</button>
+    <button class="filter-btn" data-filter="available">Available</button>
+    <button class="filter-btn" data-filter="nft">Web3 / NFT</button>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="masonry-grid" id="galleryGrid">
+
+    <!-- Card 1: Same Board Different Rules -->
+    <div class="art-card fade-up" data-category="conceptual available" onclick="openLightbox('same-board')">
+      <div class="art-expand-btn">↗</div>
+      <div class="art-badge avail-badge">Available</div>
+      <div class="art-card-placeholder" style="height:520px;font-size:80px;">♟</div>
+      <div class="art-overlay">
+        <div class="art-series">Conceptual · 2024</div>
+        <div class="art-name">Same Board, Different Rules</div>
+        <div class="art-details">
+          <div class="art-medium">Oil on Canvas · 24×36in</div>
+          <div class="art-price available">On Inquiry</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Seen -->
+    <div class="art-card fade-up" data-category="figurative available" onclick="openLightbox('seen')">
+      <div class="art-expand-btn">↗</div>
+      <div class="art-badge avail-badge">Available</div>
+      <div class="art-card-placeholder" style="height:380px;font-size:64px;">◉</div>
+      <div class="art-overlay">
+        <div class="art-series">Figurative · 2024</div>
+        <div class="art-name">Seen</div>
+        <div class="art-details">
+          <div class="art-medium">Oil on Canvas · 20×24in</div>
+          <div class="art-price available">On Inquiry</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="art-card fade-up" data-category="abstract nft">
+      <div class="art-expand-btn">↗</div>
+      <div class="art-badge nft-badge">Web3</div>
+      <div class="art-card-placeholder" style="height:300px;background:linear-gradient(135deg,#EDE4F8,#6B2FA0);font-size:56px;">🦋</div>
+      <div class="art-overlay">
+        <div class="art-series">Abstract · 2023</div>
+        <div class="art-name">The Emergence</div>
+        <div class="art-details">
+          <div class="art-medium">Mixed Media · 18×18in</div>
+          <div class="art-price">0.8 ETH</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="art-card fade-up" data-category="conceptual">
+      <div class="art-expand-btn">↗</div>
+      <div class="art-badge sold-badge">Sold</div>
+      <div class="art-card-placeholder" style="height:450px;background:linear-gradient(180deg,#1A0E2E,#3D2B5C);font-size:70px;">☠</div>
+      <div class="art-overlay">
+        <div class="art-series">Conceptual · 2023</div>
+        <div class="art-name">Still Living</div>
+        <div class="art-details">
+          <div class="art-medium">Oil on Canvas · 30×40in</div>
+          <div class="art-price sold">Sold</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="art-card fade-up" data-category="figurative available">
+      <div class="art-expand-btn">↗</div>
+      <div class="art-badge avail-badge">Available</div>
+      <div class="art-card-placeholder" style="height:340px;background:linear-gradient(135deg,#F7F2FD,#B07DD9);font-size:60px;">💡</div>
+      <div class="art-overlay">
+        <div class="art-series">Figurative · 2023</div>
+        <div class="art-name">The Idea Before the Idea</div>
+        <div class="art-details">
+          <div class="art-medium">Oil on Canvas · 16×20in</div>
+          <div class="art-price available">On Inquiry</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="art-card fade-up" data-category="abstract nft">
+      <div class="art-expand-btn">↗</div>
+      <div class="art-badge nft-badge">Web3</div>
+      <div class="art-card-placeholder" style="height:420px;background:linear-gradient(225deg,#6B2FA0,#C9A84C);font-size:64px;">🎲</div>
+      <div class="art-overlay">
+        <div class="art-series">Abstract · 2024</div>
+        <div class="art-name">Six Faces of Fortune</div>
+        <div class="art-details">
+          <div class="art-medium">Acrylic + Digital · 20×20in</div>
+          <div class="art-price">1.2 ETH</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="art-card fade-up" data-category="conceptual">
+      <div class="art-expand-btn">↗</div>
+      <div class="art-badge sold-badge">Sold</div>
+      <div class="art-card-placeholder" style="height:360px;background:linear-gradient(45deg,#EDE4F8,#1A0E2E);font-size:60px;">🌸</div>
+      <div class="art-overlay">
+        <div class="art-series">Conceptual · 2022</div>
+        <div class="art-name">After the Bloom</div>
+        <div class="art-details">
+          <div class="art-medium">Oil on Canvas · 18×24in</div>
+          <div class="art-price sold">Sold</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 8 -->
+    <div class="art-card fade-up" data-category="figurative available">
+      <div class="art-expand-btn">↗</div>
+      <div class="art-badge avail-badge">Available</div>
+      <div class="art-card-placeholder" style="height:480px;background:linear-gradient(180deg,#3D2B5C,#B07DD9);font-size:72px;">♚</div>
+      <div class="art-overlay">
+        <div class="art-series">Figurative · 2024</div>
+        <div class="art-name">The Queen's Gambit (Study)</div>
+        <div class="art-details">
+          <div class="art-medium">Oil on Canvas · 24×32in</div>
+          <div class="art-price available">On Inquiry</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 9 -->
+    <div class="art-card fade-up" data-category="abstract">
+      <div class="art-expand-btn">↗</div>
+      <div class="art-card-placeholder" style="height:320px;background:linear-gradient(90deg,#F6F3FC,#6B2FA0);font-size:56px;">🔮</div>
+      <div class="art-overlay">
+        <div class="art-series">Abstract · 2023</div>
+        <div class="art-name">Unsolved</div>
+        <div class="art-details">
+          <div class="art-medium">Mixed Media · 16×16in</div>
+          <div class="art-price available">On Inquiry</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURED WORKS -->
+<section class="featured-section">
+  <div class="featured-header fade-up">
+    <div>
+      <div class="section-label">In Focus</div>
+      <h2 class="section-heading">The works <em>speaking loudest</em></h2>
+    </div>
+    <p class="featured-header-right">
+      Two paintings. Two questions. 
+      <strong>Same Board, Different Rules</strong> asks who decides what the rules are.
+      <strong>Seen</strong> asks what changes when you finally are.
+    </p>
+  </div>
+  <div class="featured-grid">
+    <div class="featured-main-work" onclick="openLightbox('same-board')">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#1A0E2E 0%,#3D2B5C 40%,#6B2FA0 100%);display:flex;align-items:center;justify-content:center;font-size:140px;">♟</div>
+      <div class="featured-main-overlay">
+        <div class="featured-main-sub">Conceptual · Oil on Canvas · 2024</div>
+        <div class="featured-main-title">Same Board, Different Rules</div>
+        <p class="featured-main-desc">
+          A battlefield where everyone plays by the same rules — until they don't. Chess pieces mid-confrontation, painted into a tension that refuses to resolve.
+        </p>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <a href="#commissions" class="btn-ghost-light">Inquire to Acquire</a>
+          <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">Available</span>
+        </div>
+      </div>
+    </div>
+    <div class="featured-sidebar">
+      <div class="sidebar-item" onclick="openLightbox('seen')">
+        <div style="width:100%;height:100%;background:linear-gradient(180deg,#3D2B5C,#B07DD9);display:flex;align-items:center;justify-content:center;font-size:72px;">◉</div>
+        <div class="sidebar-overlay">
+          <div class="sidebar-name">Seen</div>
+          <div class="sidebar-meta">Figurative · 2024 · Available</div>
+        </div>
+      </div>
+      <div class="sidebar-item">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1A0E2E,#6B2FA0);display:flex;align-items:center;justify-content:center;font-size:60px;">🦋</div>
+        <div class="sidebar-overlay">
+          <div class="sidebar-name">The Emergence</div>
+          <div class="sidebar-meta">Abstract · 2023 · Web3</div>
+        </div>
+      </div>
+      <div class="sidebar-item">
+        <div style="width:100%;height:100%;background:linear-gradient(225deg,#6B2FA0,#1A0E2E);display:flex;align-items:center;justify-content:center;font-size:60px;">☠</div>
+        <div class="sidebar-overlay">
+          <div class="sidebar-name">Still Living</div>
+          <div class="sidebar-meta">Conceptual · 2023 · Sold</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTIST STATEMENT -->
+<section class="statement-section">
+  <div class="statement-deco">V</div>
+  <div class="statement-left fade-up">
+    <div class="section-label">Artist Statement</div>
+    <h2>I paint what<br>language <em>can't hold.</em></h2>
+    <p class="statement-body">
+      My work begins with a question I can't answer out loud. 
+      <strong>Chess pieces</strong> for the power dynamics we pretend don't exist. 
+      <strong>Skeletons</strong> for everything we carry after transformation. 
+      <strong>Butterflies</strong> for what waits on the other side of it.
+    </p>
+    <p class="statement-body">
+      I studied painting formally, but my real education came from watching communities — crypto communities, human communities — try to write rules for a game that was already being played differently by everyone in the room.
+    </p>
+    <p class="statement-body">
+      These paintings don't explain themselves. They wait. They ask you to sit.
+    </p>
+    <div class="statement-signature">
+      <div class="statement-sig-line"></div>
+      <div class="statement-sig-text">Victory Adewojo</div>
+    </div>
+  </div>
+  <div class="statement-right fade-up">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--purple-light);margin-bottom:20px;opacity:.7;">Recurring Symbols</div>
+    <div class="symbols-grid">
+      <div class="symbol-card">
+        <div class="symbol-icon">♟</div>
+        <div class="symbol-name">Chess Pieces</div>
+      </div>
+      <div class="symbol-card">
+        <div class="symbol-icon">🎲</div>
+        <div class="symbol-name">Rubik's Cube</div>
+      </div>
+      <div class="symbol-card">
+        <div class="symbol-icon">☠</div>
+        <div class="symbol-name">Skeletons</div>
+      </div>
+      <div class="symbol-card">
+        <div class="symbol-icon">💡</div>
+        <div class="symbol-name">Lightbulbs</div>
+      </div>
+      <div class="symbol-card">
+        <div class="symbol-icon">🦋</div>
+        <div class="symbol-name">Butterflies</div>
+      </div>
+      <div class="symbol-card">
+        <div class="symbol-icon">🌸</div>
+        <div class="symbol-name">Flowers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="process-header fade-up">
+    <div>
+      <div class="section-label">The Practice</div>
+      <h2 class="section-heading">How a painting<br><em>comes alive</em></h2>
+    </div>
+    <p class="process-header-right">
+      There's no rush between the question and the canvas. Sometimes months pass before a single brushstroke is made. The thinking is the work.
+    </p>
+  </div>
+  <div class="process-steps">
+    <div class="process-step fade-up">
+      <div class="step-num">01</div>
+      <div class="step-icon">🪞</div>
+      <div class="step-title">The Question</div>
+      <p class="step-desc">Every painting begins with an unresolved thought — something observed in a community, a relationship, or a game of chess that I can't stop thinking about.</p>
+    </div>
+    <div class="process-step fade-up">
+      <div class="step-num">02</div>
+      <div class="step-icon">✏️</div>
+      <div class="step-title">Composition</div>
+      <p class="step-desc">Sketching the visual metaphor. Which symbols carry the weight of the idea? How do they speak to each other when placed in the same space?</p>
+    </div>
+    <div class="process-step fade-up">
+      <div class="step-num">03</div>
+      <div class="step-icon">🎨</div>
+      <div class="step-title">The Canvas</div>
+      <p class="step-desc">Oil paint, slow and demanding. The medium forces patience — it resists revision, insists on intention. Layer by layer, the idea earns its form.</p>
+    </div>
+    <div class="process-step fade-up">
+      <div class="step-num">04</div>
+      <div class="step-icon">◇</div>
+      <div class="step-title">Release</div>
+      <p class="step-desc">The painting becomes a question sent into the world. What it means to a collector, to a viewer, is its own answer. Mine was just the beginning.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WEB3 + ART -->
+<section class="web3art-section">
+  <div class="web3art-text fade-up">
+    <div class="section-label">Art × Web3</div>
+    <h2>Owning art in<br>the <em>decentralized</em> age</h2>
+    <p>
+      I live at the intersection of classical fine art and Web3. Paintings leave my studio two ways — framed and shipped to a collector, or minted and held on-chain. Both are real. Both are permanent.
+    </p>
+    <div class="nft-tags">
+      <span class="nft-tag">NFT Editions</span>
+      <span class="nft-tag">Physical + Digital</span>
+      <span class="nft-tag">Collector Certificates</span>
+      <span class="nft-tag">On-Chain Provenance</span>
+      <span class="nft-tag">DeFi Community Drops</span>
+    </div>
+    <a href="#commissions" class="btn-primary">Acquire a Piece →</a>
+  </div>
+  <div class="web3art-visual fade-up">
+    <div class="web3-card">
+      <div class="web3-card-icon">🖼️</div>
+      <div class="web3-card-title">Physical Originals</div>
+      <p class="web3-card-desc">Signed originals on canvas, shipped worldwide with certificate of authenticity.</p>
+    </div>
+    <div class="web3-card">
+      <div class="web3-card-icon">⛓️</div>
+      <div class="web3-card-title">NFT Editions</div>
+      <p class="web3-card-desc">Limited digital editions minted on-chain. Own a provably scarce piece of the work.</p>
+    </div>
+    <div class="web3-card">
+      <div class="web3-card-icon">📜</div>
+      <div class="web3-card-title">Collector Drops</div>
+      <p class="web3-card-desc">Exclusive drops for Web3 community members. First access for early believers.</p>
+    </div>
+    <div class="web3-card">
+      <div class="web3-card-icon">🤝</div>
+      <div class="web3-card-title">Commission Work</div>
+      <p class="web3-card-desc">Custom paintings for DAOs, protocols, and individual collectors with a vision.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXHIBITIONS -->
+<section class="exhibitions-section">
+  <div class="exhibitions-header fade-up">
+    <div>
+      <div class="section-label">Exhibitions</div>
+      <h2 class="section-heading">On walls <em>&amp; in spaces</em></h2>
+    </div>
+    <p class="exhibitions-header-right">
+      Group shows, curated features, and live events where the work has been presented — physically and in online spaces.
+    </p>
+  </div>
+  <div class="exhibition-list" id="exhibitionList">
+    <div class="exhibition-item fade-up">
+      <div class="exhibition-year">2025</div>
+      <div class="exhibition-title">Women in DeFi Summit — Featured Artist Stage</div>
+      <div class="exhibition-venue">Online · Global</div>
+      <div class="exhibition-tag featured">Featured</div>
+    </div>
+    <div class="exhibition-item fade-up">
+      <div class="exhibition-year">2024</div>
+      <div class="exhibition-title">Same Board, Different Rules — Preview Exhibition</div>
+      <div class="exhibition-venue">Lagos, Nigeria</div>
+      <div class="exhibition-tag">Closed</div>
+    </div>
+    <div class="exhibition-item fade-up">
+      <div class="exhibition-year">2023</div>
+      <div class="exhibition-title">DApps over Apps — Art &amp; Technology Showcase</div>
+      <div class="exhibition-venue">Lagos, Nigeria</div>
+      <div class="exhibition-tag">Closed</div>
+    </div>
+    <div class="exhibition-item fade-up">
+      <div class="exhibition-year">2023</div>
+      <div class="exhibition-title">Codes, Charts &amp; Cocktails</div>
+      <div class="exhibition-venue">Lagos, Nigeria</div>
+      <div class="exhibition-tag">Closed</div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERVIEWS & PODCASTS -->
+<section class="interviews-section">
+  <div class="interviews-header fade-up">
+    <div>
+      <div class="section-label">Conversations</div>
+      <h2 class="section-heading">Featured &amp; <em>in conversation</em></h2>
+    </div>
+    <p class="interviews-header-right">
+      Speaking engagements, panel features, and community conversations across the Web3 space — where the work behind the work gets discussed.
+    </p>
+  </div>
+  <div class="interviews-grid" id="interviewGrid">
+    <div class="interview-card fade-up">
+      <a href="https://www.youtube.com/watch?v=j5m8PW4V9g0" target="_blank" rel="noopener">
+        <div class="interview-thumb" style="background:linear-gradient(135deg,#1A0E2E,#6B2FA0);">
+          🛠️
+          <div class="interview-play"><div class="interview-play-btn"></div></div>
+        </div>
+      </a>
+      <div class="interview-body">
+        <div class="interview-year">2023</div>
+        <div class="interview-title">DApps over Apps</div>
+        <p class="interview-desc">Onboarding traditional developers and more into Web3.</p>
+      </div>
+    </div>
+    <div class="interview-card fade-up">
+      <a href="https://www.youtube.com/watch?v=qpxqsnF91m8" target="_blank" rel="noopener">
+        <div class="interview-thumb" style="background:linear-gradient(135deg,#3D2B5C,#B07DD9);">
+          🇳🇬
+          <div class="interview-play"><div class="interview-play-btn"></div></div>
+        </div>
+      </a>
+      <div class="interview-body">
+        <div class="interview-year">2023</div>
+        <div class="interview-title">Crypto in Nigeria</div>
+        <p class="interview-desc">A conversation on the state and future of crypto adoption in Nigeria.</p>
+      </div>
+    </div>
+    <div class="interview-card fade-up">
+      <a href="https://www.youtube.com/watch?v=CQMAZH8lF2Q&t=23027s" target="_blank" rel="noopener">
+        <div class="interview-thumb" style="background:linear-gradient(135deg,#6B2FA0,#C9A84C);">
+          ♀️
+          <div class="interview-play"><div class="interview-play-btn"></div></div>
+        </div>
+      </a>
+      <div class="interview-body">
+        <div class="interview-year">2025</div>
+        <div class="interview-title">Women in DeFi Summit</div>
+        <p class="interview-desc">Featured at the Women in DeFi Summit 2025.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="blog-section" id="blog">
+  <div class="blog-header fade-up">
+    <div>
+      <div class="section-label">From the Studio</div>
+      <h2 class="section-heading">Thoughts on <em>art &amp; living</em></h2>
+    </div>
+    <p class="blog-header-right">
+      I write the way I paint &mdash; slowly, and only when something is worth saying. On process. On symbols. On what chess has to do with everything.
+    </p>
+  </div>
+  <div class="blog-grid" id="blogGrid">
+
+    <!-- Featured Post -->
+    <div class="blog-card featured fade-up">
+      <div class="blog-card-img">
+        <div class="blog-card-img-inner" style="height:280px;background:linear-gradient(135deg,#1A0E2E 0%,#3D2B5C 40%,#6B2FA0 100%);display:flex;align-items:center;justify-content:center;font-size:90px;">&#9823;</div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-tag">Process &middot; Featured</div>
+        <div class="blog-title">Why I Paint Chess Pieces &mdash; And What They&rsquo;re Really About</div>
+        <p class="blog-excerpt">The chess piece is never just a chess piece. It&rsquo;s a stand-in for every conversation I&rsquo;ve watched where two people played entirely different games while sitting at the same board. Here&rsquo;s where the symbol came from, and why it keeps returning.</p>
+        <div class="blog-meta">
+          <span class="blog-date">March 2025</span>
+          <a href="#" class="blog-read">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Post 2 -->
+    <div class="blog-card fade-up">
+      <div class="blog-card-img">
+        <div class="blog-card-img-inner" style="height:180px;background:linear-gradient(180deg,#3D2B5C,#B07DD9);display:flex;align-items:center;justify-content:center;font-size:64px;">&#9760;</div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-tag">Philosophy</div>
+        <div class="blog-title">On Skeletons: What Remains After Transformation</div>
+        <p class="blog-excerpt">The skeleton doesn&rsquo;t mean death. It means what survives it. Here&rsquo;s why I keep returning to bones as a symbol of endurance.</p>
+        <div class="blog-meta">
+          <span class="blog-date">Feb 2025</span>
+          <a href="#" class="blog-read">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Post 3 -->
+    <div class="blog-card fade-up">
+      <div class="blog-card-img">
+        <div class="blog-card-img-inner" style="height:180px;background:linear-gradient(225deg,#6B2FA0,#C9A84C);display:flex;align-items:center;justify-content:center;font-size:64px;">&#129419;</div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-tag">Art &times; Web3</div>
+        <div class="blog-title">Collecting Art On-Chain: What It Actually Means to Own a Painting</div>
+        <p class="blog-excerpt">Physical or digital &mdash; what makes a work of art &ldquo;yours&rdquo;? A short essay on provenance, permanence, and what Web3 changes.</p>
+        <div class="blog-meta">
+          <span class="blog-date">Jan 2025</span>
+          <a href="#" class="blog-read">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMMISSIONS -->
+<section class="commission-section" id="commissions">
+  <div class="commission-inner">
+    <div class="commission-text fade-up">
+      <div class="section-label">Commissions & Acquisitions</div>
+      <h2>Let's create<br>something <em>permanent.</em></h2>
+      <p>
+        Whether you're a collector building a curated space, a Web3 protocol wanting a visual identity, or someone whose question deserves a canvas — I'd like to hear from you.
+      </p>
+      <ul class="commission-features">
+        <li>Original oil on canvas commissions</li>
+        <li>Custom sizing and palette collaboration</li>
+        <li>NFT minting for digital collectors</li>
+        <li>Exhibition and gallery placement</li>
+        <li>Web3 brand visual partnerships</li>
+        <li>Process documentation and collector notes</li>
+      </ul>
+    </div>
+    <div class="commission-form fade-up">
+      <h3>Start a Conversation</h3>
+      <div class="commission-form-sub">Commission Inquiry</div>
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="Who are you?" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">I'm Interested In</label>
+        <select class="form-select">
+          <option value="" disabled selected>Select an option…</option>
+          <option>Acquiring an existing work</option>
+          <option>A custom commission</option>
+          <option>NFT / Digital edition</option>
+          <option>Web3 brand collaboration</option>
+          <option>Exhibition partnership</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Vision</label>
+        <textarea class="form-textarea" placeholder="Tell me what you're looking for…"></textarea>
+      </div>
+      <button class="btn-primary" style="text-align:center;padding:16px;font-size:11px;">Send Inquiry →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2025 Victory Adewojo · All Rights Reserved</div>
+  <a href="index.html" class="footer-logo">vhictorry</a>
+  <div class="footer-copy">Art · Web3 · Community · Strategy</div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner" id="lightboxInner">
+    <div class="lightbox-img" id="lbImg"></div>
+    <div class="lightbox-info" id="lbInfo"></div>
+  </div>
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+</div>
+
+<script>
+/* CURSOR */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+(function loop(){
+  rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,.art-card,.sidebar-item,.symbol-card,.web3-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='50px';ring.style.height='50px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
+});
+
+/* FADE IN */
+const obs = new IntersectionObserver(entries=>
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }}),
+  {threshold:.12}
+);
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+/* FILTER */
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.art-card');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filterBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    cards.forEach(card=>{
+      if(f==='all' || card.dataset.category.includes(f)){
+        card.style.display=''; card.style.opacity='1';
+      } else {
+        card.style.display='none';
+      }
+    });
+  });
+});
+
+/* LIGHTBOX DATA */
+const lbData = {
+  'same-board': {
+    bg: 'linear-gradient(135deg,#1A0E2E 0%,#3D2B5C 40%,#6B2FA0 100%)',
+    icon: '♟',
+    series: 'Conceptual · 2024',
+    title: 'Same Board, Different Rules',
+    medium: 'Oil on Canvas',
+    size: '24 × 36 inches',
+    year: '2024',
+    status: 'Available',
+    price: 'On Inquiry',
+    desc: 'A conceptual battleground. Chess pieces caught mid-confrontation, but the tension isn\'t in the game — it\'s in the question of who wrote the rules and whether either player actually agreed to them. The painting asks what happens when two people share the same structure but hold entirely different understandings of how it should be played.'
+  },
+  'seen': {
+    bg: 'linear-gradient(180deg,#3D2B5C,#B07DD9)',
+    icon: '◉',
+    series: 'Figurative · 2024',
+    title: 'Seen',
+    medium: 'Oil on Canvas',
+    size: '20 × 24 inches',
+    year: '2024',
+    status: 'Available',
+    price: 'On Inquiry',
+    desc: 'A portrait that is also a question. What changes in a person when they finally feel truly seen? The gaze in this painting doesn\'t meet yours — it rests somewhere just past it. The stillness isn\'t emptiness. It\'s the quiet that follows being known.'
+  }
+};
+
+function openLightbox(id){
+  const d = lbData[id]; if(!d) return;
+  document.getElementById('lbImg').innerHTML = `<div style="width:100%;height:100%;min-height:400px;background:${d.bg};display:flex;align-items:center;justify-content:center;font-size:120px;">${d.icon}</div>`;
+  document.getElementById('lbInfo').innerHTML = `
+    <div>
+      <div class="lb-series">${d.series}</div>
+      <div class="lb-title">${d.title}</div>
+      <div class="lb-meta">
+        <div class="lb-meta-item"><span class="lb-meta-key">Medium</span><span class="lb-meta-val">${d.medium}</span></div>
+        <div class="lb-meta-item"><span class="lb-meta-key">Size</span><span class="lb-meta-val">${d.size}</span></div>
+        <div class="lb-meta-item"><span class="lb-meta-key">Year</span><span class="lb-meta-val">${d.year}</span></div>
+        <div class="lb-meta-item"><span class="lb-meta-key">Status</span><span class="lb-meta-val" style="color:var(--gold)">${d.status}</span></div>
+      </div>
+      <p class="lb-desc">${d.desc}</p>
+    </div>
+    <div>
+      <div class="lb-price">${d.price}</div>
+      <a href="#commissions" class="btn-primary" onclick="closeLightbox()" style="display:block;text-align:center;text-decoration:none;padding:14px;">Inquire to Acquire →</a>
+    </div>
+  `;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeLightbox(e){
+  if(e && e.target!==document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox({}); });
+
+/* COMMISSION SUBMIT */
+function handleSubmit(e){
+  if(e) e.preventDefault();
+  const confirm = document.getElementById('budgetConfirm');
+  if(!confirm || !confirm.checked){
+    confirm.closest('.form-checkbox-group').style.outline='1.5px solid rgba(176,125,217,0.8)';
+    confirm.closest('.budget-confirm-box').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  const btn = document.querySelector('.commission-form .btn-primary');
+  btn.textContent = 'Sent ✓';
+  btn.style.background = 'rgba(176,125,217,0.4)';
+  btn.style.cursor = 'default';
+}
+
+/* FILE UPLOAD LABEL UPDATE */
+document.querySelectorAll('.form-upload input[type=file]').forEach(inp=>{
+  inp.addEventListener('change',function(){
+    const label = this.closest('.form-upload').querySelector('.form-upload-label');
+    if(this.files.length > 0){
+      label.textContent = this.files.length === 1 ? this.files[0].name : this.files.length + ' files selected';
+    }
+  });
+});
+
+/* MOBILE NAV TOGGLE */
+const navToggle = document.getElementById('navToggle');
+if(navToggle){
+  navToggle.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+}
+
+/* ── SANITY CMS ── */
+const SANITY_PROJ='3ihweswz', SANITY_DS='production';
+async function sanityFetch(q){
+  const r=await fetch(`https://${SANITY_PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${SANITY_DS}?query=${encodeURIComponent(q)}`);
+  return(await r.json()).result||[];
+}
+
+/* Artworks → masonry grid */
+function masonryCard(aw,h){
+  const cat=Array.isArray(aw.category)?aw.category.join(' '):(aw.category||'');
+  const av=aw.status||'soon';
+  const bClass=av==='available'?'avail-badge':av==='sold'?'sold-badge':'nft-badge';
+  const bText=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
+  const bg=aw.imageUrl?`background-image:url('${aw.imageUrl}');background-size:cover;background-position:center;`:`background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);`;
+  const price=av==='available'?'On Inquiry':av==='sold'?'Sold':'—';
+  const priceClass=av==='available'?'available':av==='sold'?'sold':'';
+  return `<div class="art-card fade-up" data-category="${cat}">
+  <div class="art-expand-btn">↗</div>
+  <div class="art-badge ${bClass}">${bText}</div>
+  <div class="art-card-placeholder" style="height:${h}px;${bg}"></div>
+  <div class="art-overlay">
+    <div class="art-series">${cat.split(' ')[0]||''} · ${aw.year||''}</div>
+    <div class="art-name">${aw.title||'Untitled'}</div>
+    <div class="art-details">
+      <div class="art-medium">${aw.medium||''}${aw.dimensions?' · '+aw.dimensions:''}</div>
+      <div class="art-price ${priceClass}">${price}</div>
+    </div>
+  </div>
+</div>`;
+}
+const heights=[520,380,300,450,340,420,360,480,320];
+(async()=>{
+  const grid=document.getElementById('galleryGrid');
+  if(!grid)return;
+  try{
+    const works=await sanityFetch(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions}`);
+    if(!works.length)return;
+    grid.innerHTML=works.map((w,i)=>masonryCard(w,heights[i%heights.length])).join('');
+    const af=document.querySelector('.filter-btn.active');
+    const f=af?af.dataset.filter:'all';
+    grid.querySelectorAll('.art-card').forEach(c=>{c.style.display=(f==='all'||(c.dataset.category||'').includes(f))?'':'none';});
+    grid.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+    grid.querySelectorAll('.art-card').forEach(el=>{
+      el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='50px';ring.style.height='50px';});
+      el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
+    });
+  }catch(e){}
+})();
+
+/* Blog posts */
+function blogCard(p){
+  const em=p.emoji||'✍️';
+  return `<div class="blog-card fade-up">
+  <div class="blog-card-img"><div class="blog-card-img-inner" style="height:180px;background:linear-gradient(135deg,#1A0E2E,#6B2FA0);display:flex;align-items:center;justify-content:center;font-size:64px;">${em}</div></div>
+  <div class="blog-card-body">
+    <div class="blog-tag">${p.tag||''}</div>
+    <div class="blog-title">${p.title||''}</div>
+    <p class="blog-excerpt">${p.description||''}</p>
+    <div class="blog-meta"><a href="${p.url||'https://btwtheblocks.substack.com'}" target="_blank" rel="noopener" class="blog-read">Read →</a></div>
+  </div>
+</div>`;
+}
+(async()=>{
+  const g=document.getElementById('blogGrid');
+  if(!g)return;
+  try{
+    const posts=await sanityFetch(`*[_type=="blogPost"]|order(order asc){_id,title,tag,description,url,emoji}`);
+    if(!posts.length)return;
+    g.innerHTML=posts.map(blogCard).join('');
+    g.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+  }catch(e){}
+})();
+
+/* Exhibitions */
+function exhibRow(ex){
+  const tClass=ex.status==='featured'?'featured':ex.status==='upcoming'?'featured':'';
+  const tText=ex.status==='featured'?'Featured':ex.status==='upcoming'?'Upcoming':'Closed';
+  return `<div class="exhibition-item fade-up">
+  <div class="exhibition-year">${ex.year||''}</div>
+  <div class="exhibition-title">${ex.title||''}</div>
+  <div class="exhibition-venue">${[ex.venue,ex.location].filter(Boolean).join(' · ')}</div>
+  <div class="exhibition-tag ${tClass}">${tText}</div>
+</div>`;
+}
+(async()=>{
+  const l=document.getElementById('exhibitionList');
+  if(!l)return;
+  try{
+    const exs=await sanityFetch(`*[_type=="exhibition"]|order(order asc){_id,title,year,venue,location,status}`);
+    if(!exs.length)return;
+    l.innerHTML=exs.map(exhibRow).join('');
+    l.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+  }catch(e){}
+})();
+
+/* Interviews */
+function interviewCard(iv){
+  const bg=iv.thumbnailUrl?`background-image:url('${iv.thumbnailUrl}');background-size:cover;background-position:center;`:`background:linear-gradient(135deg,#1A0E2E,#6B2FA0);`;
+  return `<div class="interview-card fade-up">
+  <a href="${iv.url||'#'}" target="_blank" rel="noopener">
+    <div class="interview-thumb" style="${bg}">🎙️<div class="interview-play"><div class="interview-play-btn"></div></div></div>
+  </a>
+  <div class="interview-body">
+    <div class="interview-year">${iv.year||''}</div>
+    <div class="interview-title">${iv.title||''}</div>
+    <p class="interview-desc">${iv.description||''}</p>
+  </div>
+</div>`;
+}
+(async()=>{
+  const g=document.getElementById('interviewGrid');
+  if(!g)return;
+  try{
+    const ivs=await sanityFetch(`*[_type=="interview"]|order(order asc){_id,title,year,description,url,"thumbnailUrl":thumbnail.asset->url}`);
+    if(!ivs.length)return;
+    g.innerHTML=ivs.map(interviewCard).join('');
+    g.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
