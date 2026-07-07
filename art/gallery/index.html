@@ -73,13 +73,13 @@
     .gallery-count { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-left:auto; white-space:nowrap; }
 
     .gallery-section { padding:48px 56px 120px; }
-    .gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .gallery-grid { columns:3; column-gap:16px; }
     .gallery-loading { color:var(--muted); font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; padding:80px 0; grid-column:1/-1; text-align:center; }
 
-    .gallery-card { position:relative; aspect-ratio:4/3; overflow:hidden; border-radius:2px; cursor:pointer; transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; }
+    .gallery-card { position:relative; overflow:hidden; border-radius:2px; cursor:pointer; break-inside:avoid; margin-bottom:16px; transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; }
     .gallery-card:hover { transform:scale(1.015); box-shadow:0 20px 56px rgba(26,14,46,0.2); }
     .gallery-card.hidden { display:none; }
-    .card-img { position:absolute; inset:0; background-size:cover; background-position:center; transition:transform .6s cubic-bezier(.22,1,.36,1); }
+    .card-img { display:block; width:100%; height:auto; transition:transform .6s cubic-bezier(.22,1,.36,1); }
     .gallery-card:hover .card-img { transform:scale(1.06); }
     .card-badge { position:absolute; top:14px; right:14px; z-index:2; font-family:'DM Mono',monospace; font-size:7px; letter-spacing:2px; text-transform:uppercase; padding:5px 11px; border-radius:1px; }
     .card-badge.available { background:var(--gold); color:var(--ink); }
@@ -94,7 +94,7 @@
     .lightbox.open { display:flex; }
     .lightbox-inner { display:grid; grid-template-columns:1fr 380px; max-width:1080px; width:100%; max-height:88vh; background:var(--white); border-radius:4px; overflow:hidden; }
     .lightbox-img-wrap { position:relative; overflow:hidden; }
-    .lightbox-img { width:100%; height:100%; min-height:400px; background-size:cover; background-position:center; }
+    .lightbox-img { width:100%; height:100%; min-height:400px; background-size:contain; background-repeat:no-repeat; background-position:center; background-color:var(--purple-xpale); }
     .lightbox-panel { padding:48px 40px; overflow-y:auto; display:flex; flex-direction:column; }
     .lightbox-badge { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
     .lightbox-badge.soon { color:var(--muted); }
@@ -122,7 +122,7 @@
       .filter-bar { padding:16px 20px; gap:12px; top:56px; flex-wrap:wrap; }
       .gallery-count { display:none; }
       .gallery-section { padding:32px 20px 60px; }
-      .gallery-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+      .gallery-grid { columns:2; column-gap:10px; }
       .lightbox-inner { grid-template-columns:1fr; max-height:92vh; overflow-y:auto; }
       .lightbox-img-wrap { height:240px; flex-shrink:0; }
       .lightbox-img { min-height:0; height:100%; }
@@ -130,7 +130,7 @@
       footer { flex-direction:column; gap:12px; text-align:center; padding:24px; }
     }
     @media (max-width:540px) {
-      .gallery-grid { grid-template-columns:1fr; }
+      .gallery-grid { columns:1; }
     }
   </style>
 </head>
@@ -247,8 +247,10 @@ const lbMeta=document.getElementById('lightboxMeta');
 const lbDesc=document.getElementById('lightboxDesc');
 
 function openLightbox(card){
-  const img=card.querySelector('.card-img');
-  lbImg.style.cssText=img.style.cssText+'width:100%;height:100%;';
+  const full=card.dataset.img;
+  lbImg.style.cssText=full
+    ?`background-image:url('${imgSrc(full,1600)}');`
+    :`background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);`;
   const av=card.dataset.avail;
   lbBadge.textContent=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
   lbBadge.className='lightbox-badge'+(av!=='available'?' soon':'');
@@ -287,9 +289,10 @@ async function sanity(q){
   return(await r.json()).result||[];
 }
 
+/* GIFs stay untransformed so they keep animating; others get size-capped for speed */
+function imgSrc(u,w){return u.toLowerCase().endsWith('.gif')?u:u+'?w='+w+'&fit=max&auto=format';}
 function cardHTML(aw){
   const cats=Array.isArray(aw.category)?aw.category.join(' '):(aw.category||'');
-  const bg=aw.imageUrl?`background-image:url('${aw.imageUrl}');background-size:cover;background-position:center;`:`background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);`;
   const av=aw.status||'soon';
   const bClass=av==='available'?'available':'soon';
   const bText=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
@@ -297,8 +300,11 @@ function cardHTML(aw){
   const desc=(aw.description||'').replace(/"/g,'&quot;');
   const dims=(aw.dimensions||'—').replace(/"/g,'&quot;');
   const title=(aw.title||'Untitled').replace(/"/g,'&quot;');
-  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-title="${title}" data-medium="${(aw.medium||'').replace(/"/g,'&quot;')}" data-year="${aw.year||''}" data-size="${dims}" data-desc="${desc}">
-  <div class="card-img" style="${bg}"></div>
+  const media=aw.imageUrl
+    ?`<img class="card-img" src="${imgSrc(aw.imageUrl,1200)}" alt="${title}" loading="lazy">`
+    :`<div class="card-img" style="height:280px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
+  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-img="${aw.imageUrl||''}" data-title="${title}" data-medium="${(aw.medium||'').replace(/"/g,'&quot;')}" data-year="${aw.year||''}" data-size="${dims}" data-desc="${desc}">
+  ${media}
   <div class="card-badge ${bClass}">${bText}</div>
   <div class="card-overlay">
     <div class="card-overlay-title">${aw.title||'Untitled'}</div>

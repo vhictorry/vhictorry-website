@@ -1796,13 +1796,16 @@ function masonryCard(aw,h){
   const av=aw.status||'soon';
   const bClass=av==='available'?'avail-badge':av==='sold'?'sold-badge':'nft-badge';
   const bText=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
-  const bg=aw.imageUrl?`background-image:url('${aw.imageUrl}');background-size:cover;background-position:center;`:`background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);`;
+  /* GIFs stay untransformed so they keep animating; real images render at natural proportions — no cropping */
+  const media=aw.imageUrl
+    ?`<img src="${aw.imageUrl.toLowerCase().endsWith('.gif')?aw.imageUrl:aw.imageUrl+'?w=1200&fit=max&auto=format'}" alt="${aw.title||'Artwork'}" style="width:100%;height:auto;display:block;" loading="lazy">`
+    :`<div class="art-card-placeholder" style="height:${h}px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
   const price=av==='available'?'On Inquiry':av==='sold'?'Sold':'—';
   const priceClass=av==='available'?'available':av==='sold'?'sold':'';
   return `<div class="art-card fade-up" data-category="${cat}">
   <div class="art-expand-btn">↗</div>
   <div class="art-badge ${bClass}">${bText}</div>
-  <div class="art-card-placeholder" style="height:${h}px;${bg}"></div>
+  ${media}
   <div class="art-overlay">
     <div class="art-series">${cat.split(' ')[0]||''} · ${aw.year||''}</div>
     <div class="art-name">${aw.title||'Untitled'}</div>
