@@ -766,6 +766,97 @@ function toggleEvents(){
   btn.textContent=extra.classList.contains('show')?'See Less':'See More';
 }
 
+/* ── SANITY CMS — PAGE CONTENT (edit via "Homepage Content" in the studio) ── */
+(async function(){
+  const PROJ='3ihweswz',DS='production';
+  const q=async gq=>{const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=${encodeURIComponent(gq)}`);return(await r.json()).result;};
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const img=(u,w)=>u.toLowerCase().endsWith('.gif')?u:u+`?w=${w}&fit=max&auto=format`;
+  try{
+    const hp=await q(`*[_type=="homePage"][0]{...,"heroPhotoUrl":heroPhoto.asset->url,"aboutMainUrl":aboutPhotoMain.asset->url,"aboutAccentUrl":aboutPhotoAccent.asset->url,"resumeUrl":resume.asset->url}`);
+    if(hp){
+      if(hp.eyebrow)document.querySelector('.hero-eyebrow').textContent=hp.eyebrow;
+      if(hp.shortBio)document.querySelector('.hero-short-bio').innerHTML=esc(hp.shortBio).replace(/\s*\/\s*/g,'<br>');
+      if(hp.heroDesc)document.querySelector('.hero-desc').textContent=hp.heroDesc;
+      if(hp.heroPhotoUrl)document.querySelector('.hero-photo').style.background=`url('${img(hp.heroPhotoUrl,900)}') center/cover no-repeat`;
+      if(hp.photoLabel)document.querySelector('.hero-photo-label span').textContent=hp.photoLabel;
+      if(Array.isArray(hp.credentials)&&hp.credentials.length){
+        document.querySelector('.hero-credentials').innerHTML=hp.credentials.slice(0,3).map((c,i)=>`<div class="credential-badge ${i===0?'credential-badge--purple':'credential-badge--dark'}">${esc(c)}</div>`).join('');
+      }
+      if(hp.resumeUrl){const rb=document.querySelector('.hero-btns .btn-primary');if(rb){rb.href=hp.resumeUrl;rb.target='_blank';}}
+      if(Array.isArray(hp.marqueeItems)&&hp.marqueeItems.length){
+        const mi=document.querySelector('.marquee-inner');
+        const s=hp.marqueeItems.map(t=>`<span class="marquee-item">${esc(t)}</span>`).join('');
+        mi.innerHTML=s+s;
+      }
+      if(hp.aboutHeadingPlain){
+        document.querySelector('#about .section-heading').innerHTML=esc(hp.aboutHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(hp.aboutHeadingAccent?` <em>${esc(hp.aboutHeadingAccent)}</em>`:'');
+      }
+      if(hp.aboutText){
+        const first=document.querySelector('#about .about-text');
+        document.querySelectorAll('#about .about-text').forEach((el,i)=>{if(i>0)el.remove();});
+        first.outerHTML=hp.aboutText.split(/\n\s*\n/).map(p=>`<p class="about-text">${esc(p)}</p>`).join('');
+      }
+      if(hp.aboutMainUrl)document.querySelector('.about-img-main').style.background=`url('${img(hp.aboutMainUrl,800)}') center/cover no-repeat`;
+      if(hp.aboutAccentUrl)document.querySelector('.about-img-accent').style.cssText+=`;background:url('${img(hp.aboutAccentUrl,600)}') center/cover no-repeat;border:4px solid var(--white);`;
+      if(hp.badgeValue)document.querySelector('.about-badge span:first-child').textContent=hp.badgeValue;
+      if(hp.badgeLabel)document.querySelector('.about-badge span:last-child').textContent=hp.badgeLabel;
+      if(Array.isArray(hp.aboutStats)&&hp.aboutStats.length){
+        document.querySelector('.about-stats').innerHTML=hp.aboutStats.slice(0,3).map(s=>`<div><div class="stat-number">${esc(s.value||'')}</div><div class="stat-label">${esc(s.label||'')}</div></div>`).join('');
+      }
+      if(hp.web3Text)document.querySelector('.web3-text p').textContent=hp.web3Text;
+      if(Array.isArray(hp.chainTags)&&hp.chainTags.length)document.querySelector('.chain-tags').innerHTML=hp.chainTags.map(t=>`<span class="chain-tag">${esc(t)}</span>`).join('');
+      if(Array.isArray(hp.projectNames)&&hp.projectNames.length){
+        const lt=document.querySelector('.logos-track');
+        const s=hp.projectNames.map(t=>`<span class="logo-item">${esc(t)}</span>`).join('');
+        lt.innerHTML=s+s;
+      }
+      if(hp.contactIntro)document.querySelector('#contact .contact-left p').textContent=hp.contactIntro;
+      const cds=document.querySelectorAll('.c-item .c-detail');
+      if(hp.email&&cds[0])cds[0].innerHTML=`<span>Email</span>${esc(hp.email)}`;
+      if(hp.location&&cds[1])cds[1].innerHTML=`<span>Location</span>${esc(hp.location)}`;
+      if(hp.phone&&cds[2])cds[2].innerHTML=`<span>Phone</span>${esc(hp.phone)}`;
+    }
+    /* Art teaser tiles — automatically show the first 3 artworks from the gallery */
+    const arts=await q(`*[_type=="artwork" && defined(image)]|order(order asc)[0...3]{"u":image.asset->url}`)||[];
+    document.querySelectorAll('.art-tile-placeholder').forEach((el,i)=>{
+      if(arts[i])el.outerHTML=`<img src="${img(arts[i].u,700)}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Artwork">`;
+    });
+    /* Testimonials */
+    const ts=await q(`*[_type=="testimonial"]|order(order asc){quote,name,role,featured}`)||[];
+    if(ts.length){
+      document.querySelector('.t-grid').innerHTML=ts.map(t=>`<div class="t-card${t.featured?' featured':''} fade-up">
+        <p class="t-quote">${esc(t.quote||'')}</p>
+        <div class="t-author"><div class="t-avatar">${esc((t.name||'?').charAt(0))}</div><div><div class="t-name">${esc(t.name||'')}</div><div class="t-role">${esc(t.role||'')}</div></div></div>
+      </div>`).join('');
+      document.querySelectorAll('.t-grid .fade-up').forEach(el=>obs.observe(el));
+    }
+    /* Speaking events — first 3 visible, rest behind See More */
+    const evs=await q(`*[_type=="speakingEvent"]|order(order asc){title,year,description,url,emoji,"thumbUrl":thumbnail.asset->url}`)||[];
+    if(evs.length){
+      const grads=['linear-gradient(135deg,#1A0E2E,#6B2FA0)','linear-gradient(135deg,#3D2B5C,#B07DD9)','linear-gradient(135deg,#6B2FA0,#C9A84C)','linear-gradient(135deg,#1A0E2E,#8B4DBF)','linear-gradient(135deg,#3D2B5C,#6B2FA0)'];
+      const card=(e,i)=>`<div class="event-card fade-up">
+        <a ${e.url?`href="${e.url}" target="_blank" rel="noopener"`:''}>
+          <div class="event-thumb" style="background:${e.thumbUrl?`url('${img(e.thumbUrl,700)}') center/cover no-repeat`:grads[i%grads.length]};">
+            ${e.thumbUrl?'':`<div class="event-thumb-placeholder">${e.emoji||'🎤'}</div>`}
+            <div class="event-play"><div class="event-play-btn"></div></div>
+          </div>
+        </a>
+        <div class="event-body">
+          <div class="event-year">${esc(e.year||'')}</div>
+          <div class="event-title">${esc(e.title||'')}</div>
+          <p class="event-desc">${esc(e.description||'')}</p>
+        </div>
+      </div>`;
+      document.getElementById('eventsMain').innerHTML=evs.slice(0,3).map(card).join('');
+      const extra=evs.slice(3);
+      document.getElementById('eventsExtra').innerHTML=extra.map((e,i)=>card(e,i+3)).join('');
+      document.querySelector('.events-more').style.display=extra.length?'':'none';
+      document.querySelectorAll('#eventsMain .fade-up,#eventsExtra .fade-up').forEach(el=>obs.observe(el));
+    }
+  }catch(e){}
+})();
+
 /* ── SANITY CMS — BLOG ── */
 (async function(){
   const PROJ='3ihweswz',DS='production';
