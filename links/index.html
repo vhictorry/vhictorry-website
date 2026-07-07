@@ -284,7 +284,9 @@ body::before{
     const a=(await r.json()).result;
     if(!a||!a.url)return;
     const img=document.getElementById('artEmbedImg');
-    img.style.background='url("'+a.url+'?w=900&fit=max&auto=format") center/cover no-repeat';
+    /* GIFs must load untransformed or Sanity's CDN freezes them to one frame */
+    const u=a.url.toLowerCase().endsWith('.gif')?a.url:a.url+'?w=900&fit=max&auto=format';
+    img.style.background='url("'+u+'") center/cover no-repeat';
     img.textContent='';
     if(a.title)document.getElementById('artEmbedTitle').textContent=a.title;
     const sub=[a.medium,a.year].filter(Boolean).join(' · ');
