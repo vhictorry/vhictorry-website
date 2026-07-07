@@ -1944,6 +1944,41 @@ function interviewCard(iv){
   }catch(e){}
 })();
 
+/* Page hero — editable via the "Art Page — Hero Section" document in Sanity Studio */
+(async()=>{
+  try{
+    const h=await sanityFetch(`*[_type=="artHero"][0]{eyebrow,headingPlain,headingAccent,intro,stats,caption,marqueeItems,"frames":frameImages[].asset->url}`);
+    if(!h)return;
+    const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    if(h.eyebrow)document.querySelector('.hero-eyebrow').textContent=h.eyebrow;
+    if(h.headingPlain){
+      const em=h.headingAccent?` <em>${esc(h.headingAccent)}</em>`:'';
+      document.querySelector('.page-hero h1').innerHTML=esc(h.headingPlain).replace(/\s*\/\s*/g,'<br>')+em;
+    }
+    if(h.intro)document.querySelector('.hero-statement').textContent=h.intro;
+    if(Array.isArray(h.stats)&&h.stats.length){
+      document.querySelector('.hero-stats').innerHTML=h.stats.slice(0,3).map(s=>`<div><div class="hstat-num">${esc(s.value||'')}</div><div class="hstat-label">${esc(s.label||'')}</div></div>`).join('');
+    }
+    if(h.caption)document.querySelector('.feat-caption').textContent=h.caption;
+    if(Array.isArray(h.frames)&&h.frames.length){
+      const els=document.querySelectorAll('.featured-stack .feat-img');
+      h.frames.slice(0,els.length).forEach((u,i)=>{
+        if(!u)return;
+        /* GIFs load untransformed so they keep animating */
+        const src=u.toLowerCase().endsWith('.gif')?u:u+'?w=900&fit=max&auto=format';
+        els[i].innerHTML=`<img src="${src}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">`;
+      });
+    }
+    if(Array.isArray(h.marqueeItems)&&h.marqueeItems.length){
+      const mi=document.querySelector('.marquee-inner');
+      if(mi){
+        const span=h.marqueeItems.map(t=>`<span class="marquee-item">${esc(t)}</span>`).join('');
+        mi.innerHTML=span+span;
+      }
+    }
+  }catch(e){}
+})();
+
 /* Featured works — "In Focus" section, driven by the Featured switch in Sanity Studio */
 (async()=>{
   try{
