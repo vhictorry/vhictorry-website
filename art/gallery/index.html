@@ -103,6 +103,8 @@
     .lightbox-desc { font-size:17px; line-height:1.9; color:var(--muted); font-weight:300; margin-bottom:36px; flex:1; }
     .lightbox-cta { display:inline-block; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px; text-transform:uppercase; padding:14px 28px; background:var(--purple); color:var(--white); border-radius:2px; transition:background .2s; text-align:center; }
     .lightbox-cta:hover { background:var(--purple-mid); }
+    .lightbox-cta.buy { background:var(--gold); color:var(--ink); margin-bottom:10px; }
+    .lightbox-cta.buy:hover { background:#d9b95e; }
     .lightbox-close { position:fixed; top:24px; right:32px; z-index:1001; width:44px; height:44px; background:rgba(253,252,255,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; color:var(--white); cursor:pointer; transition:background .2s; }
     .lightbox-close:hover { background:rgba(253,252,255,0.2); }
 
@@ -206,6 +208,7 @@
       <h2 class="lightbox-title" id="lightboxTitle"></h2>
       <div class="lightbox-meta" id="lightboxMeta"></div>
       <p class="lightbox-desc" id="lightboxDesc"></p>
+      <a href="#" target="_blank" rel="noopener" class="lightbox-cta buy" id="lightboxBuy" style="display:none;">Buy This Work →</a>
       <a href="/#commissions" class="lightbox-cta">Inquire About This Work →</a>
     </div>
   </div>
@@ -258,6 +261,13 @@ function openLightbox(card){
   const sz=(card.dataset.size&&card.dataset.size!=='—')?' · '+card.dataset.size:'';
   lbMeta.textContent=[card.dataset.medium,card.dataset.year].filter(Boolean).join(' · ')+sz;
   lbDesc.textContent=card.dataset.desc||'';
+  const buy=card.dataset.buy;
+  const lbBuy=document.getElementById('lightboxBuy');
+  if(buy){
+    lbBuy.href=buy;
+    lbBuy.textContent=buy.includes('saatchi')?'Buy on Saatchi Art →':buy.includes('opensea')?'View on OpenSea →':'Buy This Work →';
+    lbBuy.style.display='';
+  }else{lbBuy.style.display='none';}
   lightbox.classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -303,7 +313,7 @@ function cardHTML(aw){
   const media=aw.imageUrl
     ?`<img class="card-img" src="${imgSrc(aw.imageUrl,1200)}" alt="${title}" loading="lazy">`
     :`<div class="card-img" style="height:280px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
-  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-img="${aw.imageUrl||''}" data-title="${title}" data-medium="${(aw.medium||'').replace(/"/g,'&quot;')}" data-year="${aw.year||''}" data-size="${dims}" data-desc="${desc}">
+  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-img="${aw.imageUrl||''}" data-buy="${aw.buyUrl||''}" data-title="${title}" data-medium="${(aw.medium||'').replace(/"/g,'&quot;')}" data-year="${aw.year||''}" data-size="${dims}" data-desc="${desc}">
   ${media}
   <div class="card-badge ${bClass}">${bText}</div>
   <div class="card-overlay">
@@ -318,7 +328,7 @@ async function loadGallery(){
   const grid=document.getElementById('galleryGrid');
   const msg=document.getElementById('galleryMsg');
   try{
-    const works=await sanity(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,description}`);
+    const works=await sanity(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,description,buyUrl}`);
     if(!works.length){
       msg.innerHTML='No artworks yet — <a href="https://vhictorry.sanity.studio" target="_blank" style="color:var(--purple);">add your first piece in Sanity Studio.</a>';
       return;
