@@ -1086,7 +1086,7 @@ footer {
     <span class="filter-label">Filter by</span>
     <button class="filter-btn active" data-filter="all">All Works</button>
     <button class="filter-btn" data-filter="figurative">Figurative</button>
-    <button class="filter-btn" data-filter="conceptual">Conceptual</button>
+    <button class="filter-btn" data-filter="surrealism">Surrealism</button>
     <button class="filter-btn" data-filter="abstract">Abstract</button>
     <button class="filter-btn" data-filter="available">Available</button>
     <button class="filter-btn" data-filter="nft">Web3 / NFT</button>
@@ -1244,8 +1244,8 @@ footer {
       <div class="section-label">In Focus</div>
       <h2 class="section-heading">The works <em>speaking loudest</em></h2>
     </div>
-    <p class="featured-header-right">
-      Two paintings. Two questions. 
+    <p class="featured-header-right" id="featuredBlurb">
+      Two paintings. Two questions.
       <strong>Same Board, Different Rules</strong> asks who decides what the rules are.
       <strong>Seen</strong> asks what changes when you finally are.
     </p>
@@ -1903,6 +1903,50 @@ function interviewCard(iv){
     if(!ivs.length)return;
     g.innerHTML=ivs.map(interviewCard).join('');
     g.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+  }catch(e){}
+})();
+
+/* Featured works — "In Focus" section, driven by the Featured switch in Sanity Studio */
+(async()=>{
+  try{
+    const fw=await sanityFetch(`*[_type=="artwork" && featured==true]|order(order asc){title,description,"imageUrl":image.asset->url,category,status,medium,year,"series":series->title}`);
+    if(!fw.length)return;
+    const cap=u=>u.toLowerCase().endsWith('.gif')?u:u+'?w=1400&fit=max&auto=format';
+    const stTxt=s=>s==='available'?'Available':s==='sold'?'Sold':'Details Soon';
+    const tag=w=>w.series||(Array.isArray(w.category)?w.category[0]:'')||'';
+    const blurb=document.getElementById('featuredBlurb');
+    if(blurb)blurb.textContent='A rotating selection — the pieces asking the loudest questions right now.';
+    const m=fw[0];
+    const mainEl=document.querySelector('.featured-main-work');
+    if(mainEl&&m.imageUrl){
+      mainEl.onclick=()=>location.href='gallery/';
+      const d=m.description||'';
+      mainEl.innerHTML=`<div style="width:100%;height:100%;background:#160B26 url('${cap(m.imageUrl)}') center/contain no-repeat;"></div>
+      <div class="featured-main-overlay">
+        <div class="featured-main-sub">${[tag(m),m.medium,m.year].filter(Boolean).join(' · ')}</div>
+        <div class="featured-main-title">${m.title||''}</div>
+        <p class="featured-main-desc">${d.length>200?d.slice(0,200)+'…':d}</p>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <a href="#commissions" class="btn-ghost-light" onclick="event.stopPropagation()">Inquire to Acquire</a>
+          <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">${stTxt(m.status)}</span>
+        </div>
+      </div>`;
+    }
+    const sb=document.querySelector('.featured-sidebar');
+    if(sb){
+      const rest=fw.slice(1,4).filter(w=>w.imageUrl);
+      if(!rest.length){sb.style.display='none';}
+      else{
+        sb.style.display='';
+        sb.innerHTML=rest.map(w=>`<div class="sidebar-item" onclick="location.href='gallery/'">
+        <div style="width:100%;height:100%;background:#160B26 url('${cap(w.imageUrl)}') center/contain no-repeat;"></div>
+        <div class="sidebar-overlay">
+          <div class="sidebar-name">${w.title||''}</div>
+          <div class="sidebar-meta">${[tag(w),w.year,stTxt(w.status)].filter(Boolean).join(' · ')}</div>
+        </div>
+      </div>`).join('');
+      }
+    }
   }catch(e){}
 })();
 </script>
