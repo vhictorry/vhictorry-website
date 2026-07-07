@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vhictorry — Links</title>
+<meta name="description" content="Victory Adewojo — artist, community builder, operations specialist. All my links in one place.">
+<meta property="og:title" content="vhictorry — Links">
+<meta property="og:description" content="Artist · Community Builder · Web3 Operations. All my links in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FDFCFF; --offwhite:#F6F3FC;
+  --purple:#6B2FA0; --purple-mid:#8B4DBF; --purple-light:#B07DD9;
+  --purple-pale:#EDE4F8; --purple-xpale:#F7F2FD;
+  --ink:#1A0E2E; --ink-mid:#3D2B5C; --muted:#7A6B94;
+  --border:rgba(107,47,160,0.15); --border-strong:rgba(107,47,160,0.35);
+  --gold:#C9A84C;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Cormorant Garamond',serif;
+  background:var(--offwhite);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  padding:48px 20px 64px;
+  position:relative;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;top:-200px;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(107,47,160,0.08),transparent 70%);
+  pointer-events:none;
+}
+.wrap{width:100%;max-width:430px;position:relative;z-index:1;}
+
+/* HEADER */
+.avatar{
+  width:96px;height:96px;border-radius:50%;margin:0 auto 20px;
+  background:linear-gradient(135deg,var(--ink),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:700;
+  font-size:38px;color:var(--purple-light);
+  border:2px solid var(--border-strong);
+  box-shadow:0 10px 30px rgba(107,47,160,0.18);
+}
+/* To use a photo instead: replace the letter below with <img src="YOUR-PHOTO.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"> */
+.logo{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:700;
+  font-size:30px;text-align:center;color:var(--ink);letter-spacing:1px;
+}
+.tagline{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--purple);text-align:center;
+  margin:10px 0 6px;
+}
+.bio{
+  font-size:17px;line-height:1.6;color:var(--muted);text-align:center;
+  font-weight:300;margin-bottom:32px;
+}
+
+/* SECTION LABELS */
+.section-label{
+  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--purple-light);
+  text-align:center;margin:28px 0 12px;
+  display:flex;align-items:center;gap:12px;
+}
+.section-label::before,.section-label::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+
+/* LINK CARDS */
+.link-card{
+  display:flex;align-items:center;gap:14px;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:4px;
+  padding:16px 20px;
+  margin-bottom:12px;
+  text-decoration:none;
+  transition:transform .18s,box-shadow .18s,border-color .18s;
+}
+.link-card:hover{
+  transform:translateY(-2px);
+  border-color:var(--border-strong);
+  box-shadow:0 10px 26px rgba(107,47,160,0.12);
+}
+.link-icon{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:var(--purple-xpale);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--purple);
+}
+.link-text{flex:1;}
+.link-title{
+  font-family:'Playfair Display',serif;font-size:16px;font-weight:600;
+  color:var(--ink);
+}
+.link-sub{
+  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-top:3px;
+}
+.link-arrow{
+  font-family:'DM Mono',monospace;font-size:12px;color:var(--purple);
+  opacity:.6;
+}
+.link-card.featured{
+  background:linear-gradient(135deg,var(--ink),var(--ink-mid));
+  border-color:var(--border-strong);
+}
+.link-card.featured .link-title{color:var(--white);}
+.link-card.featured .link-sub{color:var(--purple-light);}
+.link-card.featured .link-icon{background:rgba(176,125,217,0.15);color:var(--purple-light);}
+.link-card.featured .link-arrow{color:var(--gold);opacity:1;}
+
+/* FOOTER */
+.foot{
+  margin-top:36px;text-align:center;
+  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);opacity:.7;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="avatar">V</div>
+  <div class="logo">vhictorry</div>
+  <div class="tagline">Artist · Community Builder · Web3 Operations</div>
+  <p class="bio">Building things that hold — on canvas and on-chain. Lagos, Nigeria.</p>
+
+  <div class="section-label">Explore</div>
+  <a class="link-card featured" href="https://vhictorrysite.netlify.app">
+    <div class="link-icon">✦</div>
+    <div class="link-text">
+      <div class="link-title">Main Website</div>
+      <div class="link-sub">Portfolio · Services · Contact</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+  <a class="link-card featured" href="https://vhictorry-art.netlify.app">
+    <div class="link-icon">🎨</div>
+    <div class="link-text">
+      <div class="link-title">The Art</div>
+      <div class="link-sub">Paintings · Statement · Process</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+  <a class="link-card" href="https://vhictorry-art.netlify.app/gallery/">
+    <div class="link-icon">🖼</div>
+    <div class="link-text">
+      <div class="link-title">Full Gallery</div>
+      <div class="link-sub">Every available work</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+  <a class="link-card" href="https://vhictorry-art.netlify.app/#commissions">
+    <div class="link-icon">🖌</div>
+    <div class="link-text">
+      <div class="link-title">Acquire a Piece</div>
+      <div class="link-sub">Commissions · Originals · NFT editions</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <div class="section-label">Writing</div>
+  <a class="link-card" href="https://substack.com/@vhictorry">
+    <div class="link-icon">✍</div>
+    <div class="link-text">
+      <div class="link-title">Substack</div>
+      <div class="link-sub">Essays on community &amp; Web3</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <div class="section-label">Social</div>
+  <a class="link-card" href="https://www.instagram.com/vhictorry">
+    <div class="link-icon">◎</div>
+    <div class="link-text"><div class="link-title">Instagram</div></div>
+    <div class="link-arrow">→</div>
+  </a>
+  <a class="link-card" href="https://x.com/vhictorry">
+    <div class="link-icon">𝕏</div>
+    <div class="link-text"><div class="link-title">X / Twitter</div></div>
+    <div class="link-arrow">→</div>
+  </a>
+  <a class="link-card" href="https://www.tiktok.com/@vhictorry">
+    <div class="link-icon">♪</div>
+    <div class="link-text"><div class="link-title">TikTok</div></div>
+    <div class="link-arrow">→</div>
+  </a>
+  <a class="link-card" href="https://youtube.com/@vhictorry">
+    <div class="link-icon">▶</div>
+    <div class="link-text"><div class="link-title">YouTube</div></div>
+    <div class="link-arrow">→</div>
+  </a>
+  <a class="link-card" href="https://www.linkedin.com/in/victory-adewojo-03a16b16a/">
+    <div class="link-icon">in</div>
+    <div class="link-text"><div class="link-title">LinkedIn</div></div>
+    <div class="link-arrow">→</div>
+  </a>
+  <a class="link-card" href="https://t.me/vhictorry">
+    <div class="link-icon">✈</div>
+    <div class="link-text"><div class="link-title">Telegram</div></div>
+    <div class="link-arrow">→</div>
+  </a>
+  <a class="link-card" href="https://discord.com/users/742322545730256976">
+    <div class="link-icon">◇</div>
+    <div class="link-text"><div class="link-title">Discord</div></div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <div class="foot">© 2026 Victory Adewojo</div>
+
+</div>
+</body>
+</html>
