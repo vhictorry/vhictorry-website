@@ -143,7 +143,7 @@ body::before{
 .art-embed{
   display:block;border:1.5px solid var(--border);border-radius:4px;
   overflow:hidden;background:var(--white);text-decoration:none;
-  margin:26px 0 6px;
+  margin:2px 0 12px;
   transition:transform .18s,box-shadow .18s,border-color .18s;
 }
 .art-embed:hover{
@@ -209,6 +209,7 @@ body::before{
     </a>
   </div>
 
+  <div class="section-label">The Art</div>
   <!-- FEATURED ART EMBED — image loads automatically from Sanity (your #1 ordered artwork) -->
   <a class="art-embed" href="https://vhictorry-art.netlify.app">
     <div class="art-embed-img" id="artEmbedImg">♟</div>
@@ -218,15 +219,6 @@ body::before{
     </div>
   </a>
 
-  <div class="section-label">Explore</div>
-  <a class="link-card featured" href="https://vhictorrysite.netlify.app">
-    <div class="link-icon">✦</div>
-    <div class="link-text">
-      <div class="link-title">Main Website</div>
-      <div class="link-sub">Portfolio · Services · Contact</div>
-    </div>
-    <div class="link-arrow">→</div>
-  </a>
   <a class="link-card" href="https://vhictorry-art.netlify.app/gallery/">
     <div class="link-icon">🖼</div>
     <div class="link-text">
@@ -244,11 +236,28 @@ body::before{
     <div class="link-arrow">→</div>
   </a>
 
-  <div class="section-label">Writing</div>
   <a class="link-card" href="https://substack.com/@vhictorry">
     <div class="link-icon">✍</div>
     <div class="link-text">
-      <div class="link-title">Substack</div>
+      <div class="link-title">Newsletter</div>
+      <div class="link-sub">Essays from the studio</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <div class="section-label">The Tech</div>
+  <!-- WORK PORTFOLIO EMBED — placeholder gradient; to use a photo, replace the ✦ below with <img src="YOUR-PHOTO.jpg" style="width:100%;height:100%;object-fit:cover;"> -->
+  <a class="art-embed" href="https://vhictorrysite.netlify.app">
+    <div class="art-embed-img" style="background:linear-gradient(135deg,var(--ink),var(--ink-mid));color:var(--gold);">✦</div>
+    <div class="art-embed-cap">
+      <div class="art-embed-title">Work Portfolio</div>
+      <div class="art-embed-sub">Community · Operations · Strategy</div>
+    </div>
+  </a>
+  <a class="link-card" href="https://substack.com/@vhictorry">
+    <div class="link-icon">✍</div>
+    <div class="link-text">
+      <div class="link-title">Newsletter</div>
       <div class="link-sub">Essays on community &amp; Web3</div>
     </div>
     <div class="link-arrow">→</div>
