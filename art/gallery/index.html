@@ -86,6 +86,7 @@
     .card-badge.soon { background:rgba(26,14,46,0.55); color:rgba(253,252,255,0.55); }
     .card-overlay { position:absolute; inset:0; z-index:3; background:linear-gradient(to top, rgba(26,14,46,0.92) 0%, rgba(26,14,46,0.3) 55%, transparent 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:28px 24px; opacity:0; transition:opacity .35s; }
     .gallery-card:hover .card-overlay { opacity:1; }
+    .card-overlay-series { font-family:'DM Mono',monospace; font-size:7px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
     .card-overlay-title { font-family:'Playfair Display',serif; font-size:21px; font-weight:700; font-style:italic; color:var(--white); line-height:1.2; margin-bottom:6px; }
     .card-overlay-meta { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:rgba(253,252,255,0.55); margin-bottom:14px; }
     .card-overlay-cta { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--purple-light); }
@@ -259,7 +260,7 @@ function openLightbox(card){
   lbBadge.className='lightbox-badge'+(av!=='available'?' soon':'');
   lbTitle.textContent=card.dataset.title||'';
   const sz=(card.dataset.size&&card.dataset.size!=='—')?' · '+card.dataset.size:'';
-  lbMeta.textContent=[card.dataset.medium,card.dataset.year].filter(Boolean).join(' · ')+sz;
+  lbMeta.textContent=[card.dataset.series?card.dataset.series+' Series':'',card.dataset.medium,card.dataset.year].filter(Boolean).join(' · ')+sz;
   lbDesc.textContent=card.dataset.desc||'';
   const buy=card.dataset.buy;
   const lbBuy=document.getElementById('lightboxBuy');
@@ -286,11 +287,16 @@ function applyFilter(){
   document.querySelectorAll('.gallery-card').forEach(c=>{
     if(f==='all'){c.classList.remove('hidden');}
     else if(f==='available'){c.classList.toggle('hidden',c.dataset.avail!=='available');}
+    else if(f.startsWith('s:')){c.classList.toggle('hidden',c.dataset.series!==f.slice(2));}
     else{c.classList.toggle('hidden',!(c.dataset.cat||'').split(' ').includes(f));}
   });
   updateCount();
 }
-pills.forEach(p=>p.addEventListener('click',()=>{pills.forEach(x=>x.classList.remove('active'));p.classList.add('active');applyFilter();}));
+document.querySelector('.filter-pills').addEventListener('click',e=>{
+  const p=e.target.closest('.filter-pill');if(!p)return;
+  document.querySelectorAll('.filter-pill').forEach(x=>x.classList.remove('active'));
+  p.classList.add('active');applyFilter();
+});
 
 /* SANITY */
 const PROJ='3ihweswz', DS='production';
@@ -313,10 +319,12 @@ function cardHTML(aw){
   const media=aw.imageUrl
     ?`<img class="card-img" src="${imgSrc(aw.imageUrl,1200)}" alt="${title}" loading="lazy">`
     :`<div class="card-img" style="height:280px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
-  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-img="${aw.imageUrl||''}" data-buy="${aw.buyUrl||''}" data-title="${title}" data-medium="${(aw.medium||'').replace(/"/g,'&quot;')}" data-year="${aw.year||''}" data-size="${dims}" data-desc="${desc}">
+  const series=(aw.series||'').replace(/"/g,'&quot;');
+  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-img="${aw.imageUrl||''}" data-buy="${aw.buyUrl||''}" data-series="${series}" data-title="${title}" data-medium="${(aw.medium||'').replace(/"/g,'&quot;')}" data-year="${aw.year||''}" data-size="${dims}" data-desc="${desc}">
   ${media}
   <div class="card-badge ${bClass}">${bText}</div>
   <div class="card-overlay">
+    ${aw.series?`<div class="card-overlay-series">◆ ${aw.series}</div>`:''}
     <div class="card-overlay-title">${aw.title||'Untitled'}</div>
     <div class="card-overlay-meta">${meta}</div>
     <span class="card-overlay-cta">View Work →</span>
@@ -328,13 +336,21 @@ async function loadGallery(){
   const grid=document.getElementById('galleryGrid');
   const msg=document.getElementById('galleryMsg');
   try{
-    const works=await sanity(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,description,buyUrl}`);
+    const works=await sanity(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,description,buyUrl,"series":series->title}`);
     if(!works.length){
       msg.innerHTML='No artworks yet — <a href="https://vhictorry.sanity.studio" target="_blank" style="color:var(--purple);">add your first piece in Sanity Studio.</a>';
       return;
     }
     if(msg)msg.remove();
     grid.insertAdjacentHTML('beforeend',works.map(cardHTML).join(''));
+    /* Series filter pills — appear automatically once artworks are assigned to a series */
+    const seriesNames=[...new Set(works.map(w=>w.series).filter(Boolean))];
+    const fp=document.querySelector('.filter-pills');
+    seriesNames.forEach(n=>{
+      const b=document.createElement('button');
+      b.className='filter-pill';b.dataset.filter='s:'+n;b.textContent='◆ '+n;
+      fp.appendChild(b);
+    });
     document.querySelectorAll('.gallery-card').forEach(c=>{obs.observe(c);addHover(c);c.addEventListener('click',()=>openLightbox(c));});
     const total=works.length;
     const avail=works.filter(w=>w.status==='available').length;

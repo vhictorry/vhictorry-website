@@ -1807,7 +1807,7 @@ function masonryCard(aw,h){
   <div class="art-badge ${bClass}">${bText}</div>
   ${media}
   <div class="art-overlay">
-    <div class="art-series">${cat.split(' ')[0]||''} · ${aw.year||''}</div>
+    <div class="art-series">${aw.series||cat.split(' ')[0]||''} · ${aw.year||''}</div>
     <div class="art-name">${aw.title||'Untitled'}</div>
     <div class="art-details">
       <div class="art-medium">${aw.medium||''}${aw.dimensions?' · '+aw.dimensions:''}</div>
@@ -1821,7 +1821,7 @@ const heights=[520,380,300,450,340,420,360,480,320];
   const grid=document.getElementById('galleryGrid');
   if(!grid)return;
   try{
-    const works=await sanityFetch(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions}`);
+    const works=await sanityFetch(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,"series":series->title}`);
     if(!works.length)return;
     grid.innerHTML=works.map((w,i)=>masonryCard(w,heights[i%heights.length])).join('');
     const af=document.querySelector('.filter-btn.active');
