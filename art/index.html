@@ -461,6 +461,14 @@ nav {
   text-transform:uppercase; color:var(--purple-light); text-align:center;
 }
 
+/* ── PORTFOLIO EMBED ── */
+.portfolio-embed {
+  position:relative; width:100%; padding-top:56.25%;
+  border:1.5px solid var(--border); border-radius:4px;
+  overflow:hidden; background:var(--ink);
+}
+.portfolio-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
 /* ── PROCESS ── */
 .process-section {
   padding:100px 56px;
@@ -1355,41 +1363,19 @@ footer {
 </section>
 
 <!-- PROCESS -->
-<section class="process-section">
+<!-- Appears once a Canva link is added in "Art Page — Hero Section" in Sanity Studio -->
+<section class="process-section" id="portfolioSection" style="display:none;">
   <div class="process-header fade-up">
     <div>
-      <div class="section-label">The Practice</div>
-      <h2 class="section-heading">How a painting<br><em>comes alive</em></h2>
+      <div class="section-label">The Portfolio</div>
+      <h2 class="section-heading" id="portfolioHeading">Flip through<br><em>the full body of work</em></h2>
     </div>
-    <p class="process-header-right">
-      There's no rush between the question and the canvas. Sometimes months pass before a single brushstroke is made. The thinking is the work.
+    <p class="process-header-right" id="portfolioNote">
+      A curated presentation of works and series — it plays on its own. Sit back.
     </p>
   </div>
-  <div class="process-steps">
-    <div class="process-step fade-up">
-      <div class="step-num">01</div>
-      <div class="step-icon">🪞</div>
-      <div class="step-title">The Question</div>
-      <p class="step-desc">Every painting begins with an unresolved thought — something observed in a community, a relationship, or a game of chess that I can't stop thinking about.</p>
-    </div>
-    <div class="process-step fade-up">
-      <div class="step-num">02</div>
-      <div class="step-icon">✏️</div>
-      <div class="step-title">Composition</div>
-      <p class="step-desc">Sketching the visual metaphor. Which symbols carry the weight of the idea? How do they speak to each other when placed in the same space?</p>
-    </div>
-    <div class="process-step fade-up">
-      <div class="step-num">03</div>
-      <div class="step-icon">🎨</div>
-      <div class="step-title">The Canvas</div>
-      <p class="step-desc">Oil paint, slow and demanding. The medium forces patience — it resists revision, insists on intention. Layer by layer, the idea earns its form.</p>
-    </div>
-    <div class="process-step fade-up">
-      <div class="step-num">04</div>
-      <div class="step-icon">◇</div>
-      <div class="step-title">Release</div>
-      <p class="step-desc">The painting becomes a question sent into the world. What it means to a collector, to a viewer, is its own answer. Mine was just the beginning.</p>
-    </div>
+  <div class="portfolio-embed fade-up">
+    <iframe id="portfolioFrame" src="" loading="lazy" allowfullscreen allow="fullscreen"></iframe>
   </div>
 </section>
 
@@ -1955,7 +1941,7 @@ function interviewCard(iv){
 /* Page hero — editable via the "Art Page — Hero Section" document in Sanity Studio */
 (async()=>{
   try{
-    const h=await sanityFetch(`*[_type=="artHero"][0]{eyebrow,headingPlain,headingAccent,intro,stats,caption,marqueeItems,"frames":frameImages[].asset->url}`);
+    const h=await sanityFetch(`*[_type=="artHero"][0]{eyebrow,headingPlain,headingAccent,intro,stats,caption,marqueeItems,portfolioUrl,portfolioHeadingPlain,portfolioHeadingAccent,portfolioNote,"frames":frameImages[].asset->url}`);
     if(!h)return;
     const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
     if(h.eyebrow)document.querySelector('.hero-eyebrow').textContent=h.eyebrow;
@@ -1982,6 +1968,18 @@ function interviewCard(iv){
       if(mi){
         const span=h.marqueeItems.map(t=>`<span class="marquee-item">${esc(t)}</span>`).join('');
         mi.innerHTML=span+span;
+      }
+    }
+    /* Canva portfolio embed — section only appears when a link is set */
+    if(h.portfolioUrl){
+      const sec=document.getElementById('portfolioSection');
+      if(sec){
+        let u=h.portfolioUrl;
+        try{const x=new URL(u);if(!x.searchParams.has('embed'))x.searchParams.set('embed','');u=x.toString();}catch(err){}
+        document.getElementById('portfolioFrame').src=u;
+        if(h.portfolioHeadingPlain)document.getElementById('portfolioHeading').innerHTML=esc(h.portfolioHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(h.portfolioHeadingAccent?` <em>${esc(h.portfolioHeadingAccent)}</em>`:'');
+        if(h.portfolioNote)document.getElementById('portfolioNote').textContent=h.portfolioNote;
+        sec.style.display='';
       }
     }
   }catch(e){}
