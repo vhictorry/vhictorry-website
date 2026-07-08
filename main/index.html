@@ -153,6 +153,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .logos-track{display:flex;gap:48px;align-items:center;animation:logos-scroll 30s linear infinite;width:max-content;}
 .logo-item{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);opacity:.6;white-space:nowrap;transition:opacity .2s;}
 .logo-item:hover{opacity:1;color:var(--purple);}
+.logo-img{height:44px;width:auto;max-width:150px;object-fit:contain;opacity:.85;transition:opacity .2s,transform .2s;flex-shrink:0;}
+.logo-img:hover{opacity:1;transform:scale(1.08);}
 @keyframes logos-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* TESTIMONIALS */
@@ -166,7 +168,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .t-quote{font-size:15.5px;line-height:1.85;color:var(--ink-mid);font-style:italic;font-weight:300;margin-bottom:24px;padding-top:20px;position:relative;}
 .t-quote::before{content:'"';position:absolute;top:0;left:0;font-family:'Playfair Display',serif;font-size:28px;color:var(--purple-light);line-height:1;font-style:normal;}
 .t-author{display:flex;align-items:center;gap:12px;}
-.t-avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;background:var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--white);}
+.t-avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;background:var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--white);overflow:hidden;}
+.t-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
 .t-name{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--ink);text-transform:uppercase;}
 .t-role{font-size:13px;color:var(--muted);font-style:italic;margin-top:2px;}
 
@@ -774,7 +777,7 @@ function toggleEvents(){
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
   const img=(u,w)=>u.toLowerCase().endsWith('.gif')?u:u+`?w=${w}&fit=max&auto=format`;
   try{
-    const hp=await q(`*[_type=="homePage"][0]{...,"heroPhotoUrl":heroPhoto.asset->url,"aboutMainUrl":aboutPhotoMain.asset->url,"aboutAccentUrl":aboutPhotoAccent.asset->url,"resumeUrl":resume.asset->url}`);
+    const hp=await q(`*[_type=="homePage"][0]{...,"heroPhotoUrl":heroPhoto.asset->url,"aboutMainUrl":aboutPhotoMain.asset->url,"aboutAccentUrl":aboutPhotoAccent.asset->url,"resumeUrl":resume.asset->url,"projectLogos":projectLogos[]{name,"url":logo.asset->url}}`);
     if(hp){
       if(hp.eyebrow)document.querySelector('.hero-eyebrow').textContent=hp.eyebrow;
       if(hp.shortBio)document.querySelector('.hero-short-bio').innerHTML=esc(hp.shortBio).replace(/\s*\/\s*/g,'<br>');
@@ -807,9 +810,16 @@ function toggleEvents(){
       }
       if(hp.web3Text)document.querySelector('.web3-text p').textContent=hp.web3Text;
       if(Array.isArray(hp.chainTags)&&hp.chainTags.length)document.querySelector('.chain-tags').innerHTML=hp.chainTags.map(t=>`<span class="chain-tag">${esc(t)}</span>`).join('');
-      if(Array.isArray(hp.projectNames)&&hp.projectNames.length){
+      /* Projects row — logos take priority over text names; blank entries are ignored */
+      const plogos=(hp.projectLogos||[]).filter(p=>p&&p.url);
+      const pnames=(hp.projectNames||[]).filter(t=>t&&t.trim());
+      if(plogos.length){
         const lt=document.querySelector('.logos-track');
-        const s=hp.projectNames.map(t=>`<span class="logo-item">${esc(t)}</span>`).join('');
+        const s=plogos.map(p=>`<img class="logo-img" src="${img(p.url,300)}" alt="${esc(p.name||'Project logo')}" title="${esc(p.name||'')}" loading="lazy">`).join('');
+        lt.innerHTML=s+s;
+      }else if(pnames.length){
+        const lt=document.querySelector('.logos-track');
+        const s=pnames.map(t=>`<span class="logo-item">${esc(t)}</span>`).join('');
         lt.innerHTML=s+s;
       }
       if(hp.contactIntro)document.querySelector('#contact .contact-left p').textContent=hp.contactIntro;
@@ -853,11 +863,11 @@ function toggleEvents(){
       if(arts[i])el.outerHTML=`<img src="${img(arts[i].u,700)}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Artwork">`;
     });
     /* Testimonials */
-    const ts=await q(`*[_type=="testimonial"]|order(order asc){quote,name,role,featured}`)||[];
+    const ts=await q(`*[_type=="testimonial"]|order(order asc){quote,name,role,featured,"photoUrl":photo.asset->url}`)||[];
     if(ts.length){
       document.querySelector('.t-grid').innerHTML=ts.map(t=>`<div class="t-card${t.featured?' featured':''} fade-up">
         <p class="t-quote">${esc(t.quote||'')}</p>
-        <div class="t-author"><div class="t-avatar">${esc((t.name||'?').charAt(0))}</div><div><div class="t-name">${esc(t.name||'')}</div><div class="t-role">${esc(t.role||'')}</div></div></div>
+        <div class="t-author"><div class="t-avatar">${t.photoUrl?`<img src="${img(t.photoUrl,200)}" alt="${esc(t.name||'')}">`:esc((t.name||'?').charAt(0))}</div><div><div class="t-name">${esc(t.name||'')}</div><div class="t-role">${esc(t.role||'')}</div></div></div>
       </div>`).join('');
       document.querySelectorAll('.t-grid .fade-up').forEach(el=>obs.observe(el));
     }
