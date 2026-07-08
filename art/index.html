@@ -1994,7 +1994,7 @@ function interviewCard(iv){
     if(mainEl&&m.imageUrl){
       mainEl.onclick=()=>location.href='gallery/';
       const d=m.description||'';
-      mainEl.innerHTML=`<div style="width:100%;height:100%;background:#160B26 url('${cap(m.imageUrl)}') center/contain no-repeat;"></div>
+      mainEl.innerHTML=`<div style="width:100%;height:100%;background:#160B26 url('${cap(m.imageUrl)}') center/cover no-repeat;"></div>
       <div class="featured-main-overlay">
         <div class="featured-main-sub">${[tag(m),m.medium,m.year].filter(Boolean).join(' · ')}</div>
         <div class="featured-main-title">${m.title||''}</div>
@@ -2012,7 +2012,7 @@ function interviewCard(iv){
       else{
         sb.style.display='';
         sb.innerHTML=rest.map(w=>`<div class="sidebar-item" onclick="location.href='gallery/'">
-        <div style="width:100%;height:100%;background:#160B26 url('${cap(w.imageUrl)}') center/contain no-repeat;"></div>
+        <div style="width:100%;height:100%;background:#160B26 url('${cap(w.imageUrl)}') center/cover no-repeat;"></div>
         <div class="sidebar-overlay">
           <div class="sidebar-name">${w.title||''}</div>
           <div class="sidebar-meta">${[tag(w),w.year,stTxt(w.status)].filter(Boolean).join(' · ')}</div>
