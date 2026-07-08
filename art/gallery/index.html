@@ -136,6 +136,30 @@
       .gallery-grid { columns:1; }
     }
   </style>
+<!-- ═══ MOTION LAYER (added 2026-07-08) — self-contained; targets existing classes, no markup changes ═══ -->
+<style id="motion-layer">
+/* 00 · scroll progress bar */
+.mo-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,var(--purple),var(--purple-light) 60%,#C9A84C);pointer-events:none;}
+
+/* 02 · smoother easing on the existing reveal + gentle grid stagger */
+.fade-up{transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
+.gallery-grid .gallery-card:nth-of-type(2){transition-delay:.06s;}
+.gallery-grid .gallery-card:nth-of-type(3){transition-delay:.12s;}
+.gallery-grid .gallery-card:nth-of-type(4){transition-delay:.18s;}
+
+/* 07 · micro-interactions */
+.nav-cta{position:relative;overflow:hidden;}
+.nav-cta::after{content:'';position:absolute;top:0;left:-90%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .6s ease;pointer-events:none;}
+.nav-cta:hover::after{left:150%;}
+.filter-pill{transition:all .25s cubic-bezier(.2,.7,.2,1);}
+.filter-pill:hover{transform:translateY(-2px);}
+
+@media (prefers-reduced-motion: reduce){
+  .mo-progress{display:none;}
+  .fade-up{transition-duration:.01ms;}
+  .nav-cta::after{display:none;}
+}
+</style>
 </head>
 <body>
 
@@ -365,6 +389,40 @@ loadGallery();
 /* MOBILE NAV */
 const navToggle=document.getElementById('navToggle');
 if(navToggle)navToggle.addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+</script>
+<!-- ═══ MOTION LAYER · behaviour (added 2026-07-08) — page-agnostic; no-ops where a target is absent ═══ -->
+<script>
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 00 · scroll progress bar */
+  var bar=document.createElement('div');bar.className='mo-progress';document.body.appendChild(bar);
+  function setBar(){var h=document.documentElement,max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  addEventListener('scroll',setBar,{passive:true});addEventListener('resize',setBar);setBar();
+
+  /* 03 · count-up numbers (parses a leading number, keeps any suffix like "+") */
+  var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&e.target._moRun){e.target._moRun();cio.unobserve(e.target);}});},{threshold:.6});
+  function setupCount(el){
+    if(el.dataset.moCount)return;
+    var m=el.textContent.trim().match(/^(\d[\d,]*)([^\d].*)?$/);
+    if(!m)return;                       /* not numeric yet (e.g. the "—" placeholder) */
+    el.dataset.moCount='1';
+    var target=parseInt(m[1].replace(/,/g,''),10),suffix=m[2]||'';
+    el._moRun=function(){
+      if(reduce){el.textContent=target+suffix;return;}
+      var t0=performance.now(),dur=1300;
+      (function tick(t){var p=Math.min((t-t0)/dur,1);el.textContent=Math.round(target*(1-Math.pow(1-p,3)))+suffix;if(p<1)requestAnimationFrame(tick);})(t0);
+    };
+    cio.observe(el);
+  }
+  function scanCounts(){document.querySelectorAll('.stat-number,.hstat-num,.gallery-stat-num').forEach(setupCount);}
+  scanCounts();
+  /* re-scan when a stats block is filled asynchronously (Sanity) */
+  ['.about-stats','.hero-stats','.gallery-hero-stats'].forEach(function(sel){
+    var c=document.querySelector(sel);if(!c)return;
+    new MutationObserver(scanCounts).observe(c,{childList:true,subtree:true});
+  });
+})();
 </script>
 </body>
 </html>

@@ -1010,6 +1010,50 @@ footer {
   .blog-grid { grid-template-columns:1fr; }
 }
 </style>
+<!-- ═══ MOTION LAYER (added 2026-07-08) — self-contained; targets existing classes, no markup changes ═══ -->
+<style id="motion-layer">
+/* 00 · scroll progress bar */
+.mo-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,var(--purple),var(--purple-light) 60%,#C9A84C);pointer-events:none;}
+
+/* 02 · smoother easing on the existing reveal + gentle grid stagger */
+.fade-up{transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
+.expertise-grid .expertise-card:nth-of-type(2),.t-grid .t-card:nth-of-type(2),.events-grid .event-card:nth-of-type(2){transition-delay:.08s;}
+.expertise-grid .expertise-card:nth-of-type(3),.t-grid .t-card:nth-of-type(3),.events-grid .event-card:nth-of-type(3){transition-delay:.16s;}
+.expertise-grid .expertise-card:nth-of-type(4),.t-grid .t-card:nth-of-type(4){transition-delay:.24s;}
+.page-hero .hero-featured{transition-delay:.18s;}
+
+/* 01 · homepage hero entrance (no-op here; #home only exists on the homepage) */
+#home .hero-eyebrow,#home .hero-name,#home .hero-short-bio,#home .hero-desc,#home .hero-btns,#home .hero-social{opacity:0;animation:moRise .9s cubic-bezier(.2,.7,.2,1) forwards;}
+#home .hero-eyebrow{animation-delay:.15s;}
+#home .hero-name{animation-delay:.28s;}
+#home .hero-short-bio{animation-delay:.44s;}
+#home .hero-desc{animation-delay:.56s;}
+#home .hero-btns{animation-delay:.68s;}
+#home .hero-social{animation-delay:.80s;}
+#home .hero-photo-wrap{opacity:0;animation:moPhoto 1.1s cubic-bezier(.2,.7,.2,1) .4s forwards;}
+@keyframes moRise{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+@keyframes moPhoto{from{opacity:0;transform:translateY(30px) scale(.96);}to{opacity:1;transform:none;}}
+
+/* 07 · micro-interactions */
+.btn-primary,.nav-cta{position:relative;overflow:hidden;}
+.btn-primary::after,.nav-cta::after{content:'';position:absolute;top:0;left:-90%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .6s ease;pointer-events:none;}
+.btn-primary:hover::after,.nav-cta:hover::after{left:150%;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;height:1.5px;width:0;background:var(--purple);transition:width .35s cubic-bezier(.2,.7,.2,1);}
+.nav-links a:hover::after{width:100%;}
+.filter-btn{transition:all .25s cubic-bezier(.2,.7,.2,1);}
+.filter-btn:hover{transform:translateY(-2px);}
+.chain-tag{transition:background .2s,transform .2s,border-color .2s;}
+.chain-tag:hover{transform:translateY(-2px);border-color:var(--purple-light);}
+.art-teaser-visual .art-tile{transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s ease;}
+.art-teaser-visual .art-tile:hover{transform:translateY(-6px);box-shadow:0 22px 44px -18px rgba(107,47,160,.55);}
+
+@media (prefers-reduced-motion: reduce){
+  .mo-progress{display:none;}
+  #home .hero-eyebrow,#home .hero-name,#home .hero-short-bio,#home .hero-desc,#home .hero-btns,#home .hero-social,#home .hero-photo-wrap{opacity:1;animation:none;}
+  .fade-up{transition-duration:.01ms;}
+  .btn-primary::after,.nav-cta::after{display:none;}
+}
+</style>
 </head>
 <body>
 
@@ -1969,12 +2013,20 @@ function interviewCard(iv){
         mi.innerHTML=span+span;
       }
     }
-    /* Canva portfolio embed — section only appears when a link is set */
+    /* Canva portfolio embed — section only appears when a link is set.
+       Canva only allows framing from the CLEAN /design/ID/TOKEN/view?embed link;
+       the tracking params on "Present"/share links cause a "refused to connect" error,
+       so we strip the link back to its canonical embeddable form. */
     if(h.portfolioUrl){
       const sec=document.getElementById('portfolioSection');
       if(sec){
         let u=h.portfolioUrl;
-        try{const x=new URL(u);if(!x.searchParams.has('embed'))x.searchParams.set('embed','');u=x.toString();}catch(err){}
+        try{
+          const x=new URL(u);
+          const m=x.pathname.match(/\/design\/[^/]+\/[^/]+/);
+          if(m){u='https://www.canva.com'+m[0]+'/view?embed';}
+          else{if(!x.searchParams.has('embed'))x.searchParams.set('embed','');u=x.toString();}
+        }catch(err){}
         document.getElementById('portfolioFrame').src=u;
         if(h.portfolioHeadingPlain)document.getElementById('portfolioHeading').innerHTML=esc(h.portfolioHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(h.portfolioHeadingAccent?` <em>${esc(h.portfolioHeadingAccent)}</em>`:'');
         if(h.portfolioNote)document.getElementById('portfolioNote').textContent=h.portfolioNote;
@@ -2026,6 +2078,40 @@ function interviewCard(iv){
       }
     }
   }catch(e){}
+})();
+</script>
+<!-- ═══ MOTION LAYER · behaviour (added 2026-07-08) — page-agnostic; no-ops where a target is absent ═══ -->
+<script>
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 00 · scroll progress bar */
+  var bar=document.createElement('div');bar.className='mo-progress';document.body.appendChild(bar);
+  function setBar(){var h=document.documentElement,max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  addEventListener('scroll',setBar,{passive:true});addEventListener('resize',setBar);setBar();
+
+  /* 03 · count-up numbers (parses a leading number, keeps any suffix like "+") */
+  var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&e.target._moRun){e.target._moRun();cio.unobserve(e.target);}});},{threshold:.6});
+  function setupCount(el){
+    if(el.dataset.moCount)return;
+    var m=el.textContent.trim().match(/^(\d[\d,]*)([^\d].*)?$/);
+    if(!m)return;                       /* not numeric yet (e.g. the "—" placeholder) */
+    el.dataset.moCount='1';
+    var target=parseInt(m[1].replace(/,/g,''),10),suffix=m[2]||'';
+    el._moRun=function(){
+      if(reduce){el.textContent=target+suffix;return;}
+      var t0=performance.now(),dur=1300;
+      (function tick(t){var p=Math.min((t-t0)/dur,1);el.textContent=Math.round(target*(1-Math.pow(1-p,3)))+suffix;if(p<1)requestAnimationFrame(tick);})(t0);
+    };
+    cio.observe(el);
+  }
+  function scanCounts(){document.querySelectorAll('.stat-number,.hstat-num,.gallery-stat-num').forEach(setupCount);}
+  scanCounts();
+  /* re-scan when a stats block is filled asynchronously (Sanity) */
+  ['.about-stats','.hero-stats','.gallery-hero-stats'].forEach(function(sel){
+    var c=document.querySelector(sel);if(!c)return;
+    new MutationObserver(scanCounts).observe(c,{childList:true,subtree:true});
+  });
 })();
 </script>
 </body>
