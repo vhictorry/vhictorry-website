@@ -24,6 +24,7 @@
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
+html, body { overflow-x:hidden; }
 html { scroll-behavior:smooth; }
 body {
   background:var(--white);
@@ -985,6 +986,13 @@ footer {
   footer { flex-direction:column; gap:12px; text-align:center; padding:24px; }
 }
 @media (max-width:540px) {
+  .symbols-grid { grid-template-columns:repeat(2,1fr); }
+  .symbol-card { min-width:0; }
+  .symbol-name { text-align:center; }
+  .featured-main-overlay { padding:24px; }
+  .featured-main-title { font-size:26px; }
+  .featured-main-desc { display:none; }
+  .featured-main-sub { margin-bottom:12px; }
   .masonry-grid { columns:1; }
   .process-steps { grid-template-columns:1fr; }
   .process-step { border-right:none; border-bottom:1.5px solid var(--border); }
