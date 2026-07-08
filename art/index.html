@@ -1020,14 +1020,13 @@ footer {
 <nav>
   <a href="https://vhictorrysite.netlify.app/" class="nav-logo">vhictorry</a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="https://vhictorrysite.netlify.app/">Home</a></li>
-    <li><a href="https://vhictorrysite.netlify.app/#about">About</a></li>
     <li><a href="#" class="active">Art</a></li>
     <li><a href="gallery/">Gallery</a></li>
-    <li><a href="https://vhictorrysite.netlify.app/#expertise">Services</a></li>
-    <li><a href="https://vhictorrysite.netlify.app/#testimonials">Testimonials</a></li>
-    <li><a href="https://vhictorrysite.netlify.app/#events">Speaking</a></li>
-    <li><a href="https://vhictorrysite.netlify.app/#contact">Contact</a></li>
+    <li><a href="#portfolioSection">Portfolio</a></li>
+    <li><a href="#exhibitions">Exhibitions</a></li>
+    <li><a href="#press">Press</a></li>
+    <li><a href="#blog">From the Studio</a></li>
+    <li><a href="https://vhictorrysite.netlify.app/">Main Site &rarr;</a></li>
   </ul>
   <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -1421,7 +1420,7 @@ footer {
 </section>
 
 <!-- EXHIBITIONS -->
-<section class="exhibitions-section">
+<section class="exhibitions-section" id="exhibitions">
   <div class="exhibitions-header fade-up">
     <div>
       <div class="section-label">Exhibitions</div>
@@ -1460,7 +1459,7 @@ footer {
 </section>
 
 <!-- INTERVIEWS & PODCASTS -->
-<section class="interviews-section">
+<section class="interviews-section" id="press">
   <div class="interviews-header fade-up">
     <div>
       <div class="section-label">Conversations</div>
@@ -1668,15 +1667,14 @@ const obs = new IntersectionObserver(entries=>
 );
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
-/* FILTER */
+/* FILTER — cards are looked up at click time because Sanity replaces the grid after load */
 const filterBtns = document.querySelectorAll('.filter-btn');
-const cards = document.querySelectorAll('.art-card');
 filterBtns.forEach(btn=>{
   btn.addEventListener('click',()=>{
     filterBtns.forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     const f = btn.dataset.filter;
-    cards.forEach(card=>{
+    document.querySelectorAll('.art-card').forEach(card=>{
       if(f==='all' || card.dataset.category.includes(f)){
         card.style.display=''; card.style.opacity='1';
       } else {
@@ -1870,8 +1868,9 @@ const heights=[520,380,300,450,340,420,360,480,320];
 /* Blog posts */
 function blogCard(p){
   const em=p.emoji||'✍️';
+  const cu=p.coverUrl?(p.coverUrl.toLowerCase().endsWith('.gif')?p.coverUrl:p.coverUrl+'?w=800&fit=max&auto=format'):null;
   return `<div class="blog-card fade-up">
-  <div class="blog-card-img"><div class="blog-card-img-inner" style="height:180px;background:linear-gradient(135deg,#1A0E2E,#6B2FA0);display:flex;align-items:center;justify-content:center;font-size:64px;">${em}</div></div>
+  <div class="blog-card-img"><div class="blog-card-img-inner" style="height:180px;background:${cu?`url('${cu}') center/cover no-repeat`:'linear-gradient(135deg,#1A0E2E,#6B2FA0)'};display:flex;align-items:center;justify-content:center;font-size:64px;">${cu?'':em}</div></div>
   <div class="blog-card-body">
     <div class="blog-tag">${p.tag||''}</div>
     <div class="blog-title">${p.title||''}</div>
@@ -1884,7 +1883,7 @@ function blogCard(p){
   const g=document.getElementById('blogGrid');
   if(!g)return;
   try{
-    const posts=await sanityFetch(`*[_type=="blogPost"]|order(order asc){_id,title,tag,description,url,emoji}`);
+    const posts=await sanityFetch(`*[_type=="blogPost"]|order(order asc){_id,title,tag,description,url,emoji,"coverUrl":coverImage.asset->url}`);
     if(!posts.length)return;
     g.innerHTML=posts.map(blogCard).join('');
     g.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));

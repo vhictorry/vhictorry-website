@@ -297,10 +297,10 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
   <ul class="nav-links" id="navLinks">
     <li><a href="#home">Home</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="https://vhictorry-art.netlify.app">Art</a></li>
     <li><a href="#expertise">Services</a></li>
     <li><a href="#testimonials">Testimonials</a></li>
     <li><a href="#events">Speaking</a></li>
+    <li><a href="https://vhictorry-art.netlify.app">Art</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
@@ -389,27 +389,6 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
       <div><div class="stat-number">50+</div><div class="stat-label">Projects Done</div></div>
       <div><div class="stat-number">30+</div><div class="stat-label">Happy Clients</div></div>
       <div><div class="stat-number">5+</div><div class="stat-label">Years Active</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ART TEASER -->
-<section id="art-teaser">
-  <div class="art-teaser-text fade-up">
-    <div class="section-label">Fine Art</div>
-    <h2>Stories told through <em>brushstrokes</em></h2>
-    <p>Victory&rsquo;s art lives both on canvas and on-chain — paintings that explore identity, transformation, freedom, and constraint. Original works available physically and as on-chain editions for collectors in the Web3 space.</p>
-    <a href="https://vhictorry-art.netlify.app" class="btn-ghost" style="color:var(--purple-light);border-color:rgba(176,125,217,0.4);">View the Art &rarr;</a>
-  </div>
-  <div class="art-teaser-visual fade-up">
-    <div class="art-tile" style="height:300px;">
-      <div class="art-tile-placeholder" style="width:100%;height:100%;background:linear-gradient(135deg,#1A0E2E,#6B2FA0);font-size:80px;">&#9823;</div>
-    </div>
-    <div class="art-tile" style="height:140px;">
-      <div class="art-tile-placeholder" style="width:100%;height:100%;background:linear-gradient(180deg,#3D2B5C,#B07DD9);font-size:56px;">&#9760;</div>
-    </div>
-    <div class="art-tile" style="height:140px;">
-      <div class="art-tile-placeholder" style="width:100%;height:100%;background:linear-gradient(225deg,#6B2FA0,#C9A84C);font-size:56px;">&#129419;</div>
     </div>
   </div>
 </section>
@@ -646,6 +625,27 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
 </section>
 
 <!-- BLOG -->
+<!-- ART TEASER -->
+<section id="art-teaser">
+  <div class="art-teaser-text fade-up">
+    <div class="section-label">Fine Art</div>
+    <h2>Stories told through <em>brushstrokes</em></h2>
+    <p>Victory&rsquo;s art lives both on canvas and on-chain — paintings that explore identity, transformation, freedom, and constraint. Original works available physically and as on-chain editions for collectors in the Web3 space.</p>
+    <a href="https://vhictorry-art.netlify.app" class="btn-ghost" style="color:var(--purple-light);border-color:rgba(176,125,217,0.4);">View the Art &rarr;</a>
+  </div>
+  <div class="art-teaser-visual fade-up">
+    <div class="art-tile" style="height:300px;">
+      <div class="art-tile-placeholder" style="width:100%;height:100%;background:linear-gradient(135deg,#1A0E2E,#6B2FA0);font-size:80px;">&#9823;</div>
+    </div>
+    <div class="art-tile" style="height:140px;">
+      <div class="art-tile-placeholder" style="width:100%;height:100%;background:linear-gradient(180deg,#3D2B5C,#B07DD9);font-size:56px;">&#9760;</div>
+    </div>
+    <div class="art-tile" style="height:140px;">
+      <div class="art-tile-placeholder" style="width:100%;height:100%;background:linear-gradient(225deg,#6B2FA0,#C9A84C);font-size:56px;">&#129419;</div>
+    </div>
+  </div>
+</section>
+
 <section id="blog">
   <div class="blog-header fade-up">
     <div>
@@ -904,13 +904,14 @@ function toggleEvents(){
     const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=${encodeURIComponent(q)}`);
     return(await r.json()).result||[];
   }
-  const posts=await sanity(`*[_type=="blogPost"]|order(order asc){title,tag,description,url,emoji}`);
+  const posts=await sanity(`*[_type=="blogPost"]|order(order asc){title,tag,description,url,emoji,"coverUrl":coverImage.asset->url}`);
   if(!posts.length)return;
   const grads=['linear-gradient(135deg,#1A0E2E,#6B2FA0)','linear-gradient(135deg,#3D2B5C,#B07DD9)','linear-gradient(135deg,#6B2FA0,#C9A84C)'];
+  const cimg=u=>u.toLowerCase().endsWith('.gif')?u:u+'?w=800&fit=max&auto=format';
   const grid=document.getElementById('blogGrid');
   grid.innerHTML=posts.map((p,i)=>`
     <div class="blog-card">
-      <div class="blog-card-thumb" style="background:${grads[i%grads.length]};">${p.emoji||'✍️'}</div>
+      <div class="blog-card-thumb" style="background:${p.coverUrl?`url('${cimg(p.coverUrl)}') center/cover no-repeat`:grads[i%grads.length]};">${p.coverUrl?'':(p.emoji||'✍️')}</div>
       <div class="blog-card-body">
         <div class="blog-card-tag">${p.tag||'Post'}</div>
         <div class="blog-card-title">${p.title}</div>
