@@ -1005,6 +1005,13 @@ function toggleEvents(){
     var c=document.querySelector(sel);if(!c)return;
     new MutationObserver(scanCounts).observe(c,{childList:true,subtree:true});
   });
+
+  /* safety net · guarantee the hero is visible even if the entrance animation is ever skipped */
+  setTimeout(function(){
+    document.querySelectorAll('#home .hero-eyebrow,#home .hero-name,#home .hero-short-bio,#home .hero-desc,#home .hero-btns,#home .hero-social,#home .hero-photo-wrap').forEach(function(el){
+      if(getComputedStyle(el).opacity==='0'){el.style.opacity='1';el.style.transform='none';}
+    });
+  },2500);
 })();
 </script>
 </body>

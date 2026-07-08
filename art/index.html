@@ -469,6 +469,37 @@ nav {
 }
 .portfolio-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
 
+/* ── PORTFOLIO SLIDESHOW (auto-flipping) ── */
+.portfolio-slideshow {
+  position:relative; width:100%; padding-top:62.5%;
+  border:1.5px solid var(--border); border-radius:4px;
+  overflow:hidden; background:var(--ink);
+}
+.ps-track { position:absolute; inset:0; }
+.ps-slide { position:absolute; inset:0; opacity:0; transition:opacity .9s ease; display:flex; align-items:center; justify-content:center; }
+.ps-slide.active { opacity:1; }
+.ps-slide img { width:100%; height:100%; object-fit:contain; display:block; }
+.ps-arrow {
+  position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+  width:46px; height:46px; border-radius:50%;
+  background:rgba(253,252,255,0.12); backdrop-filter:blur(6px);
+  border:1px solid rgba(253,252,255,0.28); color:var(--white);
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; line-height:1; cursor:none;
+  opacity:0; transition:opacity .3s, background .2s;
+}
+.portfolio-slideshow:hover .ps-arrow { opacity:1; }
+.ps-arrow:hover { background:rgba(253,252,255,0.3); }
+.ps-prev { left:18px; } .ps-next { right:18px; }
+.ps-dots { position:absolute; bottom:18px; left:0; right:0; z-index:5; display:flex; justify-content:center; gap:8px; }
+.ps-dot { width:7px; height:7px; border-radius:50%; background:rgba(253,252,255,0.35); cursor:none; transition:background .2s, transform .2s; padding:0; }
+.ps-dot.active { background:var(--white); transform:scale(1.35); }
+@media (max-width:640px){
+  .portfolio-slideshow { padding-top:75%; }
+  .ps-arrow { opacity:1; width:40px; height:40px; font-size:20px; }
+  .ps-prev { left:10px; } .ps-next { right:10px; }
+}
+
 /* ── PROCESS ── */
 .process-section {
   padding:100px 56px;
@@ -1406,7 +1437,7 @@ footer {
 </section>
 
 <!-- PROCESS -->
-<!-- Appears once a Canva link is added in "Art Page — Hero Section" in Sanity Studio -->
+<!-- Shows your artworks as an auto-flipping slideshow; upload portfolio pages in Sanity to replace them -->
 <section class="process-section" id="portfolioSection" style="display:none;">
   <div class="process-header fade-up">
     <div>
@@ -1417,7 +1448,13 @@ footer {
       A curated presentation of works and series — it plays on its own. Sit back.
     </p>
   </div>
-  <div class="portfolio-embed fade-up">
+  <div class="portfolio-slideshow fade-up" id="portfolioSlideshow" style="display:none;">
+    <div class="ps-track" id="psTrack"></div>
+    <button class="ps-arrow ps-prev" id="psPrev" aria-label="Previous slide">&#8249;</button>
+    <button class="ps-arrow ps-next" id="psNext" aria-label="Next slide">&#8250;</button>
+    <div class="ps-dots" id="psDots"></div>
+  </div>
+  <div class="portfolio-embed fade-up" id="portfolioEmbedWrap" style="display:none;">
     <iframe id="portfolioFrame" src="" loading="lazy" allowfullscreen allow="autoplay; fullscreen"></iframe>
   </div>
 </section>
@@ -1984,7 +2021,7 @@ function interviewCard(iv){
 /* Page hero — editable via the "Art Page — Hero Section" document in Sanity Studio */
 (async()=>{
   try{
-    const h=await sanityFetch(`*[_type=="artHero"][0]{eyebrow,headingPlain,headingAccent,intro,stats,caption,marqueeItems,portfolioUrl,portfolioHeadingPlain,portfolioHeadingAccent,portfolioNote,"frames":frameImages[].asset->url}`);
+    const h=await sanityFetch(`*[_type=="artHero"][0]{eyebrow,headingPlain,headingAccent,intro,stats,caption,marqueeItems,portfolioUrl,portfolioHeadingPlain,portfolioHeadingAccent,portfolioNote,"frames":frameImages[].asset->url,"slides":portfolioSlides[].asset->url}`);
     if(!h)return;
     const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
     if(h.eyebrow)document.querySelector('.hero-eyebrow').textContent=h.eyebrow;
@@ -2013,13 +2050,23 @@ function interviewCard(iv){
         mi.innerHTML=span+span;
       }
     }
-    /* Canva portfolio embed — section only appears when a link is set.
-       Canva only allows framing from the CLEAN /design/ID/TOKEN/view?embed link;
-       the tracking params on "Present"/share links cause a "refused to connect" error,
-       so we strip the link back to its canonical embeddable form. */
-    if(h.portfolioUrl){
-      const sec=document.getElementById('portfolioSection');
-      if(sec){
+    /* Portfolio — prefers a native auto-flipping slideshow.
+       Source priority: uploaded portfolio slides → gallery artworks → Canva embed (fallback). */
+    const sec=document.getElementById('portfolioSection');
+    if(sec){
+      if(h.portfolioHeadingPlain)document.getElementById('portfolioHeading').innerHTML=esc(h.portfolioHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(h.portfolioHeadingAccent?` <em>${esc(h.portfolioHeadingAccent)}</em>`:'');
+      if(h.portfolioNote)document.getElementById('portfolioNote').textContent=h.portfolioNote;
+      let slides=(h.slides||[]).filter(Boolean);
+      if(!slides.length){
+        const aw=await sanityFetch(`*[_type=="artwork" && defined(image)]|order(order asc){"u":image.asset->url}`)||[];
+        slides=aw.map(a=>a.u).filter(Boolean);
+      }
+      if(slides.length){
+        buildPortfolioSlideshow(slides);
+        document.getElementById('portfolioSlideshow').style.display='';
+        sec.style.display='';
+      }else if(h.portfolioUrl){
+        /* Canva fallback — strip tracking params to the canonical frameable form */
         let u=h.portfolioUrl;
         try{
           const x=new URL(u);
@@ -2028,13 +2075,41 @@ function interviewCard(iv){
           else{if(!x.searchParams.has('embed'))x.searchParams.set('embed','');u=x.toString();}
         }catch(err){}
         document.getElementById('portfolioFrame').src=u;
-        if(h.portfolioHeadingPlain)document.getElementById('portfolioHeading').innerHTML=esc(h.portfolioHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(h.portfolioHeadingAccent?` <em>${esc(h.portfolioHeadingAccent)}</em>`:'');
-        if(h.portfolioNote)document.getElementById('portfolioNote').textContent=h.portfolioNote;
+        document.getElementById('portfolioEmbedWrap').style.display='';
         sec.style.display='';
       }
     }
   }catch(e){}
 })();
+
+/* Auto-flipping portfolio slideshow: fades between images, pauses on hover, arrows + dots + swipe */
+function buildPortfolioSlideshow(urls){
+  const track=document.getElementById('psTrack');
+  const dots=document.getElementById('psDots');
+  const box=document.getElementById('portfolioSlideshow');
+  if(!track||!box)return;
+  const sizer=u=>u.toLowerCase().endsWith('.gif')?u:u+'?w=1600&fit=max&auto=format';
+  track.innerHTML=urls.map((u,i)=>`<div class="ps-slide${i===0?' active':''}"><img src="${sizer(u)}" alt="Portfolio slide ${i+1}" loading="${i===0?'eager':'lazy'}"></div>`).join('');
+  dots.innerHTML=urls.map((u,i)=>`<button class="ps-dot${i===0?' active':''}" data-i="${i}" aria-label="Go to slide ${i+1}"></button>`).join('');
+  const slides=[...track.children], dotEls=[...dots.children];
+  let cur=0, timer=null; const DUR=5000;
+  function go(n){cur=(n+slides.length)%slides.length;slides.forEach((s,i)=>s.classList.toggle('active',i===cur));dotEls.forEach((d,i)=>d.classList.toggle('active',i===cur));}
+  function next(){go(cur+1);} function prev(){go(cur-1);}
+  function start(){stop();if(slides.length>1)timer=setInterval(next,DUR);}
+  function stop(){if(timer){clearInterval(timer);timer=null;}}
+  const single=slides.length<=1;
+  const prevBtn=document.getElementById('psPrev'), nextBtn=document.getElementById('psNext');
+  if(single){prevBtn.style.display='none';nextBtn.style.display='none';dots.style.display='none';return;}
+  nextBtn.addEventListener('click',()=>{next();start();});
+  prevBtn.addEventListener('click',()=>{prev();start();});
+  dotEls.forEach(d=>d.addEventListener('click',()=>{go(+d.dataset.i);start();}));
+  box.addEventListener('mouseenter',stop);
+  box.addEventListener('mouseleave',start);
+  let sx=0;
+  box.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;stop();},{passive:true});
+  box.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){dx<0?next():prev();}start();},{passive:true});
+  start();
+}
 
 /* Featured works — "In Focus" section, driven by the Featured switch in Sanity Studio */
 (async()=>{
@@ -2112,6 +2187,13 @@ function interviewCard(iv){
     var c=document.querySelector(sel);if(!c)return;
     new MutationObserver(scanCounts).observe(c,{childList:true,subtree:true});
   });
+
+  /* safety net · guarantee the hero is visible even if the entrance animation is ever skipped */
+  setTimeout(function(){
+    document.querySelectorAll('#home .hero-eyebrow,#home .hero-name,#home .hero-short-bio,#home .hero-desc,#home .hero-btns,#home .hero-social,#home .hero-photo-wrap').forEach(function(el){
+      if(getComputedStyle(el).opacity==='0'){el.style.opacity='1';el.style.transform='none';}
+    });
+  },2500);
 })();
 </script>
 </body>
