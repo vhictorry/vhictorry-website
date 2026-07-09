@@ -188,6 +188,16 @@ body::before{
 .sub-thin input::placeholder{color:var(--muted);}
 .sub-thin button{padding:0 18px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s;}
 .sub-thin button:hover{background:var(--purple-mid);}
+.sub-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(26,14,46,.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:24px;}
+.sub-modal.open{display:flex;animation:subFade .2s ease;}
+@keyframes subFade{from{opacity:0}to{opacity:1}}
+.sub-modal,.sub-modal *{cursor:auto;}
+.sub-modal-box{background:#fff;border-radius:16px;padding:34px 26px 28px;max-width:380px;width:100%;position:relative;box-shadow:0 30px 80px rgba(26,14,46,.45);text-align:center;}
+.sub-modal-close{position:absolute;top:8px;right:14px;background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0;}
+.sub-modal-close:hover{color:var(--ink);}
+.sub-modal-name{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:24px;color:var(--ink);margin-bottom:6px;}
+.sub-modal-note{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--muted);margin-bottom:20px;}
+.sub-modal .sub-thin{margin:0;}
 </style>
 </head>
 <body>
@@ -236,7 +246,7 @@ body::before{
       </div>
       <div class="link-arrow">→</div>
     </a>
-    <a class="link-card" href="https://substack.com/@vhictorry">
+    <a class="link-card" href="#" onclick="return openSub('inbtwstrokes','In Between Strokes')">
       <div class="link-icon">✍</div>
       <div class="link-text">
         <div class="link-title">Newsletter</div>
@@ -245,14 +255,6 @@ body::before{
       <div class="link-arrow">→</div>
     </a>
   </div>
-  <!-- Subscribe form — In Between Strokes (art newsletter) -->
-  <form class="sub-thin" onsubmit="return subGo(event,'inbtwstrokes')">
-    <div class="sub-thin-label">Subscribe &middot; In Between Strokes</div>
-    <div class="sub-thin-row">
-      <input type="email" placeholder="Type your email…" required aria-label="Email address" />
-      <button type="submit">Subscribe</button>
-    </div>
-  </form>
 
   <div class="section-label">The Tech</div>
   <!-- Tech socials (X · Discord · LinkedIn · Telegram) — rendered by JS -->
@@ -267,7 +269,7 @@ body::before{
   </a>
   <!-- Tech buttons — editable via "Link-in-bio Page" in Sanity Studio -->
   <div id="techLinks">
-    <a class="link-card" href="https://substack.com/@vhictorry">
+    <a class="link-card" href="#" onclick="return openSub('btwtheblocks','Between the Blocks')">
       <div class="link-icon">✍</div>
       <div class="link-text">
         <div class="link-title">Newsletter</div>
@@ -276,17 +278,24 @@ body::before{
       <div class="link-arrow">→</div>
     </a>
   </div>
-  <!-- Subscribe form — Between the Blocks (tech newsletter) -->
-  <form class="sub-thin" onsubmit="return subGo(event,'btwtheblocks')">
-    <div class="sub-thin-label">Subscribe &middot; Between the Blocks</div>
-    <div class="sub-thin-row">
-      <input type="email" placeholder="Type your email…" required aria-label="Email address" />
-      <button type="submit">Subscribe</button>
-    </div>
-  </form>
 
   <div class="foot">© 2026 Victory Adewojo</div>
 
+</div>
+
+<!-- Subscribe popup — opens when a "Newsletter" button is tapped -->
+<div class="sub-modal" id="subModal" role="dialog" aria-modal="true" aria-label="Subscribe">
+  <div class="sub-modal-box">
+    <button class="sub-modal-close" id="subClose" aria-label="Close">&times;</button>
+    <div class="sub-modal-name" id="subModalName">Newsletter</div>
+    <div class="sub-modal-note">Fresh essays, straight to your inbox.</div>
+    <form class="sub-thin" id="subModalForm">
+      <div class="sub-thin-row">
+        <input type="email" placeholder="Type your email…" required aria-label="Email address" />
+        <button type="submit">Subscribe</button>
+      </div>
+    </form>
+  </div>
 </div>
 <script>
 /* Featured art embed — pulls your #1 ordered artwork from Sanity Studio */
@@ -332,7 +341,13 @@ body::before{
     if(t)t.innerHTML=TECH.map(p=>btn(p,links[p]||DEF[p])).join('');
   }
   renderSocials(DEF);
-  const card=i=>'<a class="link-card" href="'+esc(i.url||'#')+'" target="_blank" rel="noopener"><div class="link-icon">'+esc(i.emoji||'→')+'</div><div class="link-text"><div class="link-title">'+esc(i.title||'')+'</div><div class="link-sub">'+esc(i.subtitle||'')+'</div></div><div class="link-arrow">→</div></a>';
+  /* A card whose link is a Substack (or titled "Newsletter") opens the subscribe popup instead of navigating */
+  const card=(i,sub,subName)=>{
+    const url=i.url||'';
+    const isNews=/substack\.com/i.test(url)||/newsletter/i.test(i.title||'');
+    const attrs=isNews?'href="#" onclick="return openSub(\''+sub+'\',\''+esc(subName)+'\')"':'href="'+esc(url||'#')+'" target="_blank" rel="noopener"';
+    return '<a class="link-card" '+attrs+'><div class="link-icon">'+esc(i.emoji||'→')+'</div><div class="link-text"><div class="link-title">'+esc(i.title||'')+'</div><div class="link-sub">'+esc(i.subtitle||'')+'</div></div><div class="link-arrow">→</div></a>';
+  };
   (async()=>{
     try{
       const lp=await q('*[_type=="linksPage"][0]{tagline,bio,"avatarUrl":avatar.asset->url,artLinks,techLinks}');
@@ -346,22 +361,36 @@ body::before{
         if(lp.avatarUrl){const av=document.getElementById('linksAvatar');if(av){const u=lp.avatarUrl.toLowerCase().endsWith('.gif')?lp.avatarUrl:lp.avatarUrl+'?w=320&h=320&fit=crop&auto=format';av.style.background='var(--purple-xpale) url("'+u+'") center/cover no-repeat';av.textContent='';}}
         if(lp.tagline)document.getElementById('linksTagline').textContent=lp.tagline;
         if(lp.bio)document.getElementById('linksBio').textContent=lp.bio;
-        if(Array.isArray(lp.artLinks)&&lp.artLinks.length)document.getElementById('artLinks').innerHTML=lp.artLinks.map(card).join('');
-        if(Array.isArray(lp.techLinks)&&lp.techLinks.length)document.getElementById('techLinks').innerHTML=lp.techLinks.map(card).join('');
+        if(Array.isArray(lp.artLinks)&&lp.artLinks.length)document.getElementById('artLinks').innerHTML=lp.artLinks.map(function(i){return card(i,'inbtwstrokes','In Between Strokes');}).join('');
+        if(Array.isArray(lp.techLinks)&&lp.techLinks.length)document.getElementById('techLinks').innerHTML=lp.techLinks.map(function(i){return card(i,'btwtheblocks','Between the Blocks');}).join('');
       }
     }catch(e){}
   })();
 })();
 
-/* Thin Substack subscribe — opens the newsletter's subscribe page with the email prefilled */
-function subGo(e,sub){
-  e.preventDefault();
-  var input=e.target.querySelector('input');
-  var email=input&&input.value?input.value.trim():'';
-  window.open('https://'+sub+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
-  if(e.target.reset)e.target.reset();
+/* Newsletter subscribe popup — opens when a "Newsletter" button is tapped */
+var subCur='inbtwstrokes';
+function openSub(sub,name){
+  subCur=sub;
+  var n=document.getElementById('subModalName');if(n)n.textContent=name;
+  var m=document.getElementById('subModal');if(m)m.classList.add('open');
+  setTimeout(function(){var i=document.querySelector('#subModalForm input');if(i)i.focus();},60);
   return false;
 }
+function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
+(function(){
+  var modal=document.getElementById('subModal');if(!modal)return;
+  var closeBtn=document.getElementById('subClose');if(closeBtn)closeBtn.addEventListener('click',closeSub);
+  modal.addEventListener('click',function(e){if(e.target===modal)closeSub();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();});
+  var form=document.getElementById('subModalForm');
+  if(form)form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var input=form.querySelector('input');var email=input&&input.value?input.value.trim():'';
+    window.open('https://'+subCur+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
+    closeSub();form.reset();
+  });
+})();
 </script>
 </body>
 </html>
