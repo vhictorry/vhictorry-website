@@ -469,12 +469,12 @@ nav {
 .motif-ring.r-in { width:170px; height:170px; }
 .motif-ring.r-mid { width:256px; height:256px; }
 .motif-ring.r-out { width:344px; height:344px; }
-.motif-core { position:absolute; z-index:3; width:68px; height:68px; border-radius:50%; background:var(--white); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px rgba(107,47,160,.55); overflow:hidden; }
-.motif-core img { width:20px; height:20px; object-fit:contain; }
+.motif-core { position:absolute; z-index:3; width:96px; height:96px; border-radius:50%; background:var(--white); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px rgba(107,47,160,.55); overflow:hidden; }
+.motif-core img { width:68px; height:68px; object-fit:contain; }
 .motif-core::before,.motif-core::after { content:''; position:absolute; border:1px solid rgba(255,255,255,.45); border-radius:50%; animation:motifPing 3s ease-out infinite; }
 @keyframes motifPing { 0%{opacity:.5;transform:scale(.65)} 100%{opacity:0;transform:scale(1.15)} }
-.motif-core::before { width:92px; height:92px; }
-.motif-core::after { width:124px; height:124px; animation-delay:.9s; }
+.motif-core::before { width:120px; height:120px; }
+.motif-core::after { width:152px; height:152px; animation-delay:.9s; }
 .motif-node { position:absolute; left:50%; top:50%; z-index:4; cursor:pointer; }
 .motif-node-dot { width:56px; height:56px; transform:translate(-50%,-50%); border-radius:50%; border:1.5px solid rgba(176,125,217,.45); background:rgba(255,255,255,0.04); display:flex; align-items:center; justify-content:center; font-size:30px; transition:background .3s,border-color .3s,box-shadow .3s,transform .3s; }
 /* Chess/skeleton render as plain glyphs (not full-color emoji) — a white card keeps them visible against the dark section */
@@ -489,10 +489,10 @@ nav {
   .motif-ring.r-mid { width:184px; height:184px; }
   .motif-ring.r-out { width:244px; height:244px; }
   .motif-node-dot { width:44px; height:44px; font-size:23px; }
-  .motif-core { width:54px; height:54px; }
-  .motif-core img { width:16px; height:16px; }
-  .motif-core::before { width:74px; height:74px; }
-  .motif-core::after { width:100px; height:100px; }
+  .motif-core { width:64px; height:64px; }
+  .motif-core img { width:46px; height:46px; }
+  .motif-core::before { width:84px; height:84px; }
+  .motif-core::after { width:110px; height:110px; }
 }
 
 /* ── PORTFOLIO EMBED ── */
@@ -2309,12 +2309,12 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();}
     return el;
   });
   var label=document.createElement('div');label.className='motif-label';scene.appendChild(label);
-  var R=[75,118,162], ringAngle=[0,0,0], sel=-1, auto=true;
+  var R=[80,120,164], ringAngle=[0,0,0], sel=-1, auto=true;
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
   function setR(){
-    if(window.innerWidth<400)R=[42,66,90];
-    else if(window.innerWidth<640)R=[52,82,112];
-    else R=[75,118,162];
+    if(window.innerWidth<400)R=[48,70,92];
+    else if(window.innerWidth<640)R=[60,86,114];
+    else R=[80,120,164];
   }
   setR();window.addEventListener('resize',function(){setR();place();});
   function place(){
