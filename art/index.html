@@ -470,13 +470,15 @@ nav {
 .motif-ring.r-mid { width:256px; height:256px; }
 .motif-ring.r-out { width:344px; height:344px; }
 .motif-core { position:absolute; z-index:3; width:68px; height:68px; border-radius:50%; background:var(--white); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px rgba(107,47,160,.55); overflow:hidden; }
-.motif-core img { width:42px; height:42px; object-fit:contain; }
+.motif-core img { width:30px; height:30px; object-fit:contain; }
 .motif-core::before,.motif-core::after { content:''; position:absolute; border:1px solid rgba(255,255,255,.45); border-radius:50%; animation:motifPing 3s ease-out infinite; }
 @keyframes motifPing { 0%{opacity:.5;transform:scale(.65)} 100%{opacity:0;transform:scale(1.15)} }
 .motif-core::before { width:92px; height:92px; }
 .motif-core::after { width:124px; height:124px; animation-delay:.9s; }
 .motif-node { position:absolute; left:50%; top:50%; z-index:4; cursor:pointer; }
 .motif-node-dot { width:56px; height:56px; transform:translate(-50%,-50%); border-radius:50%; border:1.5px solid rgba(176,125,217,.45); background:rgba(255,255,255,0.04); display:flex; align-items:center; justify-content:center; font-size:30px; transition:background .3s,border-color .3s,box-shadow .3s,transform .3s; }
+/* Chess/skeleton render as plain glyphs (not full-color emoji) — a white card keeps them visible against the dark section */
+.motif-node-dot.light { background:var(--white); color:var(--ink); border-color:rgba(255,255,255,.7); box-shadow:0 4px 16px rgba(0,0,0,.25); }
 .motif-node.active .motif-node-dot { background:#fff; border-color:#fff; box-shadow:0 0 26px rgba(216,180,254,.6); transform:translate(-50%,-50%) scale(1.28); }
 .motif-hint { position:absolute; bottom:2px; left:50%; transform:translateX(-50%); font-family:'DM Mono',monospace; font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(176,125,217,.5); transition:opacity .25s; pointer-events:none; }
 .motif-label { position:absolute; left:50%; bottom:-8px; transform:translateX(-50%) translateY(8px); z-index:6; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2.5px; text-transform:uppercase; color:var(--purple-light); background:rgba(21,7,41,.9); border:1px solid rgba(176,125,217,.3); border-radius:20px; padding:7px 16px; opacity:0; pointer-events:none; transition:opacity .25s,transform .25s; white-space:nowrap; }
@@ -488,7 +490,7 @@ nav {
   .motif-ring.r-out { width:244px; height:244px; }
   .motif-node-dot { width:44px; height:44px; font-size:23px; }
   .motif-core { width:54px; height:54px; }
-  .motif-core img { width:34px; height:34px; }
+  .motif-core img { width:24px; height:24px; }
   .motif-core::before { width:74px; height:74px; }
   .motif-core::after { width:100px; height:100px; }
 }
@@ -2279,24 +2281,24 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();}
   if(!scene)return;
   var hint=document.getElementById('motifHint');
   var data=[
-    {icon:'&#9823;',name:'Chess Pieces'},
+    {icon:'&#9823;',name:'Chess Pieces',light:true},
     {icon:'\u{1F3B2}',name:'Rubik’s Cube'},
-    {icon:'☠',name:'Skeletons'},
+    {icon:'☠',name:'Skeletons',light:true},
     {icon:'\u{1F4A1}',name:'Lightbulbs'},
     {icon:'\u{1F98B}',name:'Butterflies'},
     {icon:'\u{1F338}',name:'Flowers'}
   ];
-  /* 3 rings, 2 symbols each — every ring spins its own speed/direction with a phase
-     offset so the nodes drift into a spiral pattern instead of one flat circle */
+  /* 3 rings, 2 symbols each — every ring spins its own speed/direction with a wide phase
+     offset so the nodes drift into a visible spiral pattern instead of one flat circle */
   var RING_COUNT=3;
-  var ringSpeed=[0.32,-0.21,0.15];
-  var ringPhase=[0,55,110];
+  var ringSpeed=[0.55,-0.38,0.24];
+  var ringPhase=[0,90,180];
   var nodes=data.map(function(it,i){
     var el=document.createElement('div');
     el.className='motif-node';
     el.dataset.ring=i%RING_COUNT;
     el.dataset.k=Math.floor(i/RING_COUNT);
-    el.innerHTML='<div class="motif-node-dot">'+it.icon+'</div>';
+    el.innerHTML='<div class="motif-node-dot'+(it.light?' light':'')+'">'+it.icon+'</div>';
     el.addEventListener('click',function(e){e.stopPropagation();select(i);});
     var cursor=document.getElementById('cursor'), ring=document.getElementById('cursorRing');
     if(cursor&&ring){
