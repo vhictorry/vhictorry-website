@@ -83,33 +83,27 @@ nav {
 }
 .nav-cta:hover { background:var(--purple-mid); }
 
-/* ── PAGE HERO ── */
+/* ── PAGE HERO (redesigned 2026-07-08 — Hero C · editorial index) ── */
 .page-hero {
-  min-height:60vh;
-  display:grid; grid-template-columns:1fr 1fr;
-  padding:140px 56px 80px;
-  align-items:center; gap:80px;
+  min-height:66vh;
+  display:grid; grid-template-columns:1.25fr 0.75fr;
+  padding:0; gap:0;
+  align-items:stretch;
   position:relative; overflow:hidden;
-  background:var(--ink);
+  background:
+    radial-gradient(90% 80% at 12% 20%, rgba(139,77,191,0.28), transparent 60%),
+    var(--ink);
 }
-.page-hero::before {
-  content:'';
-  position:absolute; top:-30%; right:-5%;
-  width:70%; height:130%;
-  background:radial-gradient(ellipse at 60% 40%,
-    rgba(107,47,160,0.45) 0%, rgba(107,47,160,0.12) 40%, transparent 70%);
-  pointer-events:none;
+.hero-text {
+  position:relative; z-index:2; align-self:center;
+  padding:150px 44px 84px 56px;
 }
-.page-hero::after {
-  content:'VHICTORRY';
-  position:absolute; bottom:-30px; left:-10px;
-  font-family:'Playfair Display',serif;
-  font-size:200px; font-weight:700; font-style:italic;
-  color:rgba(255,255,255,0.02);
-  pointer-events:none; line-height:1; letter-spacing:-8px;
-  white-space:nowrap;
+.hero-indexnum {
+  position:absolute; top:96px; left:48px; z-index:-1;
+  font-family:'Playfair Display',serif; font-style:italic; font-weight:700;
+  font-size:clamp(110px,15vw,180px); line-height:.7;
+  color:rgba(176,125,217,0.09); pointer-events:none; user-select:none;
 }
-.hero-text { position:relative; z-index:2; }
 .hero-eyebrow {
   font-family:'DM Mono',monospace; font-size:10px;
   letter-spacing:4px; text-transform:uppercase;
@@ -121,62 +115,66 @@ nav {
 }
 .page-hero h1 {
   font-family:'Playfair Display',serif;
-  font-size:clamp(54px,7vw,96px); line-height:.92;
-  font-weight:700; color:var(--white); margin-bottom:24px;
+  font-size:clamp(56px,8vw,104px); line-height:.86;
+  font-weight:700; color:var(--white); margin-bottom:24px; letter-spacing:-.015em;
 }
-.page-hero h1 em { font-style:italic; color:var(--purple-light); display:block; }
+.page-hero h1 em {
+  font-style:italic; font-weight:400; display:block;
+  color:transparent; -webkit-text-stroke:1.3px var(--gold);
+}
 .hero-statement {
-  font-size:19px; line-height:1.9; color:rgba(253,252,255,.6);
-  font-weight:300; max-width:480px; margin-bottom:36px;
+  font-size:19px; line-height:1.7; color:rgba(253,252,255,.6);
+  font-weight:300; max-width:400px; margin-bottom:0;
   font-family:'Cormorant Garamond',serif;
 }
+.hero-cta {
+  display:inline-block; margin-top:28px;
+  font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--ink); background:var(--gold); padding:14px 28px; border-radius:3px; text-decoration:none;
+  position:relative; overflow:hidden; cursor:none;
+  transition:transform .3s, box-shadow .3s;
+}
+.hero-cta:hover { transform:translateY(-3px); box-shadow:0 16px 34px -14px rgba(201,168,76,.7); }
+.hero-cta::after {
+  content:''; position:absolute; top:0; left:-90%; width:55%; height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:skewX(-20deg); transition:left .6s;
+}
+.hero-cta:hover::after { left:150%; }
 .hero-stats {
-  display:flex; gap:40px;
-  padding-top:32px; border-top:1px solid rgba(176,125,217,0.2);
+  display:flex; gap:32px; margin-top:34px;
+  padding-top:24px; border-top:1px solid rgba(176,125,217,0.22);
 }
 .hstat-num {
-  font-family:'Playfair Display',serif; font-size:44px; color:var(--purple-light);
+  font-family:'Playfair Display',serif; font-size:36px; color:var(--gold);
   line-height:1; font-weight:700;
 }
 .hstat-label {
   font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
-  text-transform:uppercase; color:rgba(253,252,255,.4); margin-top:4px;
+  text-transform:uppercase; color:rgba(253,252,255,.42); margin-top:6px;
 }
-.hero-featured {
-  position:relative; z-index:2;
-  display:flex; flex-direction:column; gap:12px;
+/* right column — tall single artwork that bleeds to the hero edges */
+.hero-featured { position:relative; overflow:hidden; z-index:1; min-height:440px; }
+.hero-featured::before {
+  content:''; position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:linear-gradient(90deg, var(--ink) 0%, rgba(26,14,46,0) 24%);
 }
 .hero-featured-label {
+  position:absolute; top:22px; right:22px; z-index:3;
   font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px;
-  text-transform:uppercase; color:var(--purple-light); opacity:.7;
+  text-transform:uppercase; color:var(--gold); opacity:.8;
 }
-.featured-stack {
-  position:relative; height:420px;
-}
+.featured-stack { position:absolute; inset:0; }
 .feat-img {
-  position:absolute; border-radius:2px;
-  box-shadow:0 24px 64px rgba(0,0,0,0.5);
-  overflow:hidden; transition:transform .4s ease;
+  position:absolute; inset:0; overflow:hidden;
+  transition:transform 8s ease;
 }
 .feat-img img { width:100%; height:100%; object-fit:cover; display:block; }
-.feat-img:nth-child(1) {
-  width:75%; height:360px; top:0; left:0; z-index:3;
-  border:2px solid rgba(176,125,217,0.3);
-}
-.feat-img:nth-child(2) {
-  width:58%; height:270px; bottom:0; right:0; z-index:4;
-  border:3px solid var(--white);
-  transform:rotate(2deg);
-}
-.feat-img:nth-child(3) {
-  width:40%; height:200px; top:20%; right:5%; z-index:2;
-  opacity:.5; transform:rotate(-3deg);
-}
-.featured-stack:hover .feat-img:nth-child(1) { transform:rotate(-1deg) scale(1.01); }
-.featured-stack:hover .feat-img:nth-child(2) { transform:rotate(3.5deg) scale(1.02); }
+.page-hero:hover .feat-img { transform:scale(1.05); }
 .feat-caption {
-  font-family:'Playfair Display',serif; font-size:13px; font-style:italic;
-  color:rgba(253,252,255,.45); text-align:right;
+  position:absolute; left:20px; bottom:18px; z-index:3;
+  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--gold);
 }
 
 /* ── MARQUEE ── */
@@ -974,7 +972,9 @@ footer {
   .nav-links.open { display:flex; }
   .nav-cta { display:none; }
   .nav-mobile-toggle { display:flex; }
-  .page-hero { grid-template-columns:1fr; padding:120px 24px 64px; gap:40px; }
+  .page-hero { grid-template-columns:1fr; padding:0; gap:0; min-height:auto; }
+  .hero-text { padding:120px 24px 56px; align-self:auto; }
+  .hero-indexnum { top:70px; left:20px; }
   .hero-featured { display:none; }
   .filter-section { padding:40px 24px 0; }
   .gallery-section { padding:36px 24px 60px; }
@@ -1079,15 +1079,16 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <a href="https://vhictorrysite.netlify.app/" class="nav-logo">vhictorry</a>
+  <a href="https://vhictorry.com/" class="nav-logo">vhictorry</a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#" class="active">Art</a></li>
     <li><a href="gallery/">Gallery</a></li>
+    <li><a href="about/">About</a></li>
     <li><a href="#portfolioSection">Portfolio</a></li>
     <li><a href="#exhibitions">Exhibitions</a></li>
     <li><a href="#press">Press</a></li>
     <li><a href="#blog">From the Studio</a></li>
-    <li><a href="https://vhictorrysite.netlify.app/">Main Site &rarr;</a></li>
+    <li><a href="https://vhictorry.com/">Main Site &rarr;</a></li>
   </ul>
   <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -1098,11 +1099,13 @@ footer {
 <!-- PAGE HERO -->
 <section class="page-hero">
   <div class="hero-text fade-up">
+    <div class="hero-indexnum">01</div>
     <div class="hero-eyebrow">Fine Art · Oil on Canvas · Mixed Media</div>
     <h1>The world<br>as I <em>see it.</em></h1>
     <p class="hero-statement">
       Each painting is a philosophical question. A chess move. A symbol of transformation held still on canvas — waiting for you to sit with it.
     </p>
+    <a href="gallery/" class="hero-cta">Enter the Gallery →</a>
     <div class="hero-stats">
       <div>
         <div class="hstat-num">12+</div>
@@ -1120,19 +1123,13 @@ footer {
     <div class="hero-social" id="artHeroSocial"></div>
   </div>
   <div class="hero-featured fade-up">
-    <div class="hero-featured-label">Selected Works</div>
+    <div class="hero-featured-label">Featured Work</div>
     <div class="featured-stack">
       <div class="feat-img">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#EDE4F8 0%,#B07DD9 50%,#6B2FA0 100%);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:48px;font-style:italic;color:rgba(255,255,255,0.6);">♟</div>
-      </div>
-      <div class="feat-img">
-        <div style="width:100%;height:100%;background:linear-gradient(225deg,#1A0E2E 0%,#3D2B5C 50%,#6B2FA0 100%);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:36px;font-style:italic;color:rgba(176,125,217,0.7);">◉</div>
-      </div>
-      <div class="feat-img">
-        <div style="width:100%;height:100%;background:linear-gradient(45deg,#F7F2FD 0%,#EDE4F8 100%);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:32px;font-style:italic;color:rgba(107,47,160,0.5);">🦋</div>
+        <div style="width:100%;height:100%;background:radial-gradient(circle at 42% 34%,#B07DD9,transparent 48%),radial-gradient(circle at 72% 78%,rgba(201,168,76,.4),transparent 44%),linear-gradient(158deg,#3D2B5C,#0C0812);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:150px;font-style:italic;color:rgba(237,231,245,0.14);">♛</div>
       </div>
     </div>
-    <div class="feat-caption">Victory Adewojo · vhictorry studio</div>
+    <div class="feat-caption">◆ Borrowed Crowns</div>
   </div>
 </section>
 
@@ -1691,7 +1688,7 @@ footer {
 <footer>
   <div class="footer-copy">© 2025 Victory Adewojo · All Rights Reserved</div>
   <div class="footer-center">
-    <a href="https://vhictorrysite.netlify.app/" class="footer-logo">vhictorry</a>
+    <a href="https://vhictorry.com/" class="footer-logo">vhictorry</a>
     <div class="footer-social" id="artSocial"></div>
   </div>
   <div class="footer-copy">Art · Web3 · Community · Strategy</div>

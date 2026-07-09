@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About the Artist — Victory Adewojo</title>
+<meta name="description" content="Victory Adewojo — Nigerian surrealist painter working in oil and mixed media, using the language of chess to explore power, identity, and transformation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --white:#FDFCFF;--offwhite:#F6F3FC;--purple:#6B2FA0;--purple-mid:#8B4DBF;--purple-light:#B07DD9;
+  --purple-pale:#EDE4F8;--purple-xpale:#F7F2FD;--ink:#1A0E2E;--ink-mid:#3D2B5C;--muted:#7A6B94;
+  --border:rgba(107,47,160,0.15);--border-strong:rgba(107,47,160,0.35);--gold:#C9A84C;
+}
+body{background:var(--white);color:var(--ink);font-family:'Cormorant Garamond',serif;cursor:none;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:none;border:none}
+.cursor{position:fixed;width:8px;height:8px;background:var(--purple);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1.5px solid rgba(107,47,160,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+.mo-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,var(--purple),var(--purple-light) 60%,var(--gold));pointer-events:none}
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.fade-up.visible{opacity:1;transform:none}
+
+/* NAV (matches art site) */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:rgba(253,252,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transition:padding .3s}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;font-style:italic;color:var(--ink);letter-spacing:1px}
+.nav-links{display:flex;gap:34px;list-style:none}
+.nav-links a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);transition:color .2s;position:relative}
+.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;height:1.5px;width:0;background:var(--purple);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-cta{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:10px 20px;background:var(--purple);color:var(--white);border-radius:2px;transition:background .2s;position:relative;overflow:hidden}
+.nav-cta:hover{background:var(--purple-mid)}
+.nav-cta::after{content:'';position:absolute;top:0;left:-90%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .6s}
+.nav-cta:hover::after{left:150%}
+.nav-mobile-toggle{display:none;background:none;flex-direction:column;gap:5px;padding:4px}
+.nav-mobile-toggle span{display:block;width:22px;height:1.5px;background:var(--ink)}
+
+/* HERO — portrait + intro (dark) */
+.about-hero{
+  padding:160px 56px 90px;
+  display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;align-items:center;
+  background:radial-gradient(90% 80% at 85% 15%,rgba(139,77,191,0.30),transparent 60%),var(--ink);
+  position:relative;overflow:hidden;
+}
+.about-hero::after{content:'ARTIST';position:absolute;bottom:-40px;right:-10px;font-family:'Playfair Display',serif;font-size:200px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.025);line-height:1;letter-spacing:-6px;pointer-events:none}
+.portrait-wrap{position:relative;z-index:2}
+.portrait{aspect-ratio:4/5;border-radius:3px;overflow:hidden;border:1px solid rgba(201,168,76,0.4);box-shadow:0 40px 80px -30px #000}
+/* PORTRAIT PLACEHOLDER — swap for a real photo of Victory (upload in Sanity → Art About, or replace this gradient with <img>) */
+.portrait .ph{width:100%;height:100%;background:radial-gradient(circle at 40% 30%,#B07DD9,transparent 48%),linear-gradient(160deg,#3D2B5C,#0C0812);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-style:italic;font-size:72px;color:rgba(237,231,245,0.35)}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block}
+.portrait-cap{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:14px;text-align:center}
+.about-hero-text{position:relative;z-index:2}
+.ah-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple-light);display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.ah-eyebrow::before{content:'';width:32px;height:1.5px;background:var(--purple-light)}
+.about-hero-text h1{font-family:'Playfair Display',serif;font-size:clamp(44px,5.6vw,78px);line-height:.98;font-weight:700;color:var(--white);margin-bottom:22px}
+.about-hero-text h1 em{font-style:italic;color:var(--gold)}
+.about-hero-text .intro{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.7;color:rgba(253,252,255,.7);font-weight:300;max-width:520px}
+.ah-meta{display:flex;gap:34px;margin-top:34px;padding-top:24px;border-top:1px solid rgba(176,125,217,.22)}
+.ah-meta .k{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.4)}
+.ah-meta .v{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;color:var(--gold);margin-top:5px}
+
+/* STATEMENT (light) */
+.statement{padding:110px 56px;background:var(--offwhite);display:grid;grid-template-columns:0.4fr 0.6fr;gap:56px}
+.sec-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;gap:10px}
+.sec-label::after{content:'';width:36px;height:1.5px;background:var(--purple-light)}
+.statement h2{font-family:'Playfair Display',serif;font-size:clamp(30px,3.4vw,44px);font-weight:700;line-height:1.1;color:var(--ink);margin-top:16px}
+.statement h2 em{font-style:italic;color:var(--purple)}
+.statement-body p{font-size:19px;line-height:1.95;color:var(--ink-mid);font-weight:300;margin-bottom:22px}
+.statement-body p:first-child::first-letter{font-family:'Playfair Display',serif;font-style:italic;font-size:64px;line-height:.8;float:left;margin:6px 12px 0 0;color:var(--purple)}
+.pull{font-family:'Playfair Display',serif;font-style:italic;font-size:26px;line-height:1.4;color:var(--purple);border-left:2px solid var(--gold);padding-left:22px;margin:34px 0}
+
+/* BACKGROUND / DETAILS (dark strip) */
+.background{padding:90px 56px;background:var(--ink);display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;position:relative;overflow:hidden}
+.background::before{content:'';position:absolute;top:-30%;left:-8%;width:460px;height:460px;background:radial-gradient(circle,rgba(107,47,160,0.28),transparent 65%);pointer-events:none}
+.background .sec-label{color:var(--purple-light)}
+.background .sec-label::after{background:var(--purple-light)}
+.background h2{font-family:'Playfair Display',serif;font-size:clamp(28px,3vw,40px);font-weight:700;color:var(--white);line-height:1.1;margin:16px 0 20px;position:relative;z-index:2}
+.background h2 em{font-style:italic;color:var(--purple-light)}
+.background p{font-size:17px;line-height:1.9;color:rgba(253,252,255,.65);font-weight:300;margin-bottom:18px;position:relative;z-index:2;max-width:460px}
+.facts{position:relative;z-index:2;display:flex;flex-direction:column;gap:2px}
+.fact{display:flex;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid rgba(176,125,217,.18)}
+.fact .k{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.45)}
+.fact .v{font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--white);text-align:right}
+
+/* EXHIBITIONS / PRESS teaser (light) */
+.more{padding:100px 56px;background:var(--white);text-align:center}
+.more h2{font-family:'Playfair Display',serif;font-size:clamp(28px,3vw,40px);font-weight:700;font-style:italic;color:var(--ink);margin-bottom:16px}
+.more p{font-size:18px;color:var(--muted);font-weight:300;max-width:520px;margin:0 auto 32px;line-height:1.7}
+.more-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-primary{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--white);background:var(--purple);padding:15px 30px;border-radius:2px;display:inline-block;position:relative;overflow:hidden;transition:background .2s,transform .2s}
+.btn-primary:hover{background:var(--purple-mid);transform:translateY(-2px)}
+.btn-primary::after{content:'';position:absolute;top:0;left:-90%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.3),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn-primary:hover::after{left:150%}
+.btn-ghost{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);background:transparent;border:1.5px solid var(--border-strong);padding:15px 30px;border-radius:2px;display:inline-block;transition:all .2s}
+.btn-ghost:hover{border-color:var(--purple);background:var(--purple-xpale);transform:translateY(-2px)}
+
+footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(176,125,217,0.15)}
+.footer-copy{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.35)}
+.footer-logo{font-family:'Playfair Display',serif;font-size:18px;letter-spacing:1px;font-weight:700;font-style:italic;color:var(--purple-light)}
+
+@media(max-width:900px){
+  nav{padding:16px 20px}
+  .nav-links{display:none;position:fixed;top:60px;left:0;right:0;background:var(--white);flex-direction:column;padding:24px 20px;gap:20px;border-bottom:1px solid var(--border);z-index:99;box-shadow:0 8px 24px rgba(26,14,46,0.08)}
+  .nav-links.open{display:flex}
+  .nav-cta{display:none}
+  .nav-mobile-toggle{display:flex}
+  .about-hero{grid-template-columns:1fr;padding:120px 24px 64px;gap:36px}
+  .statement{grid-template-columns:1fr;padding:70px 24px;gap:22px}
+  .background{grid-template-columns:1fr;padding:70px 24px;gap:32px}
+  .more{padding:70px 24px}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:24px}
+}
+@media (prefers-reduced-motion:reduce){.fade-up{opacity:1;transform:none}.mo-progress{display:none}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="mo-progress" id="moProgress"></div>
+
+<nav id="mainNav">
+  <a href="/" class="nav-logo">vhictorry</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/">Art</a></li>
+    <li><a href="/gallery/">Gallery</a></li>
+    <li><a href="#" class="active">About</a></li>
+    <li><a href="/#portfolioSection">Portfolio</a></li>
+    <li><a href="/#exhibitions">Exhibitions</a></li>
+    <li><a href="/#press">Press</a></li>
+    <li><a href="https://vhictorrysite.netlify.app/">Main Site &rarr;</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a href="/#commissions" class="nav-cta">Acquire a Piece</a>
+</nav>
+
+<!-- ═══ ABOUT HERO ═══ -->
+<section class="about-hero">
+  <div class="portrait-wrap fade-up">
+    <div class="portrait">
+      <!-- PORTRAIT: replace the .ph block below with <img src="..." alt="Victory Adewojo"> or set it in Sanity (Art About → portrait) -->
+      <div class="ph" id="portrait">V</div>
+    </div>
+    <div class="portrait-cap">Victory Adewojo · vhictorry studio · Lagos</div>
+  </div>
+  <div class="about-hero-text fade-up">
+    <div class="ah-eyebrow">About the Artist</div>
+    <h1 id="aboutHeading">The hand behind<br><em>the board.</em></h1>
+    <!-- INTRO: editable in Sanity (Art About → intro) -->
+    <p class="intro" id="aboutIntro">Victory Adewojo is a Nigerian visual artist working in oil and mixed media. Her surrealist paintings borrow the language of chess — crowns, castles, calculated moves — to ask questions about power, identity, and the games we inherit.</p>
+    <div class="ah-meta">
+      <div><div class="k">Based in</div><div class="v">Lagos, Nigeria</div></div>
+      <div><div class="k">Medium</div><div class="v">Oil · Mixed Media</div></div>
+      <div><div class="k">Working since</div><div class="v">2018</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARTIST STATEMENT ═══ -->
+<section class="statement">
+  <div class="fade-up">
+    <div class="sec-label">Artist Statement</div>
+    <h2>I paint the moment <em>before the move.</em></h2>
+  </div>
+  <!-- STATEMENT: editable in Sanity (Art About → statement). Blank line = new paragraph. -->
+  <div class="statement-body fade-up" id="aboutStatement">
+    <p>My work borrows the geometry of the chessboard — its hierarchies, its sacrifices, its quiet violence — to talk about how people hold power, lose it, and hand it on. Every painting begins as a question I can’t answer in words: who is really moving whom, and what does it cost to win?</p>
+    <p class="pull">“A crown is only borrowed. The board outlives every king who sits at it.”</p>
+    <p>Rooted in surrealism and painted mostly in oil, the work sits between the figurative and the dreamed. Figures wear their circumstances like armour; symbols of transformation — the butterfly, the open eye, the toppled piece — recur across the canvases like a private language. I want the viewer to stop, sit, and feel implicated.</p>
+    <p>The <em>Borrowed Crowns</em> series is the clearest expression of this: portraits of power that never quite belongs to the one who holds it. It is where my questions about identity, inheritance, and freedom are most alive.</p>
+  </div>
+</section>
+
+<!-- ═══ BACKGROUND ═══ -->
+<section class="background">
+  <div class="fade-up">
+    <div class="sec-label">Background</div>
+    <h2>Trained on canvas,<br><em>fluent on-chain.</em></h2>
+    <!-- BACKGROUND: editable in Sanity (Art About → background) -->
+    <p id="aboutBackground">Formally trained in Fine &amp; Applied Arts with a focus on painting, Victory works from her studio in Lagos. Alongside the studio practice she moves fluently through the Web3 space — releasing collector editions on-chain and bridging the traditional canvas with digital ownership, so a painting can live both on a wall and in a wallet.</p>
+  </div>
+  <div class="facts fade-up">
+    <div class="fact"><div class="k">Education</div><div class="v">BA, Fine &amp; Applied Arts (Painting)</div></div>
+    <div class="fact"><div class="k">Discipline</div><div class="v">Surrealism · Figurative</div></div>
+    <div class="fact"><div class="k">Signature series</div><div class="v">Borrowed Crowns</div></div>
+    <div class="fact"><div class="k">Also</div><div class="v">Web3 Collector Editions</div></div>
+    <div class="fact"><div class="k">Studio</div><div class="v">Lagos, Nigeria</div></div>
+  </div>
+</section>
+
+<!-- ═══ MORE ═══ -->
+<section class="more">
+  <div class="fade-up">
+    <div class="sec-label" style="justify-content:center;">Go Deeper</div>
+    <h2>See the work, not just the words.</h2>
+    <p>Walk the full collection, read the exhibitions and press, or reach out about acquiring a piece.</p>
+    <div class="more-btns">
+      <a href="/gallery/" class="btn-primary">Enter the Gallery →</a>
+      <a href="/#exhibitions" class="btn-ghost">Exhibitions &amp; Press</a>
+      <a href="/#commissions" class="btn-ghost">Acquire a Piece</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2025 Victory Adewojo · All Rights Reserved</div>
+  <a href="https://vhictorrysite.netlify.app/" class="footer-logo">vhictorry</a>
+  <div class="footer-copy">Art · Web3 · Community · Strategy</div>
+</footer>
+
+<script>
+/* CURSOR */
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=-100,my=-100,rx=-100,ry=-100;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(1.8)';ring.style.width='52px';ring.style.height='52px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';ring.style.width='32px';ring.style.height='32px';});
+});
+/* FADE-UP */
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+/* PROGRESS BAR */
+const pb=document.getElementById('moProgress');
+addEventListener('scroll',()=>{const h=document.documentElement,m=h.scrollHeight-h.clientHeight;pb.style.width=(m>0?h.scrollTop/m*100:0)+'%';},{passive:true});
+/* NAV SCROLL */
+const nav=document.getElementById('mainNav');
+addEventListener('scroll',()=>{nav.style.padding=scrollY>40?'14px 56px':'20px 56px';},{passive:true});
+/* MOBILE NAV */
+const nt=document.getElementById('navToggle');
+if(nt)nt.addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+
+/* ── SANITY (optional) — fills this page from an "Art About" document if one exists; otherwise the drafted text above stays ── */
+(async function(){
+  const PROJ='3ihweswz',DS='production';
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  try{
+    const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=`+encodeURIComponent('*[_type=="artAbout"][0]{introPlain,introAccent,intro,statement,background,"portraitUrl":portrait.asset->url}'));
+    const a=(await r.json()).result;
+    if(!a)return;
+    if(a.introPlain){document.getElementById('aboutHeading').innerHTML=esc(a.introPlain).replace(/\s*\/\s*/g,'<br>')+(a.introAccent?` <em>${esc(a.introAccent)}</em>`:'');}
+    if(a.intro)document.getElementById('aboutIntro').textContent=a.intro;
+    if(a.background)document.getElementById('aboutBackground').textContent=a.background;
+    if(a.statement){
+      document.getElementById('aboutStatement').innerHTML=a.statement.split(/\n\s*\n/).map(p=>`<p>${esc(p)}</p>`).join('');
+    }
+    if(a.portraitUrl){
+      const src=a.portraitUrl.toLowerCase().endsWith('.gif')?a.portraitUrl:a.portraitUrl+'?w=900&fit=max&auto=format';
+      document.getElementById('portrait').outerHTML=`<img src="${src}" alt="Victory Adewojo">`;
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
