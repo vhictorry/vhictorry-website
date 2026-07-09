@@ -165,11 +165,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .t-marquee::before,.t-marquee::after{content:'';position:absolute;top:0;bottom:0;width:70px;z-index:2;pointer-events:none;}
 .t-marquee::before{left:0;background:linear-gradient(to right,var(--offwhite),transparent);}
 .t-marquee::after{right:0;background:linear-gradient(to left,var(--offwhite),transparent);}
-.t-track{display:flex;gap:16px;width:max-content;align-items:stretch;animation:t-scroll 80s linear infinite;}
+.t-track{display:flex;gap:16px;width:max-content;align-items:flex-start;animation:t-scroll 80s linear infinite;padding:26px 0;}
 .t-marquee:hover .t-track{animation-play-state:paused;}
 @keyframes t-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.t-card{width:360px;flex-shrink:0;display:flex;flex-direction:column;background:var(--white);padding:36px 32px;border-radius:4px;border:1.5px solid var(--border);transition:box-shadow .3s,border-color .3s;}
-.t-track .t-author{margin-top:auto;}
+.t-col{display:flex;flex-direction:column;gap:16px;width:360px;flex-shrink:0;}
+.t-card{width:100%;background:var(--white);padding:34px 30px;border-radius:4px;border:1.5px solid var(--border);transform:scale(.94);opacity:.72;transition:transform .55s cubic-bezier(.2,.7,.2,1),box-shadow .55s,border-color .55s,opacity .55s;}
+.t-card.t-focus{transform:scale(1.03);opacity:1;box-shadow:0 24px 54px rgba(107,47,160,.2);border-color:var(--purple-light);}
+.t-card.featured.t-focus{border-color:var(--purple);}
 .t-card:hover{box-shadow:0 10px 30px rgba(107,47,160,0.09);border-color:var(--border-strong);}
 .t-card.featured{background:var(--purple-xpale);border-color:var(--border-strong);}
 .t-quote{font-size:15.5px;line-height:1.85;color:var(--ink-mid);font-style:italic;font-weight:300;margin-bottom:24px;padding-top:20px;position:relative;}
@@ -214,8 +216,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .blog-substack-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);}
 .blog-substack-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);font-style:italic;}
 .blog-substack-arrow{font-family:'DM Mono',monospace;font-size:12px;color:var(--purple);}
-.substack-embed{margin:32px auto 0;max-width:480px;width:100%;}
-.substack-embed iframe{width:100%;max-width:480px;height:320px;border:1.5px solid var(--border);border-radius:8px;background:#fff;display:block;margin:0 auto;}
+.sub-thin{max-width:520px;margin:28px auto 0;width:100%;}
+.sub-thin-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:10px;text-align:center;}
+.sub-thin-row{display:flex;gap:8px;}
+.sub-thin input{flex:1;min-width:0;padding:13px 16px;border:1.5px solid var(--border);border-radius:4px;background:var(--white);font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--ink);outline:none;transition:border-color .2s;}
+.sub-thin input:focus{border-color:var(--purple);}
+.sub-thin input::placeholder{color:var(--muted);}
+.sub-thin button{padding:0 22px;background:var(--purple);color:#fff;border:none;border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s;}
+.sub-thin button:hover{background:var(--purple-mid);}
 
 /* CONTACT */
 #contact{padding:120px 56px;background:var(--white);display:grid;grid-template-columns:1fr 1fr;gap:80px;}
@@ -758,9 +766,13 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
     <span class="blog-substack-arrow">&#8594;</span>
   </a>
   <!-- Subscribe form (Between the Blocks) -->
-  <div class="substack-embed fade-up">
-    <iframe src="https://btwtheblocks.substack.com/embed" title="Subscribe to Between the Blocks" frameborder="0" scrolling="no"></iframe>
-  </div>
+  <form class="sub-thin fade-up" onsubmit="return subGo(event,'btwtheblocks')">
+    <div class="sub-thin-label">Subscribe &middot; Between the Blocks</div>
+    <div class="sub-thin-row">
+      <input type="email" placeholder="Type your email…" required aria-label="Email address" />
+      <button type="submit">Subscribe</button>
+    </div>
+  </form>
 </section>
 
 <!-- CONTACT -->
@@ -927,21 +939,7 @@ function toggleEvents(){
     document.querySelectorAll('.art-tile-placeholder').forEach((el,i)=>{
       if(arts[i])el.outerHTML=`<img src="${img(arts[i].u,700)}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Artwork">`;
     });
-    /* Testimonials — auto-scrolling marquee (content duplicated for a seamless loop) */
-    const track=document.querySelector('.t-track');
-    const ts=await q(`*[_type=="testimonial"]|order(order asc){quote,name,role,featured,"photoUrl":photo.asset->url}`)||[];
-    if(track){
-      if(ts.length){
-        const html=ts.map(t=>`<div class="t-card${t.featured?' featured':''}">
-          <p class="t-quote">${esc(t.quote||'')}</p>
-          <div class="t-author"><div class="t-avatar">${t.photoUrl?`<img src="${img(t.photoUrl,200)}" alt="${esc(t.name||'')}">`:esc((t.name||'?').charAt(0))}</div><div><div class="t-name">${esc(t.name||'')}</div><div class="t-role">${esc(t.role||'')}</div></div></div>
-        </div>`).join('');
-        track.innerHTML=html+html;
-      }else{
-        /* No Sanity testimonials — duplicate the hardcoded cards so the loop is seamless */
-        track.innerHTML=track.innerHTML+track.innerHTML;
-      }
-    }
+    /* (Testimonials marquee is built by its own module near the end of the page) */
     /* Speaking events — first 3 visible, rest behind See More */
     const evs=await q(`*[_type=="speakingEvent"]|order(order asc){title,year,description,url,emoji,"thumbUrl":thumbnail.asset->url}`)||[];
     if(evs.length){
@@ -1032,6 +1030,78 @@ function toggleEvents(){
       if(getComputedStyle(el).opacity==='0'){el.style.opacity='1';el.style.transform='none';}
     });
   },2500);
+})();
+</script>
+
+<!-- ═══ Thin subscribe forms + testimonial marquee (columns + centre-focus) ═══ -->
+<script>
+/* Thin Substack subscribe — opens the newsletter's subscribe page with the email prefilled */
+function subGo(e,sub){
+  e.preventDefault();
+  var input=e.target.querySelector('input');
+  var email=input&&input.value?input.value.trim():'';
+  window.open('https://'+sub+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
+  if(e.target.reset)e.target.reset();
+  return false;
+}
+
+/* Testimonials — short cards pair into columns, row auto-scrolls, the centred card pops */
+(function(){
+  var track=document.querySelector('.t-track'), marquee=document.querySelector('.t-marquee');
+  if(!track||!marquee)return;
+  var PROJ='3ihweswz',DS='production';
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function img(u,w){return u.toLowerCase().endsWith('.gif')?u:u+'?w='+w+'&fit=max&auto=format';}
+  function cardHTML(t){
+    var av=t.photoUrl?'<img src="'+img(t.photoUrl,200)+'" alt="'+esc(t.name||'')+'">':esc((t.name||'?').charAt(0));
+    return '<div class="t-card'+(t.featured?' featured':'')+'"><p class="t-quote">'+esc(t.quote||'')+'</p>'+
+      '<div class="t-author"><div class="t-avatar">'+av+'</div><div><div class="t-name">'+esc(t.name||'')+'</div><div class="t-role">'+esc(t.role||'')+'</div></div></div></div>';
+  }
+  function pack(list){
+    var meas=document.createElement('div');
+    meas.style.cssText='position:absolute;left:-9999px;top:0;width:360px;visibility:hidden;';
+    document.body.appendChild(meas);
+    var heights=list.map(function(h){meas.innerHTML=h;return meas.firstElementChild.offsetHeight;});
+    document.body.removeChild(meas);
+    var maxH=Math.max.apply(null,heights), gap=16;
+    /* First-Fit Decreasing: place tallest first, then short cards drop into whatever column still has room — so shorts pair up */
+    var order=list.map(function(_,i){return i;}).sort(function(a,b){return heights[b]-heights[a];});
+    var cols=[];
+    order.forEach(function(i){
+      for(var k=0;k<cols.length;k++){
+        if(cols[k].h+gap+heights[i]<=maxH){cols[k].items.push(i);cols[k].h+=gap+heights[i];return;}
+      }
+      cols.push({items:[i],h:heights[i]});
+    });
+    return cols.map(function(c){return '<div class="t-col">'+c.items.map(function(i){return list[i];}).join('')+'</div>';}).join('');
+  }
+  function updateFocus(cards){
+    var mr=marquee.getBoundingClientRect(), mcx=mr.left+mr.width/2, mcy=mr.top+mr.height/2, best=null, bd=1e9;
+    for(var i=0;i<cards.length;i++){
+      var r=cards[i].getBoundingClientRect();
+      if(r.right<mr.left-40||r.left>mr.right+40)continue;
+      var d=Math.abs(r.left+r.width/2-mcx)+0.28*Math.abs(r.top+r.height/2-mcy);
+      if(d<bd){bd=d;best=cards[i];}
+    }
+    for(var j=0;j<cards.length;j++)cards[j].classList.toggle('t-focus',cards[j]===best);
+  }
+  function build(list){
+    if(!list.length)return;
+    var set=pack(list);
+    track.innerHTML=set+set;
+    var cards=[].slice.call(track.querySelectorAll('.t-card'));
+    updateFocus(cards);            /* focus one immediately (works even before animation paints) */
+    var last=0;
+    (function tick(ts){
+      if(!ts||ts-last>60){last=ts||0;updateFocus(cards);}
+      requestAnimationFrame(tick); /* keeps the spotlight on the centred card as the row scrolls */
+    })(0);
+  }
+  var fallback=function(){return [].slice.call(track.querySelectorAll('.t-card')).map(function(c){return c.outerHTML;});};
+  fetch('https://'+PROJ+'.apicdn.sanity.io/v2024-01-01/data/query/'+DS+'?query='+encodeURIComponent('*[_type=="testimonial"]|order(order asc){quote,name,role,featured,"photoUrl":photo.asset->url}'))
+    .then(function(r){return r.json();})
+    .then(function(j){var ts=(j&&j.result)||[];build(ts.length?ts.map(cardHTML):fallback());})
+    .catch(function(){build(fallback());});
 })();
 </script>
 </body>

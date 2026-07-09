@@ -569,8 +569,14 @@ nav {
 .blog-grid {
   display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:24px;
 }
-.substack-embed { margin:40px auto 0; max-width:480px; width:100%; }
-.substack-embed iframe { width:100%; max-width:480px; height:320px; border:1.5px solid var(--border); border-radius:8px; background:#fff; display:block; margin:0 auto; }
+.sub-thin { max-width:520px; margin:40px auto 0; width:100%; }
+.sub-thin-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--purple); margin-bottom:10px; text-align:center; }
+.sub-thin-row { display:flex; gap:8px; }
+.sub-thin input { flex:1; min-width:0; padding:13px 16px; border:1.5px solid var(--border); border-radius:4px; background:var(--white); font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--ink); outline:none; transition:border-color .2s; }
+.sub-thin input:focus { border-color:var(--purple); }
+.sub-thin input::placeholder { color:var(--muted); }
+.sub-thin button { padding:0 22px; background:var(--purple); color:#fff; border:none; border-radius:4px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; cursor:none; white-space:nowrap; transition:background .2s; }
+.sub-thin button:hover { background:var(--purple-mid); }
 .blog-card {
   background:var(--white); border-radius:2px;
   border:1.5px solid var(--border);
@@ -1644,9 +1650,13 @@ footer {
 
   </div>
   <!-- Subscribe form (In Between Strokes) -->
-  <div class="substack-embed fade-up">
-    <iframe src="https://inbtwstrokes.substack.com/embed" title="Subscribe to In Between Strokes" frameborder="0" scrolling="no"></iframe>
-  </div>
+  <form class="sub-thin fade-up" onsubmit="return subGo(event,'inbtwstrokes')">
+    <div class="sub-thin-label">Subscribe &middot; In Between Strokes</div>
+    <div class="sub-thin-row">
+      <input type="email" placeholder="Type your email…" required aria-label="Email address" />
+      <button type="submit">Subscribe</button>
+    </div>
+  </form>
 </section>
 
 <!-- COMMISSIONS -->
@@ -2165,6 +2175,16 @@ function interviewCard(iv){
     new MutationObserver(scanCounts).observe(c,{childList:true,subtree:true});
   });
 })();
+
+/* Thin Substack subscribe — opens the newsletter's subscribe page with the email prefilled */
+function subGo(e,sub){
+  e.preventDefault();
+  var input=e.target.querySelector('input');
+  var email=input&&input.value?input.value.trim():'';
+  window.open('https://'+sub+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
+  if(e.target.reset)e.target.reset();
+  return false;
+}
 </script>
 </body>
 </html>

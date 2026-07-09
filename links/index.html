@@ -180,8 +180,14 @@ body::before{
   font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;
   text-transform:uppercase;color:var(--muted);opacity:.7;
 }
-.substack-embed{margin:14px 0 0;width:100%;}
-.substack-embed iframe{width:100%;height:320px;border:1px solid var(--border);border-radius:12px;background:#fff;display:block;}
+.sub-thin{margin:12px 0 0;width:100%;}
+.sub-thin-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;text-align:center;}
+.sub-thin-row{display:flex;gap:8px;}
+.sub-thin input{flex:1;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--ink);outline:none;transition:border-color .2s;}
+.sub-thin input:focus{border-color:var(--purple);}
+.sub-thin input::placeholder{color:var(--muted);}
+.sub-thin button{padding:0 18px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s;}
+.sub-thin button:hover{background:var(--purple-mid);}
 </style>
 </head>
 <body>
@@ -240,9 +246,13 @@ body::before{
     </a>
   </div>
   <!-- Subscribe form — In Between Strokes (art newsletter) -->
-  <div class="substack-embed">
-    <iframe src="https://inbtwstrokes.substack.com/embed" title="Subscribe to In Between Strokes" frameborder="0" scrolling="no"></iframe>
-  </div>
+  <form class="sub-thin" onsubmit="return subGo(event,'inbtwstrokes')">
+    <div class="sub-thin-label">Subscribe &middot; In Between Strokes</div>
+    <div class="sub-thin-row">
+      <input type="email" placeholder="Type your email…" required aria-label="Email address" />
+      <button type="submit">Subscribe</button>
+    </div>
+  </form>
 
   <div class="section-label">The Tech</div>
   <!-- Tech socials (X · Discord · LinkedIn · Telegram) — rendered by JS -->
@@ -267,9 +277,13 @@ body::before{
     </a>
   </div>
   <!-- Subscribe form — Between the Blocks (tech newsletter) -->
-  <div class="substack-embed">
-    <iframe src="https://btwtheblocks.substack.com/embed" title="Subscribe to Between the Blocks" frameborder="0" scrolling="no"></iframe>
-  </div>
+  <form class="sub-thin" onsubmit="return subGo(event,'btwtheblocks')">
+    <div class="sub-thin-label">Subscribe &middot; Between the Blocks</div>
+    <div class="sub-thin-row">
+      <input type="email" placeholder="Type your email…" required aria-label="Email address" />
+      <button type="submit">Subscribe</button>
+    </div>
+  </form>
 
   <div class="foot">© 2026 Victory Adewojo</div>
 
@@ -338,6 +352,16 @@ body::before{
     }catch(e){}
   })();
 })();
+
+/* Thin Substack subscribe — opens the newsletter's subscribe page with the email prefilled */
+function subGo(e,sub){
+  e.preventDefault();
+  var input=e.target.querySelector('input');
+  var email=input&&input.value?input.value.trim():'';
+  window.open('https://'+sub+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
+  if(e.target.reset)e.target.reset();
+  return false;
+}
 </script>
 </body>
 </html>
