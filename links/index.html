@@ -217,21 +217,13 @@ body::before{
   <a class="art-embed" href="https://art.vhictorry.com">
     <div class="art-embed-img" id="artEmbedImg">♟</div>
     <div class="art-embed-cap">
-      <div class="art-embed-title" id="artEmbedTitle">The Art</div>
-      <div class="art-embed-sub" id="artEmbedSub">Paintings · On-chain &amp; physical</div>
+      <div class="art-embed-title" id="artEmbedTitle">Art Website</div>
+      <div class="art-embed-sub" id="artEmbedSub">Explore the Canvas</div>
     </div>
   </a>
 
   <!-- Art buttons — editable via "Link-in-bio Page" in Sanity Studio -->
   <div id="artLinks">
-    <a class="link-card" href="https://art.vhictorry.com/gallery/">
-      <div class="link-icon">🖼</div>
-      <div class="link-text">
-        <div class="link-title">Full Gallery</div>
-        <div class="link-sub">Every available work</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
     <a class="link-card" href="https://www.saatchiart.com/vhictorry" target="_blank" rel="noopener">
       <div class="link-icon">🎨</div>
       <div class="link-text">
@@ -265,12 +257,20 @@ body::before{
   <a class="art-embed" href="https://vhictorry.com">
     <div class="art-embed-img" style="background:linear-gradient(135deg,var(--ink),var(--ink-mid));color:var(--gold);">✦</div>
     <div class="art-embed-cap">
-      <div class="art-embed-title">Work Portfolio</div>
+      <div class="art-embed-title">Tech Workspace</div>
       <div class="art-embed-sub">Community · Operations · Strategy</div>
     </div>
   </a>
   <!-- Tech buttons — editable via "Link-in-bio Page" in Sanity Studio -->
   <div id="techLinks">
+    <a class="link-card" href="https://vhictorry.com/#contact">
+      <div class="link-icon">🤝</div>
+      <div class="link-text">
+        <div class="link-title">Collaborate With Me</div>
+        <div class="link-sub">Community · Ops · Advisory work</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
     <a class="link-card" href="#" onclick="return openSub('btwtheblocks','Between the Blocks')">
       <div class="link-icon">✍</div>
       <div class="link-text">
@@ -312,9 +312,7 @@ body::before{
     const u=a.url.toLowerCase().endsWith('.gif')?a.url:a.url+'?w=900&fit=max&auto=format';
     img.style.background='var(--purple-xpale) url("'+u+'") center/contain no-repeat';
     img.textContent='';
-    if(a.title)document.getElementById('artEmbedTitle').textContent=a.title;
-    const sub=[a.medium,a.year].filter(Boolean).join(' · ');
-    if(sub)document.getElementById('artEmbedSub').textContent=sub;
+    /* Title/sub stay static ("Art Website" / "Explore the Canvas") — only the thumbnail is pulled from Sanity */
   }catch(e){}
 })();
 
