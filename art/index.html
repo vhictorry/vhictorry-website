@@ -50,6 +50,13 @@ body {
   transform:translate(-50%,-50%);
   transition:all .12s ease; opacity:.5;
 }
+/* Touch / no-mouse devices: no custom cursor — use the normal system cursor */
+@media (hover:none),(pointer:coarse){
+  body{cursor:auto!important;}
+  .cursor,.cursor-ring{display:none!important;}
+  a,button,.filter-btn,.nav-cta,.gallery-card,.art-card,.link-card{cursor:pointer!important;}
+  input,textarea,select{cursor:auto!important;}
+}
 
 /* ── NAV ── */
 nav {
@@ -890,22 +897,16 @@ footer {
   letter-spacing:1px; font-weight:700; font-style:italic; color:var(--purple-light);
 }
 .footer-center { display:flex; flex-direction:column; align-items:center; gap:16px; }
-.footer-social { display:flex; gap:10px; }
-.footer-social a {
-  width:36px; height:36px; border:1.5px solid rgba(253,252,255,0.18);
-  border-radius:2px; display:flex; align-items:center; justify-content:center;
-  color:rgba(253,252,255,0.55); transition:all .2s;
-}
-.footer-social a:hover { border-color:var(--purple-light); color:var(--purple-light); background:rgba(176,125,217,0.12); }
-.footer-social svg { width:15px; height:15px; fill:currentColor; }
-/* Art hero socials (light background) */
-.hero-social { display:flex; gap:10px; margin-top:34px; }
-.hero-social a {
-  width:40px; height:40px; border:1.5px solid var(--border); border-radius:2px;
-  display:flex; align-items:center; justify-content:center; color:var(--muted); transition:all .2s;
-}
-.hero-social a:hover { border-color:var(--purple); color:var(--purple); background:var(--purple-xpale); }
-.hero-social svg { width:16px; height:16px; fill:currentColor; }
+/* GROUPED SOCIAL PILL (2026-07-08) — on dark backgrounds; hover-lift + tooltip label */
+.hero-social,.footer-social{display:inline-flex;gap:4px;padding:7px;width:max-content;max-width:100%;background:rgba(253,252,255,0.05);border:1px solid rgba(176,125,217,0.18);border-radius:16px;flex-wrap:wrap;}
+.hero-social{margin-top:34px;}
+.hero-social a,.footer-social a{position:relative;width:42px;height:42px;border:none;border-radius:12px;display:flex;align-items:center;justify-content:center;color:rgba(253,252,255,0.6);background:transparent;transition:transform .28s cubic-bezier(.2,.7,.2,1),background .25s,color .25s,box-shadow .25s;}
+.hero-social a:hover,.footer-social a:hover{color:#fff;background:linear-gradient(160deg,var(--purple-light),var(--purple));transform:translateY(-7px);box-shadow:0 12px 22px -8px rgba(107,47,160,.7);}
+.hero-social svg,.footer-social svg{width:18px;height:18px;fill:currentColor;}
+.hero-social a::after,.footer-social a::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(5px);background:#fff;color:var(--ink);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px;text-transform:capitalize;padding:5px 11px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 8px 20px -8px rgba(0,0,0,.5);z-index:6;}
+.hero-social a::before,.footer-social a::before{content:'';position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#fff;opacity:0;transition:opacity .2s;z-index:6;}
+.hero-social a:hover::after,.footer-social a:hover::after{opacity:1;transform:translateX(-50%) translateY(0);}
+.hero-social a:hover::before,.footer-social a:hover::before{opacity:1;}
 
 /* ── EXHIBITIONS ── */
 .exhibitions-section { padding:100px 56px; background:var(--offwhite); }
@@ -2038,7 +2039,7 @@ function interviewCard(iv){
   const DEF={instagram:'https://www.instagram.com/vhictorry',tiktok:'https://www.tiktok.com/@vhictorry',youtube:'https://youtube.com/@vhictorry',substack:'https://substack.com/@vhictorry'};
   const WANT=['instagram','tiktok','youtube','substack'];
   const PROJ='3ihweswz',DS='production';
-  const render=links=>{const html=WANT.map(p=>`<a href="${links[p]}" title="${p}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${SOC[p]}</svg></a>`).join('');els.forEach(e=>{e.innerHTML=html;});};
+  const render=links=>{const html=WANT.map(p=>`<a href="${links[p]}" aria-label="${p}" data-tip="${p}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${SOC[p]}</svg></a>`).join('');els.forEach(e=>{e.innerHTML=html;});};
   render(DEF);
   (async()=>{
     try{

@@ -25,6 +25,13 @@
 
     .cursor { position:fixed; width:8px; height:8px; background:var(--purple); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
     .cursor-ring { position:fixed; width:32px; height:32px; border:1.5px solid rgba(107,47,160,0.4); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s, height .3s; }
+    /* Touch / no-mouse devices: no custom cursor */
+    @media (hover:none),(pointer:coarse){
+      body{cursor:auto!important;}
+      .cursor,.cursor-ring{display:none!important;}
+      a,button,.filter-pill,.nav-cta,.gallery-card{cursor:pointer!important;}
+      input,textarea,select{cursor:auto!important;}
+    }
 
     .fade-up { opacity:0; transform:translateY(28px); transition:opacity .7s, transform .7s; }
     .fade-up.visible { opacity:1; transform:translateY(0); }

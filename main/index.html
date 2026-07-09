@@ -24,6 +24,13 @@ body{background:var(--white);color:var(--ink);font-family:'Cormorant Garamond',s
 /* CURSOR */
 .cursor{position:fixed;width:10px;height:10px;background:var(--purple);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;mix-blend-mode:multiply;}
 .cursor-ring{position:fixed;width:32px;height:32px;border:1.5px solid var(--purple-mid);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease;opacity:.5;}
+/* Touch / no-mouse devices: no custom cursor — use the normal system cursor */
+@media (hover:none),(pointer:coarse){
+  body{cursor:auto;}
+  .cursor,.cursor-ring{display:none!important;}
+  a,button,.btn-primary,.btn-ghost,.btn-outline,.btn-outline,.nav-cta,.filter-btn,.chain-tag,.sub-thin button,.blog-substack-link,label{cursor:pointer;}
+  input,textarea,select{cursor:auto;}
+}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:rgba(253,252,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
@@ -58,10 +65,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .hero-photo{position:absolute;inset:0;background:url('https://vhictorry.com/_next/image?url=%2Fimages%2Fvic-2.png&w=640&q=75') center/cover no-repeat;border-radius:2px;box-shadow:0 24px 64px rgba(107,47,160,0.18);}
 .hero-photo-label{position:absolute;bottom:-20px;left:0;right:0;display:flex;justify-content:center;}
 .hero-photo-label span{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);background:var(--white);padding:6px 18px;border:1px solid var(--border-strong);border-radius:20px;}
-.hero-social{display:flex;gap:12px;margin-top:36px;}
-.social-link{width:38px;height:38px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:14px;border-radius:2px;transition:all .2s;}
-.social-link:hover{border-color:var(--purple);color:var(--purple);background:var(--purple-xpale);}
-.social-link svg{width:16px;height:16px;fill:currentColor;}
+/* GROUPED SOCIAL PILL (2026-07-08) — dark bar, hover-lift, tooltip label */
+.hero-social,.social-links-row{display:inline-flex;gap:4px;margin-top:32px;padding:7px;width:max-content;max-width:100%;background:var(--ink);border-radius:16px;box-shadow:0 14px 34px -16px rgba(26,14,46,.55);flex-wrap:wrap;}
+.social-link{position:relative;width:42px;height:42px;border:none;border-radius:12px;display:flex;align-items:center;justify-content:center;color:rgba(253,252,255,.62);background:transparent;text-decoration:none;font-size:14px;transition:transform .28s cubic-bezier(.2,.7,.2,1),background .25s,color .25s,box-shadow .25s;}
+.social-link:hover{color:var(--white);background:linear-gradient(160deg,var(--purple-light),var(--purple));transform:translateY(-7px);box-shadow:0 12px 22px -8px rgba(107,47,160,.7);}
+.social-link svg{width:18px;height:18px;fill:currentColor;}
+.social-link::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(5px);background:var(--white);color:var(--ink);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px;text-transform:capitalize;padding:5px 11px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 8px 20px -8px rgba(26,14,46,.5);z-index:6;}
+.social-link::before{content:'';position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--white);opacity:0;transition:opacity .2s;z-index:6;}
+.social-link:hover::after{opacity:1;transform:translateX(-50%) translateY(0);}
+.social-link:hover::before{opacity:1;}
 
 /* MARQUEE */
 .marquee-bar{background:var(--purple);padding:11px 0;overflow:hidden;white-space:nowrap;}
@@ -127,7 +139,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .chain-tags{display:flex;flex-wrap:wrap;gap:8px;}
 .chain-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple-light);border:1px solid rgba(176,125,217,0.35);padding:6px 14px;border-radius:2px;transition:background .2s;}
 .chain-tag:hover{background:rgba(107,47,160,0.25);}
-.web3-visual{position:relative;height:300px;display:flex;align-items:center;justify-content:center;}
+.web3-visual{position:relative;min-height:380px;display:flex;align-items:center;justify-content:center;}
+/* ── INTERACTIVE ORBIT (Web3 section) ── */
+.orbit-scene{position:relative;width:100%;height:380px;display:flex;align-items:center;justify-content:center;}
+.orbit-ring{position:absolute;border:1px solid rgba(176,125,217,0.13);border-radius:50%;}
+.orbit-core{position:absolute;z-index:3;width:72px;height:72px;background:var(--purple);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(107,47,160,.55);}
+.orbit-core span{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:#fff;letter-spacing:1px;}
+.orbit-core::before,.orbit-core::after{content:'';position:absolute;border:1px solid rgba(255,255,255,.22);border-radius:50%;animation:orbitPing 3s ease-out infinite;}
+.orbit-core::before{width:96px;height:96px;}
+.orbit-core::after{width:132px;height:132px;animation-delay:.9s;}
+@keyframes orbitPing{0%{opacity:.5;transform:scale(.65)}100%{opacity:0;transform:scale(1.15)}}
+.orbit-node{position:absolute;left:50%;top:50%;z-index:4;cursor:pointer;}
+.orbit-node-dot{width:40px;height:40px;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid rgba(176,125,217,.4);background:var(--ink-mid);display:flex;align-items:center;justify-content:center;color:var(--purple-light);transition:background .3s,color .3s,border-color .3s,box-shadow .3s,transform .3s;}
+.orbit-node-dot svg{width:17px;height:17px;stroke:currentColor;fill:none;}
+.orbit-node-lbl{position:absolute;top:26px;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(176,125,217,.75);transition:color .3s;}
+.orbit-node.active .orbit-node-dot{background:#fff;color:var(--purple);border-color:#fff;box-shadow:0 0 26px rgba(216,180,254,.6);transform:translate(-50%,-50%) scale(1.35);}
+.orbit-node.active .orbit-node-lbl{color:#fff;font-weight:700;}
+.orbit-hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(176,125,217,.45);transition:opacity .25s;pointer-events:none;}
+.orbit-card{position:absolute;left:50%;bottom:8px;transform:translateX(-50%) translateY(8px);z-index:6;width:min(290px,94%);background:rgba(21,7,41,.97);backdrop-filter:blur(8px);border:1px solid rgba(176,125,217,.3);border-radius:12px;padding:16px 18px;text-align:left;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 20px 50px rgba(0,0,0,.45);}
+.orbit-card.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+.orbit-card-cat{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--purple-light);margin-bottom:6px;}
+.orbit-card-title{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:19px;color:#fff;margin-bottom:8px;}
+.orbit-card-desc{font-family:'Cormorant Garamond',serif;font-size:14.5px;line-height:1.6;color:rgba(253,252,255,.78);}
 .hex-ring{position:absolute;border:1px solid rgba(176,125,217,0.2);border-radius:50%;animation:pulse-ring 3.5s ease-in-out infinite;}
 .hex-ring:nth-child(1){width:80px;height:80px;animation-delay:0s;}
 .hex-ring:nth-child(2){width:160px;height:160px;animation-delay:.6s;}
@@ -224,6 +257,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .sub-thin input::placeholder{color:var(--muted);}
 .sub-thin button{padding:0 22px;background:var(--purple);color:#fff;border:none;border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s;}
 .sub-thin button:hover{background:var(--purple-mid);}
+.sub-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(26,14,46,.6);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:24px;}
+.sub-modal.open{display:flex;animation:subFade .2s ease;}
+@keyframes subFade{from{opacity:0}to{opacity:1}}
+.sub-modal,.sub-modal *{cursor:auto;}
+.sub-modal-box{background:#fff;border-radius:16px;padding:36px 28px 28px;max-width:400px;width:100%;position:relative;box-shadow:0 30px 90px rgba(26,14,46,.5);text-align:center;}
+.sub-modal-close{position:absolute;top:10px;right:15px;background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0;}
+.sub-modal-close:hover{color:var(--ink);}
+.sub-modal-name{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:26px;color:var(--ink);margin-bottom:6px;}
+.sub-modal-note{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
+.sub-modal .sub-thin{margin:0;}
+.sub-modal-read{display:inline-block;margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
+.sub-modal-read:hover{color:var(--purple-mid);text-decoration:underline;}
 
 /* CONTACT */
 #contact{padding:120px 56px;background:var(--white);display:grid;grid-template-columns:1fr 1fr;gap:80px;}
@@ -235,7 +280,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .c-icon{width:42px;height:42px;background:var(--purple-pale);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border-radius:2px;}
 .c-detail span{display:block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:2px;}
 .c-detail{font-size:15px;color:var(--ink-mid);}
-.social-links-row{display:flex;gap:12px;margin-top:36px;}
+.social-links-row{margin-top:36px;}
 .contact-form{display:flex;flex-direction:column;gap:16px;}
 .form-group{display:flex;flex-direction:column;gap:7px;}
 .form-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);}
@@ -284,7 +329,8 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
   .expertise-grid{grid-template-columns:1fr;}
   .expertise-top{flex-direction:column;gap:16px;align-items:flex-start;}
   .web3-strip{grid-template-columns:1fr;padding:60px 24px;}
-  .web3-visual{height:220px;}
+  .web3-visual{min-height:330px;}
+  .orbit-scene{height:330px;}
   .projects-section{padding:60px 24px;}
   #testimonials{padding:80px 24px;}
   .t-header,.t-grid{grid-template-columns:1fr;}
@@ -525,14 +571,13 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
     </div>
   </div>
   <div class="web3-visual">
-    <div class="hex-ring"></div>
-    <div class="hex-ring"></div>
-    <div class="hex-ring"></div>
-    <div class="hex-center"><div class="hex-inner">W3</div></div>
-    <div class="fn" style="top:12%;left:8%;animation-delay:0s;"><div class="fn-dot"></div><div class="fn-lbl">DeFi</div></div>
-    <div class="fn" style="top:12%;right:8%;animation-delay:.8s;"><div class="fn-dot"></div><div class="fn-lbl">NFT</div></div>
-    <div class="fn" style="bottom:12%;left:8%;animation-delay:1.6s;"><div class="fn-dot"></div><div class="fn-lbl">DAO</div></div>
-    <div class="fn" style="bottom:12%;right:8%;animation-delay:2.4s;"><div class="fn-dot"></div><div class="fn-lbl">OPS</div></div>
+    <div class="orbit-scene" id="orbitScene">
+      <div class="orbit-ring" style="width:230px;height:230px;"></div>
+      <div class="orbit-ring" style="width:340px;height:340px;"></div>
+      <div class="orbit-core"><span>W3</span></div>
+      <div class="orbit-hint" id="orbitHint">Tap a node to explore</div>
+      <!-- orbiting nodes + info card injected by JS below -->
+    </div>
   </div>
 </div>
 
@@ -758,21 +803,13 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
       </div>
     </div>
   </div>
-  <a href="https://btwtheblocks.substack.com/" target="_blank" rel="noopener" class="blog-substack-link fade-up">
+  <a href="#" onclick="return openSub('btwtheblocks','Between the Blocks')" class="blog-substack-link fade-up">
     <div>
       <div class="blog-substack-label">Substack &nbsp;&middot;&nbsp; Between the Blocks</div>
-      <div class="blog-substack-title">Read all essays &amp; articles</div>
+      <div class="blog-substack-title">Read the essays &amp; subscribe</div>
     </div>
     <span class="blog-substack-arrow">&#8594;</span>
   </a>
-  <!-- Subscribe form (Between the Blocks) -->
-  <form class="sub-thin fade-up" onsubmit="return subGo(event,'btwtheblocks')">
-    <div class="sub-thin-label">Subscribe &middot; Between the Blocks</div>
-    <div class="sub-thin-row">
-      <input type="email" placeholder="Type your email…" required aria-label="Email address" />
-      <button type="submit">Subscribe</button>
-    </div>
-  </form>
 </section>
 
 <!-- CONTACT -->
@@ -823,15 +860,21 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
 </footer>
 
 <script>
-// Cursor
+// Cursor — desktop/mouse only; skipped entirely on touch or coarse-pointer devices
 const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
-(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
-document.querySelectorAll('a,button,.expertise-card,.t-card,.event-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='50px';ring.style.height='50px';});
-  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
-});
+const noMouse=window.matchMedia&&matchMedia('(hover:none),(pointer:coarse)').matches;
+if(noMouse){
+  if(cursor)cursor.style.display='none';
+  if(ring)ring.style.display='none';
+}else{
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,.expertise-card,.t-card,.event-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='50px';ring.style.height='50px';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
+  });
+}
 
 // Fade
 const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.1});
@@ -932,7 +975,7 @@ function toggleEvents(){
     ['.hero-social','.social-links-row'].forEach(sel=>{
       const el=document.querySelector(sel);
       if(!el)return;
-      el.innerHTML=socials.filter(s=>s.url&&SOC[s.platform]).map(s=>`<a href="${s.url}" class="social-link" title="${s.platform}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${SOC[s.platform]}</svg></a>`).join('');
+      el.innerHTML=socials.filter(s=>s.url&&SOC[s.platform]).map(s=>`<a href="${s.url}" class="social-link" aria-label="${s.platform}" data-tip="${s.platform}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${SOC[s.platform]}</svg></a>`).join('');
     });
     /* Art teaser tiles — automatically show the first 3 artworks from the gallery */
     const arts=await q(`*[_type=="artwork" && defined(image)]|order(order asc)[0...3]{"u":image.asset->url}`)||[];
@@ -1035,15 +1078,30 @@ function toggleEvents(){
 
 <!-- ═══ Thin subscribe forms + testimonial marquee (columns + centre-focus) ═══ -->
 <script>
-/* Thin Substack subscribe — opens the newsletter's subscribe page with the email prefilled */
-function subGo(e,sub){
-  e.preventDefault();
-  var input=e.target.querySelector('input');
-  var email=input&&input.value?input.value.trim():'';
-  window.open('https://'+sub+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
-  if(e.target.reset)e.target.reset();
+/* Newsletter popup — the Substack card opens this; it offers both Subscribe and Read */
+var subCur='btwtheblocks';
+function openSub(sub,name){
+  subCur=sub;
+  var n=document.getElementById('subModalName');if(n)n.textContent=name;
+  var rd=document.getElementById('subModalRead');if(rd)rd.href='https://'+sub+'.substack.com';
+  var m=document.getElementById('subModal');if(m)m.classList.add('open');
+  setTimeout(function(){var i=document.querySelector('#subModalForm input');if(i)i.focus();},60);
   return false;
 }
+function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
+(function(){
+  var modal=document.getElementById('subModal');if(!modal)return;
+  var closeBtn=document.getElementById('subClose');if(closeBtn)closeBtn.addEventListener('click',closeSub);
+  modal.addEventListener('click',function(e){if(e.target===modal)closeSub();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();});
+  var form=document.getElementById('subModalForm');
+  if(form)form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var input=form.querySelector('input');var email=input&&input.value?input.value.trim():'';
+    window.open('https://'+subCur+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
+    closeSub();form.reset();
+  });
+})();
 
 /* Testimonials — short cards pair into columns, row auto-scrolls, the centred card pops */
 (function(){
@@ -1102,6 +1160,90 @@ function subGo(e,sub){
     .then(function(r){return r.json();})
     .then(function(j){var ts=(j&&j.result)||[];build(ts.length?ts.map(cardHTML):fallback());})
     .catch(function(){build(fallback());});
+})();
+</script>
+
+<!-- Subscribe popup — opens from the "Between the Blocks" card -->
+<div class="sub-modal" id="subModal" role="dialog" aria-modal="true" aria-label="Subscribe">
+  <div class="sub-modal-box">
+    <button class="sub-modal-close" id="subClose" aria-label="Close">&times;</button>
+    <div class="sub-modal-name" id="subModalName">Between the Blocks</div>
+    <div class="sub-modal-note">Reflections on crypto, Web3 &amp; building — straight to your inbox.</div>
+    <form class="sub-thin" id="subModalForm">
+      <div class="sub-thin-row">
+        <input type="email" placeholder="Type your email…" required aria-label="Email address" />
+        <button type="submit">Subscribe</button>
+      </div>
+    </form>
+    <a class="sub-modal-read" id="subModalRead" href="https://btwtheblocks.substack.com" target="_blank" rel="noopener">Or read all essays on Substack &rarr;</a>
+  </div>
+</div>
+
+<!-- ═══ Interactive Web3 orbit — auto-rotating; tap a node to inspect ═══ -->
+<script>
+(function(){
+  var scene=document.getElementById('orbitScene');
+  if(!scene)return;
+  var core=scene.querySelector('.orbit-core'), hint=document.getElementById('orbitHint');
+  var ICON={
+    coins:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>',
+    image:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>',
+    users:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    chat:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    gear:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>'
+  };
+  var data=[
+    {t:'DeFi',cat:'Protocols & Markets',icon:'coins',d:'Navigated DeFi through full market cycles — the runs, the collapses, and everything in between.'},
+    {t:'NFT Communities',cat:'Collectors & Culture',icon:'image',d:'Built, moderated and grew NFT collector communities from zero to genuinely active.'},
+    {t:'DAOs',cat:'Governance & Ops',icon:'users',d:'Coordinated governance, contributors and the day-to-day operations that keep a DAO moving.'},
+    {t:'Discord',cat:'Community Infrastructure',icon:'chat',d:'Native Discord architecture — roles, bots and token-gated spaces built to scale.'},
+    {t:'Operations',cat:'Keeping it Running',icon:'gear',d:'Kept communities alive and organised through a space that never stops shifting.'}
+  ];
+  var nodes=data.map(function(it,i){
+    var el=document.createElement('div');
+    el.className='orbit-node';
+    el.innerHTML='<div class="orbit-node-dot">'+ICON[it.icon]+'</div><div class="orbit-node-lbl">'+it.t+'</div>';
+    el.addEventListener('click',function(e){e.stopPropagation();select(i);});
+    scene.appendChild(el);
+    return el;
+  });
+  var card=document.createElement('div');card.className='orbit-card';scene.appendChild(card);
+  var R=115, angle=0, sel=-1, auto=true;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function setR(){R=window.innerWidth<640?86:115;}
+  setR();window.addEventListener('resize',function(){setR();place();});
+  function place(){
+    var n=data.length;
+    for(var i=0;i<n;i++){
+      var a=((i/n)*360+angle)*Math.PI/180;
+      var x=R*Math.cos(a), y=R*Math.sin(a);
+      nodes[i].style.transform='translate('+x+'px,'+y+'px)';
+      nodes[i].style.zIndex=(sel===i?20:Math.round(10+10*Math.cos(a)));
+      nodes[i].style.opacity=(sel===-1?Math.max(.5,0.5+0.5*((1+Math.sin(a))/2)):(sel===i?1:.32));
+    }
+  }
+  function select(i){
+    if(sel===i){deselect();return;}
+    sel=i;auto=false;
+    nodes.forEach(function(el,k){el.classList.toggle('active',k===i);});
+    var it=data[i];
+    card.innerHTML='<div class="orbit-card-cat">'+it.cat+'</div><div class="orbit-card-title">'+it.t+'</div><div class="orbit-card-desc">'+it.d+'</div>';
+    card.classList.add('show');
+    if(hint)hint.style.opacity='0';
+    if(core)core.querySelector('span').textContent=it.t.slice(0,3).toUpperCase();
+    place();
+  }
+  function deselect(){
+    sel=-1;auto=!reduce;
+    nodes.forEach(function(el){el.classList.remove('active');});
+    card.classList.remove('show');
+    if(hint)hint.style.opacity='';
+    if(core)core.querySelector('span').textContent='W3';
+    place();
+  }
+  scene.addEventListener('click',function(e){if(e.target===scene||(core&&core.contains(e.target)))deselect();});
+  card.addEventListener('click',function(e){e.stopPropagation();});
+  (function loop(){if(auto){angle=(angle+0.22)%360;}place();if(!reduce)requestAnimationFrame(loop);})();
 })();
 </script>
 </body>
