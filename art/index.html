@@ -584,6 +584,24 @@ nav {
 .sub-thin input::placeholder { color:var(--muted); }
 .sub-thin button { padding:0 22px; background:var(--purple); color:#fff; border:none; border-radius:4px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; cursor:none; white-space:nowrap; transition:background .2s; }
 .sub-thin button:hover { background:var(--purple-mid); }
+/* Substack card + popup (matches the main site "Between the Blocks" pattern) */
+.blog-substack-link{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:520px;margin:40px auto 0;padding:20px 28px;background:var(--white);border:1.5px solid var(--border);border-radius:4px;text-decoration:none;transition:all .2s;cursor:pointer;}
+.blog-substack-link:hover{border-color:var(--border-strong);background:var(--purple-xpale);}
+.blog-substack-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:4px;}
+.blog-substack-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);font-style:italic;}
+.blog-substack-arrow{font-family:'DM Mono',monospace;font-size:12px;color:var(--purple);}
+.sub-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(26,14,46,.6);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:24px;}
+.sub-modal.open{display:flex;animation:subFade .2s ease;}
+@keyframes subFade{from{opacity:0}to{opacity:1}}
+.sub-modal,.sub-modal *{cursor:auto;}
+.sub-modal-box{background:#fff;border-radius:16px;padding:36px 28px 28px;max-width:400px;width:100%;position:relative;box-shadow:0 30px 90px rgba(26,14,46,.5);text-align:center;}
+.sub-modal-close{position:absolute;top:10px;right:15px;background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0;}
+.sub-modal-close:hover{color:var(--ink);}
+.sub-modal-name{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:26px;color:var(--ink);margin-bottom:6px;}
+.sub-modal-note{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
+.sub-modal .sub-thin{margin:0;}
+.sub-modal-read{display:inline-block;margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
+.sub-modal-read:hover{color:var(--purple-mid);text-decoration:underline;}
 .blog-card {
   background:var(--white); border-radius:2px;
   border:1.5px solid var(--border);
@@ -898,9 +916,9 @@ footer {
 }
 .footer-center { display:flex; flex-direction:column; align-items:center; gap:16px; }
 /* GROUPED SOCIAL PILL (2026-07-08) — on dark backgrounds; hover-lift + tooltip label */
-.hero-social,.footer-social{display:inline-flex;gap:4px;padding:7px;width:max-content;max-width:100%;background:rgba(253,252,255,0.05);border:1px solid rgba(176,125,217,0.18);border-radius:16px;flex-wrap:wrap;}
+.hero-social,.footer-social{display:inline-flex;gap:4px;padding:7px;width:max-content;max-width:100%;background:var(--white);border:1px solid var(--border-strong);border-radius:16px;box-shadow:0 12px 30px -16px rgba(26,14,46,.45);flex-wrap:wrap;}
 .hero-social{margin-top:34px;}
-.hero-social a,.footer-social a{position:relative;width:42px;height:42px;border:none;border-radius:12px;display:flex;align-items:center;justify-content:center;color:rgba(253,252,255,0.6);background:transparent;transition:transform .28s cubic-bezier(.2,.7,.2,1),background .25s,color .25s,box-shadow .25s;}
+.hero-social a,.footer-social a{position:relative;width:42px;height:42px;border:none;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--purple);background:transparent;transition:transform .28s cubic-bezier(.2,.7,.2,1),background .25s,color .25s,box-shadow .25s;}
 .hero-social a:hover,.footer-social a:hover{color:#fff;background:linear-gradient(160deg,var(--purple-light),var(--purple));transform:translateY(-7px);box-shadow:0 12px 22px -8px rgba(107,47,160,.7);}
 .hero-social svg,.footer-social svg{width:18px;height:18px;fill:currentColor;}
 .hero-social a::after,.footer-social a::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(5px);background:#fff;color:var(--ink);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px;text-transform:capitalize;padding:5px 11px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 8px 20px -8px rgba(0,0,0,.5);z-index:6;}
@@ -990,36 +1008,36 @@ footer {
   .nav-cta { display:none; }
   .nav-mobile-toggle { display:flex; }
   .page-hero { grid-template-columns:1fr; padding:0; gap:0; min-height:auto; }
-  .hero-text { padding:120px 24px 56px; align-self:auto; }
+  .hero-text { padding:100px 24px 44px; align-self:auto; }
   .hero-indexnum { top:70px; left:20px; }
   .hero-featured { display:none; }
   .filter-section { padding:40px 24px 0; }
   .gallery-section { padding:36px 24px 60px; }
   .masonry-grid { columns:2; }
-  .featured-section { padding:80px 24px; }
+  .featured-section { padding:52px 24px; }
   .featured-header { grid-template-columns:1fr; }
   .featured-grid { grid-template-columns:1fr; }
   .featured-main-work { height:380px; }
   .featured-sidebar { flex-direction:row; height:200px; }
-  .statement-section { grid-template-columns:1fr; padding:80px 24px; gap:48px; }
-  .process-section { padding:80px 24px; }
+  .statement-section { grid-template-columns:1fr; padding:52px 24px; gap:48px; }
+  .process-section { padding:52px 24px; }
   .process-header { grid-template-columns:1fr; }
   .process-steps { grid-template-columns:1fr 1fr; }
   .process-step { border-right:1.5px solid var(--border); border-bottom:1.5px solid var(--border); }
   .process-step:nth-child(2n) { border-right:none; }
   .process-step:nth-last-child(-n+2) { border-bottom:none; }
-  .web3art-section { grid-template-columns:1fr; padding:60px 24px; }
-  .exhibitions-section { padding:60px 24px; }
+  .web3art-section { grid-template-columns:1fr; padding:44px 24px; }
+  .exhibitions-section { padding:44px 24px; }
   .exhibitions-header { grid-template-columns:1fr; }
   .exhibition-item { grid-template-columns:60px 1fr; gap:16px; }
   .exhibition-venue, .exhibition-tag { display:none; }
-  .interviews-section { padding:60px 24px; }
+  .interviews-section { padding:44px 24px; }
   .interviews-header { grid-template-columns:1fr; }
   .interviews-grid { grid-template-columns:1fr; }
-  .blog-section { padding:60px 24px; }
+  .blog-section { padding:44px 24px; }
   .blog-header { grid-template-columns:1fr; gap:16px; }
   .blog-grid { grid-template-columns:1fr; }
-  .commission-section { padding:80px 24px; }
+  .commission-section { padding:52px 24px; }
   .commission-inner { grid-template-columns:1fr; gap:48px; }
   .commission-form { padding:32px 24px; }
   .form-row { grid-template-columns:1fr; }
@@ -1105,7 +1123,7 @@ footer {
     <li><a href="#exhibitions">Exhibitions</a></li>
     <li><a href="#press">Press</a></li>
     <li><a href="#blog">From the Studio</a></li>
-    <li><a href="https://vhictorry.com/">Main Site &rarr;</a></li>
+    <li><a href="https://vhictorry.com/">Tech &rarr;</a></li>
   </ul>
   <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -1650,14 +1668,14 @@ footer {
     </div>
 
   </div>
-  <!-- Subscribe form (In Between Strokes) -->
-  <form class="sub-thin fade-up" onsubmit="return subGo(event,'inbtwstrokes')">
-    <div class="sub-thin-label">Subscribe &middot; In Between Strokes</div>
-    <div class="sub-thin-row">
-      <input type="email" placeholder="Type your email…" required aria-label="Email address" />
-      <button type="submit">Subscribe</button>
+  <!-- Subscribe — opens the popup (same box + modal pattern as the main site) -->
+  <a href="#" onclick="return openSub('inbtwstrokes','In Between Strokes')" class="blog-substack-link fade-up">
+    <div>
+      <div class="blog-substack-label">Substack &nbsp;&middot;&nbsp; In Between Strokes</div>
+      <div class="blog-substack-title">Read the essays &amp; subscribe</div>
     </div>
-  </form>
+    <span class="blog-substack-arrow">&#8594;</span>
+  </a>
 </section>
 
 <!-- COMMISSIONS -->
@@ -2186,6 +2204,41 @@ function subGo(e,sub){
   if(e.target.reset)e.target.reset();
   return false;
 }
+
+/* Newsletter popup — the Substack card opens this; offers both Subscribe and Read */
+var subCur='inbtwstrokes';
+function openSub(sub,name){
+  subCur=sub;
+  var n=document.getElementById('subModalName');if(n)n.textContent=name;
+  var rd=document.getElementById('subModalRead');if(rd)rd.href='https://'+sub+'.substack.com';
+  var m=document.getElementById('subModal');if(m)m.classList.add('open');
+  setTimeout(function(){var i=document.querySelector('#subModalForm input');if(i)i.focus();},60);
+  return false;
+}
+function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
+function subSubmit(e){
+  e.preventDefault();
+  var input=e.target.querySelector('input');var email=input&&input.value?input.value.trim():'';
+  window.open('https://'+subCur+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
+  closeSub();if(e.target.reset)e.target.reset();return false;
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();});
 </script>
+
+<!-- Subscribe popup — opens from the "In Between Strokes" card -->
+<div class="sub-modal" id="subModal" role="dialog" aria-modal="true" aria-label="Subscribe" onclick="if(event.target===this)closeSub()">
+  <div class="sub-modal-box">
+    <button class="sub-modal-close" id="subClose" type="button" aria-label="Close" onclick="closeSub()">&times;</button>
+    <div class="sub-modal-name" id="subModalName">In Between Strokes</div>
+    <div class="sub-modal-note">New paintings, process notes &amp; reflections &mdash; straight to your inbox.</div>
+    <form class="sub-thin" id="subModalForm" onsubmit="return subSubmit(event)">
+      <div class="sub-thin-row">
+        <input type="email" placeholder="Type your email…" required aria-label="Email address" />
+        <button type="submit">Subscribe</button>
+      </div>
+    </form>
+    <a class="sub-modal-read" id="subModalRead" href="https://inbtwstrokes.substack.com" target="_blank" rel="noopener">Or read all essays on Substack &rarr;</a>
+  </div>
+</div>
 </body>
 </html>

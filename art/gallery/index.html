@@ -110,6 +110,10 @@
     .gallery-card { position:relative; overflow:hidden; border-radius:2px; cursor:pointer; break-inside:avoid; margin-bottom:16px; box-shadow:0 12px 30px -22px rgba(26,14,46,0.4); transition:transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
     .gallery-card:hover { transform:translateY(-6px); box-shadow:0 28px 54px -26px rgba(26,14,46,0.5); }
     .gallery-card.hidden { display:none; }
+    .gallery-card.past-limit { display:none; }
+    .see-more-wrap { text-align:center; margin-top:14px; }
+    .see-more-btn { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--purple); background:transparent; border:1.5px solid var(--border-strong); border-radius:2px; padding:14px 34px; cursor:pointer; transition:background .2s,color .2s,border-color .2s; }
+    .see-more-btn:hover { background:var(--purple); color:var(--white); border-color:var(--purple); }
     .card-img { display:block; width:100%; height:auto; transition:transform .7s cubic-bezier(.2,.7,.2,1); }
     .gallery-card:hover .card-img { transform:scale(1.05); }
     .card-badge { position:absolute; top:14px; right:14px; z-index:4; font-family:'DM Mono',monospace; font-size:7px; letter-spacing:2px; text-transform:uppercase; padding:5px 11px; border-radius:1px; }
@@ -207,7 +211,7 @@
     <li><a href="/#exhibitions">Exhibitions</a></li>
     <li><a href="/#press">Press</a></li>
     <li><a href="/#blog">From the Studio</a></li>
-    <li><a href="https://vhictorry.com/">Main Site &rarr;</a></li>
+    <li><a href="https://vhictorry.com/">Tech &rarr;</a></li>
   </ul>
   <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -251,6 +255,9 @@
   <div id="galleryFeature"></div>
   <div class="gallery-grid" id="galleryGrid">
     <p class="gallery-loading" id="galleryMsg">Loading works…</p>
+  </div>
+  <div class="see-more-wrap">
+    <button class="see-more-btn" id="seeMoreBtn" type="button" style="display:none;">See More</button>
   </div>
 </section>
 
@@ -338,6 +345,19 @@ const pills=document.querySelectorAll('.filter-pill');
 const countEl=document.getElementById('galleryCount');
 function getVisible(){return document.querySelectorAll('.gallery-card:not(.hidden)').length;}
 function updateCount(){const v=getVisible();countEl.textContent=v+(v===1?' work':' works');}
+/* Only a handful of works show at first (6 on desktop, 4 on phone); "See More" reveals the rest */
+let expanded=false;
+function limitN(){return (window.matchMedia&&matchMedia('(max-width:640px)').matches)?4:6;}
+function applyLimit(){
+  const vis=document.querySelectorAll('.gallery-card:not(.hidden)');
+  const n=limitN();
+  vis.forEach((c,i)=>{ c.classList.toggle('past-limit', !expanded && i>=n); });
+  const btn=document.getElementById('seeMoreBtn');
+  if(btn){
+    if(vis.length>n){ btn.style.display=''; btn.textContent=expanded?'See Less':('See More ('+(vis.length-n)+')'); }
+    else{ btn.style.display='none'; }
+  }
+}
 function applyFilter(){
   const f=(document.querySelector('.filter-pill.active')||{}).dataset&&document.querySelector('.filter-pill.active').dataset.filter||'all';
   document.querySelectorAll('.gallery-card').forEach(c=>{
@@ -347,12 +367,20 @@ function applyFilter(){
     else{c.classList.toggle('hidden',!(c.dataset.cat||'').split(' ').includes(f));}
   });
   updateCount();
+  applyLimit();
 }
 document.querySelector('.filter-pills').addEventListener('click',e=>{
   const p=e.target.closest('.filter-pill');if(!p)return;
   document.querySelectorAll('.filter-pill').forEach(x=>x.classList.remove('active'));
-  p.classList.add('active');applyFilter();
+  p.classList.add('active');expanded=false;applyFilter();
 });
+const seeMoreBtn=document.getElementById('seeMoreBtn');
+if(seeMoreBtn)seeMoreBtn.addEventListener('click',()=>{
+  expanded=!expanded;
+  applyLimit();
+  if(!expanded){const g=document.getElementById('galleryGrid');if(g)g.scrollIntoView({behavior:'smooth',block:'start'});}
+});
+window.addEventListener('resize',applyLimit);
 
 /* SANITY */
 const PROJ='3ihweswz', DS='production';
