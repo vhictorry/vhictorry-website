@@ -142,16 +142,24 @@ nav {
 }
 .hero-cta:hover::after { left:150%; }
 .hero-stats {
-  display:flex; gap:32px; margin-top:34px;
-  padding-top:24px; border-top:1px solid rgba(176,125,217,0.22);
+  display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:36px;
+}
+.hero-stats > div {
+  background:rgba(253,252,255,0.045); border:1px solid rgba(176,125,217,0.22);
+  border-radius:10px; padding:22px 14px; text-align:center;
+  transition:transform .3s, border-color .3s, background .3s;
+}
+.hero-stats > div:hover {
+  transform:translateY(-4px); border-color:rgba(201,168,76,0.5);
+  background:rgba(253,252,255,0.07);
 }
 .hstat-num {
-  font-family:'Playfair Display',serif; font-size:36px; color:var(--gold);
+  font-family:'Playfair Display',serif; font-size:42px; color:var(--white);
   line-height:1; font-weight:700;
 }
 .hstat-label {
-  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
-  text-transform:uppercase; color:rgba(253,252,255,.42); margin-top:6px;
+  font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px;
+  text-transform:uppercase; color:rgba(253,252,255,.5); margin-top:9px;
 }
 /* right column — tall single artwork that bleeds to the hero edges */
 .hero-featured { position:relative; overflow:hidden; z-index:1; min-height:440px; }
@@ -1022,7 +1030,7 @@ footer {
   .process-steps { grid-template-columns:1fr; }
   .process-step { border-right:none; border-bottom:1.5px solid var(--border); }
   .process-step:last-child { border-bottom:none; }
-  .hero-stats { gap:24px; }
+  .hero-stats { gap:10px; }
   .web3art-visual { grid-template-columns:1fr; }
   .blog-grid { grid-template-columns:1fr; }
 }
@@ -1082,8 +1090,8 @@ footer {
   <a href="https://vhictorry.com/" class="nav-logo">vhictorry</a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#" class="active">Art</a></li>
-    <li><a href="gallery/">Gallery</a></li>
     <li><a href="about/">About</a></li>
+    <li><a href="gallery/">Gallery</a></li>
     <li><a href="#portfolioSection">Portfolio</a></li>
     <li><a href="#exhibitions">Exhibitions</a></li>
     <li><a href="#press">Press</a></li>

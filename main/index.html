@@ -952,7 +952,7 @@ function toggleEvents(){
     const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=${encodeURIComponent(q)}`);
     return(await r.json()).result||[];
   }
-  const posts=await sanity(`*[_type=="blogPost"]|order(order asc){title,tag,description,url,emoji,"coverUrl":coverImage.asset->url}`);
+  const posts=await sanity(`*[_type=="mainBlogPost"]|order(order asc){title,tag,description,url,emoji,"coverUrl":coverImage.asset->url}`);
   if(!posts.length)return;
   const grads=['linear-gradient(135deg,#1A0E2E,#6B2FA0)','linear-gradient(135deg,#3D2B5C,#B07DD9)','linear-gradient(135deg,#6B2FA0,#C9A84C)'];
   const cimg=u=>u.toLowerCase().endsWith('.gif')?u:u+'?w=800&fit=max&auto=format';
