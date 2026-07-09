@@ -180,6 +180,8 @@ body::before{
   font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;
   text-transform:uppercase;color:var(--muted);opacity:.7;
 }
+.substack-embed{margin:14px 0 0;width:100%;}
+.substack-embed iframe{width:100%;height:320px;border:1px solid var(--border);border-radius:12px;background:#fff;display:block;}
 </style>
 </head>
 <body>
@@ -237,6 +239,10 @@ body::before{
       <div class="link-arrow">→</div>
     </a>
   </div>
+  <!-- Subscribe form — In Between Strokes (art newsletter) -->
+  <div class="substack-embed">
+    <iframe src="https://inbtwstrokes.substack.com/embed" title="Subscribe to In Between Strokes" frameborder="0" scrolling="no"></iframe>
+  </div>
 
   <div class="section-label">The Tech</div>
   <!-- Tech socials (X · Discord · LinkedIn · Telegram) — rendered by JS -->
@@ -260,7 +266,10 @@ body::before{
       <div class="link-arrow">→</div>
     </a>
   </div>
-
+  <!-- Subscribe form — Between the Blocks (tech newsletter) -->
+  <div class="substack-embed">
+    <iframe src="https://btwtheblocks.substack.com/embed" title="Subscribe to Between the Blocks" frameborder="0" scrolling="no"></iframe>
+  </div>
 
   <div class="foot">© 2026 Victory Adewojo</div>
 

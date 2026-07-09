@@ -569,6 +569,8 @@ nav {
 .blog-grid {
   display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:24px;
 }
+.substack-embed { margin:40px auto 0; max-width:480px; width:100%; }
+.substack-embed iframe { width:100%; max-width:480px; height:320px; border:1.5px solid var(--border); border-radius:8px; background:#fff; display:block; margin:0 auto; }
 .blog-card {
   background:var(--white); border-radius:2px;
   border:1.5px solid var(--border);
@@ -1640,6 +1642,10 @@ footer {
       </div>
     </div>
 
+  </div>
+  <!-- Subscribe form (In Between Strokes) -->
+  <div class="substack-embed fade-up">
+    <iframe src="https://inbtwstrokes.substack.com/embed" title="Subscribe to In Between Strokes" frameborder="0" scrolling="no"></iframe>
   </div>
 </section>
 

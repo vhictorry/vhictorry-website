@@ -161,8 +161,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 #testimonials{padding:100px 56px;background:var(--offwhite);}
 .t-header{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:56px;}
 .t-subtext{font-size:16px;line-height:1.85;color:var(--muted);font-weight:300;font-family:'Cormorant Garamond',serif;}
-.t-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
-.t-card{background:var(--white);padding:36px 32px;border-radius:4px;border:1.5px solid var(--border);transition:box-shadow .3s,border-color .3s;}
+.t-marquee{overflow:hidden;position:relative;}
+.t-marquee::before,.t-marquee::after{content:'';position:absolute;top:0;bottom:0;width:70px;z-index:2;pointer-events:none;}
+.t-marquee::before{left:0;background:linear-gradient(to right,var(--offwhite),transparent);}
+.t-marquee::after{right:0;background:linear-gradient(to left,var(--offwhite),transparent);}
+.t-track{display:flex;gap:16px;width:max-content;align-items:stretch;animation:t-scroll 80s linear infinite;}
+.t-marquee:hover .t-track{animation-play-state:paused;}
+@keyframes t-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.t-card{width:360px;flex-shrink:0;display:flex;flex-direction:column;background:var(--white);padding:36px 32px;border-radius:4px;border:1.5px solid var(--border);transition:box-shadow .3s,border-color .3s;}
+.t-track .t-author{margin-top:auto;}
 .t-card:hover{box-shadow:0 10px 30px rgba(107,47,160,0.09);border-color:var(--border-strong);}
 .t-card.featured{background:var(--purple-xpale);border-color:var(--border-strong);}
 .t-quote{font-size:15.5px;line-height:1.85;color:var(--ink-mid);font-style:italic;font-weight:300;margin-bottom:24px;padding-top:20px;position:relative;}
@@ -207,6 +214,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .blog-substack-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);}
 .blog-substack-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);font-style:italic;}
 .blog-substack-arrow{font-family:'DM Mono',monospace;font-size:12px;color:var(--purple);}
+.substack-embed{margin:32px auto 0;max-width:480px;width:100%;}
+.substack-embed iframe{width:100%;max-width:480px;height:320px;border:1.5px solid var(--border);border-radius:8px;background:#fff;display:block;margin:0 auto;}
 
 /* CONTACT */
 #contact{padding:120px 56px;background:var(--white);display:grid;grid-template-columns:1fr 1fr;gap:80px;}
@@ -335,6 +344,8 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
   #home .hero-eyebrow,#home .hero-name,#home .hero-short-bio,#home .hero-desc,#home .hero-btns,#home .hero-social,#home .hero-photo-wrap{opacity:1;animation:none;}
   .fade-up{transition-duration:.01ms;}
   .btn-primary::after,.nav-cta::after{display:none;}
+  .t-track{animation:none;}
+  .t-marquee{overflow-x:auto;}
 }
 </style>
 </head>
@@ -557,31 +568,33 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
     </div>
     <p class="t-subtext">Real results from real people. These aren&rsquo;t just words — they&rsquo;re outcomes. Jobs won. Communities built. Careers transformed in the Web3 space.</p>
   </div>
-  <div class="t-grid">
-    <div class="t-card featured fade-up">
+  <div class="t-marquee">
+   <div class="t-track">
+    <div class="t-card featured">
       <p class="t-quote">Vhictorry is an absolute pleasure to collaborate with. Her expertise spans a wide range of tech fields and Discord development. She consistently demonstrates remarkable attentiveness and is always in pursuit of superior solutions. She is an unequivocal expert in her domain.</p>
       <div class="t-author"><div class="t-avatar">B</div><div><div class="t-name">BlueFoxx</div><div class="t-role">Community Manager</div></div></div>
     </div>
-    <div class="t-card fade-up">
+    <div class="t-card">
       <p class="t-quote">Vhictorry is a definition of professionalism. I have worked with her many times in community management, and her work ethic, standards, and creativity are beyond average. The only problem is that she doesn&rsquo;t joke with her work.</p>
       <div class="t-author"><div class="t-avatar">R</div><div><div class="t-name">Riichard</div><div class="t-role">Co-Founder, The Rich Impact</div></div></div>
     </div>
-    <div class="t-card fade-up">
+    <div class="t-card">
       <p class="t-quote">Victory is an outstanding community manager with unparalleled dedication to her craft. Her insights into branding resonate prominently across all her endeavors. If you&rsquo;re seeking excellence and brand prominence, Victory is undoubtedly the person you want by your side.</p>
       <div class="t-author"><div class="t-avatar">T</div><div><div class="t-name">0xTosyn</div><div class="t-role">Co-Founder, Pontys</div></div></div>
     </div>
-    <div class="t-card fade-up">
+    <div class="t-card">
       <p class="t-quote">I got my last 6 jobs with just my Twitter account, after Vhictorry&rsquo;s branding session. That same night she opened my eyes to things I didn&rsquo;t know beforehand. An experience I cannot forget in a hurry.</p>
       <div class="t-author"><div class="t-avatar">W</div><div><div class="t-name">Witty Prince</div><div class="t-role">CM &amp; Content Creator</div></div></div>
     </div>
-    <div class="t-card fade-up">
+    <div class="t-card">
       <p class="t-quote">Vhictorry&rsquo;s branding class helped me grow my Twitter x20 and gain 100+ followers within a month, increasing my presence in the Web3 space. I highly refer to her as a Web3 branding expert.</p>
       <div class="t-author"><div class="t-avatar">G</div><div><div class="t-name">Good News</div><div class="t-role">Web3 Enthusiast</div></div></div>
     </div>
-    <div class="t-card fade-up">
+    <div class="t-card">
       <p class="t-quote">Victory&rsquo;s branding class gave me so much confidence. I built my brand following her teachings, which helped me bag graphic design jobs and access top-tier persons in the Web3 space. Thank you so much.</p>
       <div class="t-author"><div class="t-avatar">O</div><div><div class="t-name">Only1Temmy</div><div class="t-role">DeFi Educator</div></div></div>
     </div>
+   </div>
   </div>
 </section>
 
@@ -744,6 +757,10 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
     </div>
     <span class="blog-substack-arrow">&#8594;</span>
   </a>
+  <!-- Subscribe form (Between the Blocks) -->
+  <div class="substack-embed fade-up">
+    <iframe src="https://btwtheblocks.substack.com/embed" title="Subscribe to Between the Blocks" frameborder="0" scrolling="no"></iframe>
+  </div>
 </section>
 
 <!-- CONTACT -->
@@ -910,14 +927,20 @@ function toggleEvents(){
     document.querySelectorAll('.art-tile-placeholder').forEach((el,i)=>{
       if(arts[i])el.outerHTML=`<img src="${img(arts[i].u,700)}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Artwork">`;
     });
-    /* Testimonials */
+    /* Testimonials — auto-scrolling marquee (content duplicated for a seamless loop) */
+    const track=document.querySelector('.t-track');
     const ts=await q(`*[_type=="testimonial"]|order(order asc){quote,name,role,featured,"photoUrl":photo.asset->url}`)||[];
-    if(ts.length){
-      document.querySelector('.t-grid').innerHTML=ts.map(t=>`<div class="t-card${t.featured?' featured':''} fade-up">
-        <p class="t-quote">${esc(t.quote||'')}</p>
-        <div class="t-author"><div class="t-avatar">${t.photoUrl?`<img src="${img(t.photoUrl,200)}" alt="${esc(t.name||'')}">`:esc((t.name||'?').charAt(0))}</div><div><div class="t-name">${esc(t.name||'')}</div><div class="t-role">${esc(t.role||'')}</div></div></div>
-      </div>`).join('');
-      document.querySelectorAll('.t-grid .fade-up').forEach(el=>obs.observe(el));
+    if(track){
+      if(ts.length){
+        const html=ts.map(t=>`<div class="t-card${t.featured?' featured':''}">
+          <p class="t-quote">${esc(t.quote||'')}</p>
+          <div class="t-author"><div class="t-avatar">${t.photoUrl?`<img src="${img(t.photoUrl,200)}" alt="${esc(t.name||'')}">`:esc((t.name||'?').charAt(0))}</div><div><div class="t-name">${esc(t.name||'')}</div><div class="t-role">${esc(t.role||'')}</div></div></div>
+        </div>`).join('');
+        track.innerHTML=html+html;
+      }else{
+        /* No Sanity testimonials — duplicate the hardcoded cards so the loop is seamless */
+        track.innerHTML=track.innerHTML+track.innerHTML;
+      }
     }
     /* Speaking events — first 3 visible, rest behind See More */
     const evs=await q(`*[_type=="speakingEvent"]|order(order asc){title,year,description,url,emoji,"thumbUrl":thumbnail.asset->url}`)||[];
