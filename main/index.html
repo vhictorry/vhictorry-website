@@ -142,7 +142,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .web3-visual{position:relative;min-height:380px;display:flex;align-items:center;justify-content:center;}
 /* ── INTERACTIVE ORBIT (Web3 section) ── */
 .orbit-scene{position:relative;width:100%;height:380px;display:flex;align-items:center;justify-content:center;}
-.orbit-ring{position:absolute;border:1px solid rgba(176,125,217,0.13);border-radius:50%;}
+.orbit-ring{position:absolute;border:1px solid rgba(255,255,255,0.22);border-radius:50%;}
 .orbit-core{position:absolute;z-index:3;width:72px;height:72px;background:var(--purple);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(107,47,160,.55);}
 .orbit-core span{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:#fff;letter-spacing:1px;}
 .orbit-core::before,.orbit-core::after{content:'';position:absolute;border:1px solid rgba(255,255,255,.22);border-radius:50%;animation:orbitPing 3s ease-out infinite;}
@@ -322,7 +322,11 @@ footer{background:var(--ink);padding:32px 56px;display:flex;justify-content:spac
   .hero-left{padding:100px 24px 48px;}
   .hero-right{display:none;}
   #about{grid-template-columns:1fr;padding:80px 24px;gap:40px;}
-  .about-images{height:380px;}
+  .about-images{height:340px;width:100%;max-width:440px;margin:0 auto;}
+  .about-img-main{width:64%;height:288px;}
+  .about-img-accent{width:48%;height:188px;}
+  .about-badge{width:74px;height:74px;top:44%;left:54%;}
+  .about-badge span:first-child{font-size:22px;}
   #art-teaser{grid-template-columns:1fr;padding:60px 24px;}
   .art-teaser-visual{display:none;}
   #expertise{padding:80px 24px;}
@@ -1089,19 +1093,14 @@ function openSub(sub,name){
   return false;
 }
 function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
-(function(){
-  var modal=document.getElementById('subModal');if(!modal)return;
-  var closeBtn=document.getElementById('subClose');if(closeBtn)closeBtn.addEventListener('click',closeSub);
-  modal.addEventListener('click',function(e){if(e.target===modal)closeSub();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();});
-  var form=document.getElementById('subModalForm');
-  if(form)form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var input=form.querySelector('input');var email=input&&input.value?input.value.trim():'';
-    window.open('https://'+subCur+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
-    closeSub();form.reset();
-  });
-})();
+function subSubmit(e){
+  e.preventDefault();
+  var input=e.target.querySelector('input');var email=input&&input.value?input.value.trim():'';
+  window.open('https://'+subCur+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
+  closeSub();if(e.target.reset)e.target.reset();return false;
+}
+/* document always exists, so Escape-to-close binds safely regardless of markup order */
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();});
 
 /* Testimonials — short cards pair into columns, row auto-scrolls, the centred card pops */
 (function(){
@@ -1164,12 +1163,12 @@ function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.r
 </script>
 
 <!-- Subscribe popup — opens from the "Between the Blocks" card -->
-<div class="sub-modal" id="subModal" role="dialog" aria-modal="true" aria-label="Subscribe">
+<div class="sub-modal" id="subModal" role="dialog" aria-modal="true" aria-label="Subscribe" onclick="if(event.target===this)closeSub()">
   <div class="sub-modal-box">
-    <button class="sub-modal-close" id="subClose" aria-label="Close">&times;</button>
+    <button class="sub-modal-close" id="subClose" type="button" aria-label="Close" onclick="closeSub()">&times;</button>
     <div class="sub-modal-name" id="subModalName">Between the Blocks</div>
     <div class="sub-modal-note">Reflections on crypto, Web3 &amp; building — straight to your inbox.</div>
-    <form class="sub-thin" id="subModalForm">
+    <form class="sub-thin" id="subModalForm" onsubmit="return subSubmit(event)">
       <div class="sub-thin-row">
         <input type="email" placeholder="Type your email…" required aria-label="Email address" />
         <button type="submit">Subscribe</button>
