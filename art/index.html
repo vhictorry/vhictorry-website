@@ -264,13 +264,18 @@ nav {
   color:rgba(107,47,160,0.03); pointer-events:none; line-height:1; letter-spacing:-12px;
 }
 .masonry-grid {
-  columns:3; column-gap:18px;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
 }
 .art-card {
-  break-inside:avoid; margin-bottom:18px;
+  break-inside:avoid; margin-bottom:0;
   position:relative; overflow:hidden; border-radius:2px;
   transition:transform .3s ease; cursor:none;
 }
+/* Teaser cards share a uniform frame so row 1 (clear) and row 2 (blurred) line up cleanly */
+.masonry-grid .art-card { aspect-ratio:4/5; }
+.masonry-grid .art-card > img,
+.masonry-grid .art-card > .art-card-img { width:100%!important; height:100%!important; object-fit:cover; display:block; }
+.masonry-grid .art-card > .art-card-placeholder { width:100%!important; height:100%!important; }
 .art-card:hover { transform:translateY(-4px); }
 .art-card-img {
   width:100%; display:block;
@@ -1025,7 +1030,7 @@ footer {
   .hero-featured { display:none; }
   .filter-section { padding:40px 24px 0; }
   .gallery-section { padding:36px 24px 60px; }
-  .masonry-grid { columns:2; }
+  .masonry-grid { gap:14px; }
   .featured-section { padding:52px 24px; }
   .featured-header { grid-template-columns:1fr; }
   .featured-grid { grid-template-columns:1fr; }
@@ -1065,13 +1070,17 @@ footer {
   .featured-main-title { font-size:26px; }
   .featured-main-desc { display:none; }
   .featured-main-sub { margin-bottom:12px; }
-  .masonry-grid { columns:1; }
+  .masonry-grid { gap:12px; }
   .process-steps { grid-template-columns:1fr; }
   .process-step { border-right:none; border-bottom:1.5px solid var(--border); }
   .process-step:last-child { border-bottom:none; }
   .hero-stats { gap:10px; }
   .web3art-visual { grid-template-columns:1fr; }
   .blog-grid { grid-template-columns:1fr; }
+}
+/* Teaser grid drops to 2 columns on phones — matches the 2-clear / 2-blurred split (JS uses the same 640 breakpoint) */
+@media (max-width:640px){
+  .masonry-grid { grid-template-columns:repeat(2,1fr); }
 }
 </style>
 <!-- ═══ MOTION LAYER (added 2026-07-08) — self-contained; targets existing classes, no markup changes ═══ -->
