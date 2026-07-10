@@ -21,7 +21,20 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{background:var(--white);color:var(--ink);font-family:'Cormorant Garamond',serif;overflow-x:hidden;cursor:none;}
+body{background:var(--purple-pale);color:var(--ink);font-family:'Cormorant Garamond',serif;overflow-x:hidden;cursor:none;}
+
+/* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ── */
+#home,#about,#expertise,.projects-section,#testimonials,#events,#art-teaser,#blog,#contact{
+  margin:0 24px 24px;border-radius:28px;overflow:hidden;
+  box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
+}
+#home{margin-top:24px;}
+@media(max-width:900px){
+  #home,#about,#expertise,.projects-section,#testimonials,#events,#art-teaser,#blog,#contact{
+    margin:0 14px 14px;border-radius:20px;
+  }
+  #home{margin-top:14px;}
+}
 
 /* CURSOR */
 .cursor{position:fixed;width:10px;height:10px;background:var(--purple);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;mix-blend-mode:multiply;}

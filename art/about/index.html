@@ -18,7 +18,17 @@ html{scroll-behavior:smooth}
   --purple-pale:#EDE4F8;--purple-xpale:#F7F2FD;--ink:#1A0E2E;--ink-mid:#3D2B5C;--muted:#7A6B94;
   --border:rgba(107,47,160,0.15);--border-strong:rgba(107,47,160,0.35);--gold:#C9A84C;
 }
-body{background:var(--white);color:var(--ink);font-family:'Cormorant Garamond',serif;cursor:none;overflow-x:hidden}
+body{background:var(--purple-pale);color:var(--ink);font-family:'Cormorant Garamond',serif;cursor:none;overflow-x:hidden}
+/* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ── */
+.about-hero,.statement,.background,.more{
+  margin:0 24px 24px;border-radius:28px;overflow:hidden;
+  box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
+}
+.about-hero{margin-top:24px}
+@media (max-width:900px){
+  .about-hero,.statement,.background,.more{margin:0 14px 14px;border-radius:20px}
+  .about-hero{margin-top:14px}
+}
 a{text-decoration:none;color:inherit}
 button{font-family:inherit;cursor:none;border:none}
 .cursor{position:fixed;width:8px;height:8px;background:var(--purple);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s}

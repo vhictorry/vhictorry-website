@@ -29,11 +29,26 @@
 html, body { overflow-x:hidden; }
 html { scroll-behavior:smooth; }
 body {
-  background:var(--white);
+  background:var(--purple-pale);
   color:var(--ink);
   font-family:'Cormorant Garamond', serif;
   overflow-x:hidden;
   cursor:none;
+}
+
+/* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ── */
+.page-hero, .gallery-section, .featured-section, .statement-section, .web3art-section,
+.exhibitions-section, .interviews-section, .blog-section, .commission-section {
+  margin:0 24px 24px; border-radius:28px; overflow:hidden;
+  box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
+}
+.page-hero { margin-top:24px; }
+@media (max-width:900px){
+  .page-hero, .gallery-section, .featured-section, .statement-section, .web3art-section,
+  .exhibitions-section, .interviews-section, .blog-section, .commission-section {
+    margin:0 14px 14px; border-radius:20px;
+  }
+  .page-hero { margin-top:14px; }
 }
 
 /* ── CURSOR ── */
