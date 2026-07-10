@@ -887,25 +887,30 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
       <a href="https://substack.com/@vhictorry" class="social-link">S</a>
     </div>
   </div>
-  <div class="contact-form fade-up">
+  <form class="contact-form fade-up" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="contact" />
+    <p style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+      <label>Leave this field blank<input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+    </p>
     <div class="form-group">
-      <label class="form-label">Your Name</label>
-      <input type="text" class="form-input" placeholder="Who are you?" />
+      <label class="form-label" for="contactName">Your Name</label>
+      <input type="text" id="contactName" name="name" class="form-input" placeholder="Who are you?" autocomplete="name" required />
     </div>
     <div class="form-group">
-      <label class="form-label">Email Address</label>
-      <input type="email" class="form-input" placeholder="your@email.com" />
+      <label class="form-label" for="contactEmail">Email Address</label>
+      <input type="email" id="contactEmail" name="email" class="form-input" placeholder="your@email.com" autocomplete="email" required />
     </div>
     <div class="form-group">
-      <label class="form-label">I&rsquo;m Interested In</label>
-      <input type="text" class="form-input" placeholder="Community, Operations, Branding, Art&hellip;" />
+      <label class="form-label" for="contactInterest">I&rsquo;m Interested In</label>
+      <input type="text" id="contactInterest" name="interest" class="form-input" placeholder="Community, Operations, Branding, Art&hellip;" />
     </div>
     <div class="form-group">
-      <label class="form-label">Your Message</label>
-      <textarea class="form-textarea" placeholder="Tell me about your project&hellip;"></textarea>
+      <label class="form-label" for="contactMessage">Your Message</label>
+      <textarea id="contactMessage" name="message" class="form-textarea" placeholder="Tell me about your project&hellip;" required></textarea>
     </div>
-    <button class="btn-primary" style="text-align:center;padding:16px;font-size:11px;width:100%;border:none;">Send Message &rarr;</button>
-  </div>
+    <div id="contactStatus" role="status" aria-live="polite" style="display:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.5px;line-height:1.6;"></div>
+    <button type="submit" class="btn-primary" id="contactSubmitBtn" style="text-align:center;padding:16px;font-size:11px;width:100%;border:none;">Send Message &rarr;</button>
+  </form>
 </section>
 
 <!-- FOOTER -->
@@ -1199,6 +1204,46 @@ function subSubmit(e){
 }
 /* document always exists, so Escape-to-close binds safely regardless of markup order */
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();});
+
+/* Contact form — submits to Netlify Forms (notifications route to hello@vhictorry.com).
+   Real loading/success/error states; button stays disabled for the whole request so a
+   double-click or double-tap can't fire two submissions. */
+(function(){
+  var form=document.getElementById('contactForm');
+  if(!form)return;
+  var btn=document.getElementById('contactSubmitBtn');
+  var status=document.getElementById('contactStatus');
+  var originalText=btn.textContent;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(btn.disabled)return;
+    btn.disabled=true;
+    btn.style.opacity='.7';
+    btn.textContent='Sending…';
+    status.style.display='none';
+    var body=new URLSearchParams(new FormData(form)).toString();
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+      .then(function(r){
+        if(!r.ok)throw new Error('Bad response: '+r.status);
+        btn.textContent='Message Sent ✓';
+        btn.style.background='var(--purple-mid)';
+        btn.style.opacity='1';
+        status.style.color='var(--purple)';
+        status.textContent='Thanks — I’ll get back to you soon.';
+        status.style.display='block';
+        form.reset();
+      })
+      .catch(function(err){
+        console.error('Contact form submission failed:',err);
+        btn.disabled=false;
+        btn.style.opacity='1';
+        btn.textContent=originalText;
+        status.style.color='#B3261E';
+        status.textContent='Something went wrong — please email hello@vhictorry.com directly.';
+        status.style.display='block';
+      });
+  });
+})();
 
 /* Testimonials — short cards pair into columns, row auto-scrolls, the centred card pops */
 (function(){

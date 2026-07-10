@@ -1730,20 +1730,24 @@ footer {
       </ul>
       <a href="https://www.saatchiart.com/vhictorry" target="_blank" rel="noopener" class="btn-primary" style="display:inline-block;text-decoration:none;margin-top:8px;background:var(--gold);color:var(--ink);">Browse &amp; Buy on Saatchi Art &rarr;</a>
     </div>
-    <div class="commission-form fade-up">
+    <form class="commission-form fade-up" id="commissionForm" name="commission" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="commission" />
+      <p style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+        <label>Leave this field blank<input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+      </p>
       <h3>Start a Conversation</h3>
       <div class="commission-form-sub">Commission Inquiry</div>
       <div class="form-group">
-        <label class="form-label">Your Name</label>
-        <input type="text" class="form-input" placeholder="Who are you?" />
+        <label class="form-label" for="commName">Your Name</label>
+        <input type="text" id="commName" name="name" class="form-input" placeholder="Who are you?" autocomplete="name" required />
       </div>
       <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-input" placeholder="your@email.com" />
+        <label class="form-label" for="commEmail">Email</label>
+        <input type="email" id="commEmail" name="email" class="form-input" placeholder="your@email.com" autocomplete="email" required />
       </div>
       <div class="form-group">
-        <label class="form-label">I'm Interested In</label>
-        <select class="form-select">
+        <label class="form-label" for="commInterest">I'm Interested In</label>
+        <select class="form-select" id="commInterest" name="interest" required>
           <option value="" disabled selected>Select an option…</option>
           <option>Acquiring an existing work</option>
           <option>A custom commission</option>
@@ -1753,11 +1757,12 @@ footer {
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label">Your Vision</label>
-        <textarea class="form-textarea" placeholder="Tell me what you're looking for…"></textarea>
+        <label class="form-label" for="commVision">Your Vision</label>
+        <textarea id="commVision" name="vision" class="form-textarea" placeholder="Tell me what you're looking for…" required></textarea>
       </div>
-      <button class="btn-primary" style="text-align:center;padding:16px;font-size:11px;">Send Inquiry →</button>
-    </div>
+      <div id="commissionStatus" role="status" aria-live="polite" style="display:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.5px;line-height:1.6;"></div>
+      <button type="submit" class="btn-primary" id="commissionSubmitBtn" style="text-align:center;padding:16px;font-size:11px;">Send Inquiry →</button>
+    </form>
   </div>
 </section>
 
@@ -1930,30 +1935,45 @@ function openLightboxSanity(aw){
 }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox({}); });
 
-/* COMMISSION SUBMIT */
-function handleSubmit(e){
-  if(e) e.preventDefault();
-  const confirm = document.getElementById('budgetConfirm');
-  if(!confirm || !confirm.checked){
-    confirm.closest('.form-checkbox-group').style.outline='1.5px solid rgba(176,125,217,0.8)';
-    confirm.closest('.budget-confirm-box').scrollIntoView({behavior:'smooth',block:'center'});
-    return;
-  }
-  const btn = document.querySelector('.commission-form .btn-primary');
-  btn.textContent = 'Sent ✓';
-  btn.style.background = 'rgba(176,125,217,0.4)';
-  btn.style.cursor = 'default';
-}
-
-/* FILE UPLOAD LABEL UPDATE */
-document.querySelectorAll('.form-upload input[type=file]').forEach(inp=>{
-  inp.addEventListener('change',function(){
-    const label = this.closest('.form-upload').querySelector('.form-upload-label');
-    if(this.files.length > 0){
-      label.textContent = this.files.length === 1 ? this.files[0].name : this.files.length + ' files selected';
-    }
+/* COMMISSION SUBMIT — submits to Netlify Forms (notifications route to studio@vhictorry.com).
+   Real loading/success/error states; button stays disabled for the whole request so a
+   double-click or double-tap can't fire two submissions. */
+(function(){
+  const form=document.getElementById('commissionForm');
+  if(!form)return;
+  const btn=document.getElementById('commissionSubmitBtn');
+  const status=document.getElementById('commissionStatus');
+  const originalText=btn.textContent;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(btn.disabled)return;
+    btn.disabled=true;
+    btn.style.opacity='.7';
+    btn.textContent='Sending…';
+    status.style.display='none';
+    const body=new URLSearchParams(new FormData(form)).toString();
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+      .then(function(r){
+        if(!r.ok)throw new Error('Bad response: '+r.status);
+        btn.textContent='Inquiry Sent ✓';
+        btn.style.background='rgba(176,125,217,0.6)';
+        btn.style.opacity='1';
+        status.style.color='var(--purple-light)';
+        status.textContent='Thanks — I’ll be in touch soon.';
+        status.style.display='block';
+        form.reset();
+      })
+      .catch(function(err){
+        console.error('Commission form submission failed:',err);
+        btn.disabled=false;
+        btn.style.opacity='1';
+        btn.textContent=originalText;
+        status.style.color='#FF8A80';
+        status.textContent='Something went wrong — please email studio@vhictorry.com directly.';
+        status.style.display='block';
+      });
   });
-});
+})();
 
 /* MOBILE NAV TOGGLE */
 const navToggle = document.getElementById('navToggle');
