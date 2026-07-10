@@ -1217,6 +1217,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();}
   form.addEventListener('submit',function(e){
     e.preventDefault();
     if(btn.disabled)return;
+    if(!form.checkValidity()){
+      form.reportValidity();
+      status.style.color='#B3261E';
+      status.textContent='Please fill in every required field above before sending.';
+      status.style.display='block';
+      return;
+    }
     btn.disabled=true;
     btn.style.opacity='.7';
     btn.textContent='Sending…';
@@ -1232,6 +1239,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();}
         status.textContent='Thanks — I’ll get back to you soon.';
         status.style.display='block';
         form.reset();
+        openContactSent();
+        setTimeout(function(){
+          btn.disabled=false;
+          btn.style.opacity='1';
+          btn.style.background='';
+          btn.textContent=originalText;
+          status.style.display='none';
+        },4000);
       })
       .catch(function(err){
         console.error('Contact form submission failed:',err);
@@ -1244,6 +1259,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();}
       });
   });
 })();
+function openContactSent(){var m=document.getElementById('contactSentModal');if(m)m.classList.add('open');}
+function closeContactSent(){var m=document.getElementById('contactSentModal');if(m)m.classList.remove('open');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeContactSent();});
 
 /* Testimonials — short cards pair into columns, row auto-scrolls, the centred card pops */
 (function(){
@@ -1318,6 +1336,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();}
       </div>
     </form>
     <a class="sub-modal-read" id="subModalRead" href="https://btwtheblocks.substack.com" target="_blank" rel="noopener">Or read all essays on Substack &rarr;</a>
+  </div>
+</div>
+
+<!-- Contact form confirmation popup -->
+<div class="sub-modal" id="contactSentModal" role="dialog" aria-modal="true" aria-label="Message sent" onclick="if(event.target===this)closeContactSent()">
+  <div class="sub-modal-box">
+    <button class="sub-modal-close" type="button" aria-label="Close" onclick="closeContactSent()">&times;</button>
+    <div class="sub-modal-name">Message Sent ✓</div>
+    <div class="sub-modal-note">Your message has been delivered to <strong>hello@vhictorry.com</strong>. I'll get back to you soon.</div>
   </div>
 </div>
 
