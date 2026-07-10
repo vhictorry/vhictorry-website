@@ -18,6 +18,7 @@
   --purple-pale:   #EDE4F8;
   --purple-xpale:  #F7F2FD;
   --ink:           #1A0E2E;
+  --ink-bright:    #3E205B;
   --ink-mid:       #3D2B5C;
   --muted:         #7A6B94;
   --border:        rgba(107,47,160,0.15);
@@ -117,7 +118,7 @@ nav {
   position:relative; overflow:hidden;
   background:
     radial-gradient(90% 80% at 12% 20%, rgba(139,77,191,0.28), transparent 60%),
-    var(--ink);
+    var(--ink-bright);
 }
 .hero-text {
   position:relative; z-index:2; align-self:center;
@@ -415,7 +416,7 @@ nav {
 }
 .featured-sidebar {
   display:flex; flex-direction:column;
-  background:var(--ink);
+  background:var(--ink-bright);
 }
 .sidebar-item {
   flex:1; position:relative; overflow:hidden;
@@ -445,7 +446,7 @@ nav {
 /* ── ARTIST STATEMENT ── */
 .statement-section {
   padding:100px 56px;
-  background:var(--ink); position:relative; overflow:hidden;
+  background:var(--ink-bright); position:relative; overflow:hidden;
   display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
 }
 .statement-section::before {
@@ -565,9 +566,9 @@ nav {
 
 /* ── WEB3 + ART ── */
 .web3art-section {
-  padding:80px 56px;
+  padding:100px 64px;
   background:var(--purple-xpale);
-  display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;
+  display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center;
 }
 .web3art-text h2 {
   font-family:'Playfair Display',serif;
@@ -587,10 +588,10 @@ nav {
 }
 .nft-tag:hover { background:var(--purple); color:var(--white); border-color:var(--purple); }
 .web3art-visual {
-  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  display:grid; grid-template-columns:1fr 1fr; gap:20px;
 }
 .web3-card {
-  background:var(--white); padding:28px 24px;
+  background:var(--white); padding:32px 26px;
   border:1.5px solid var(--border); border-radius:4px;
   transition:all .3s ease;
 }
@@ -698,7 +699,7 @@ nav {
 /* ── COMMISSIONS ── */
 .commission-section {
   padding:100px 56px;
-  background:var(--ink); position:relative; overflow:hidden;
+  background:var(--ink-bright); position:relative; overflow:hidden;
 }
 .commission-section::before {
   content:'';
@@ -945,7 +946,7 @@ nav {
 
 /* ── FOOTER ── */
 footer {
-  background:var(--ink); padding:32px 56px;
+  background:var(--ink-bright); padding:32px 56px;
   display:flex; justify-content:space-between; align-items:center;
   border-top:1px solid rgba(176,125,217,0.15);
 }
