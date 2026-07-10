@@ -76,6 +76,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .btn-primary:hover{background:var(--purple-mid);transform:translateY(-2px);}
 .btn-ghost{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);background:transparent;border:1.5px solid var(--border-strong);padding:14px 32px;text-decoration:none;display:inline-block;border-radius:2px;transition:border-color .2s,transform .2s,background .2s;cursor:none;}
 .btn-ghost:hover{border-color:var(--purple);background:var(--purple-xpale);transform:translateY(-2px);}
+.btn-ghost--onDark{color:#fff;border-color:rgba(255,255,255,.7);box-shadow:0 10px 28px rgba(0,0,0,.35);}
+.btn-ghost--onDark:hover{border-color:#fff;background:rgba(255,255,255,.14);color:#fff;transform:translateY(-2px);}
 .hero-right{display:flex;align-items:center;justify-content:center;padding:100px 48px 60px;position:relative;}
 .hero-photo-wrap{position:relative;width:380px;height:500px;}
 .hero-photo-bg{position:absolute;inset:-16px -16px 16px 16px;background:var(--purple-pale);border-radius:2px;}
@@ -113,6 +115,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 /* SHARED */
 .section-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .section-label::after{content:'';display:block;width:36px;height:1.5px;background:var(--purple-light);}
+.tl-letter{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity .4s cubic-bezier(.2,.7,.2,1),transform .4s cubic-bezier(.2,.7,.2,1);}
+.tl-letter.show{opacity:1;transform:translateY(0);}
 .section-heading{font-family:'Playfair Display',serif;font-size:clamp(34px,3.5vw,50px);font-weight:700;line-height:1.1;margin-bottom:24px;color:var(--ink);}
 .section-heading em{font-style:italic;color:var(--purple);}
 .fade-up{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
@@ -139,7 +143,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .art-teaser-text .section-label::after{background:var(--purple-light);}
 .art-teaser-text h2{font-family:'Playfair Display',serif;font-size:clamp(34px,3.5vw,54px);font-weight:700;color:var(--white);line-height:1.05;margin-bottom:20px;}
 .art-teaser-text h2 em{font-style:italic;color:var(--purple-light);}
-.art-teaser-text p{font-size:16px;line-height:1.9;color:rgba(253,252,255,.6);font-weight:300;margin-bottom:32px;}
+.art-teaser-text p{font-size:16px;line-height:1.9;color:rgba(253,252,255,.85);font-weight:300;margin-bottom:32px;}
 .art-teaser-visual{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .art-tile{border-radius:2px;overflow:hidden;position:relative;}
 .art-tile-inner{width:100%;display:block;transition:transform .5s ease;}
@@ -163,7 +167,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .web3-strip::before{content:'';position:absolute;top:-40%;right:-5%;width:500px;height:500px;background:radial-gradient(circle,rgba(107,47,160,0.3) 0%,transparent 65%);pointer-events:none;}
 .web3-text h2{font-family:'Playfair Display',serif;font-size:clamp(32px,3.5vw,50px);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:20px;}
 .web3-text h2 em{font-style:italic;color:var(--purple-light);}
-.web3-text p{font-size:16px;line-height:1.9;color:rgba(253,252,255,.65);font-weight:300;margin-bottom:32px;}
+.web3-text p{font-size:16px;line-height:1.9;color:rgba(253,252,255,.85);font-weight:300;margin-bottom:32px;}
 .chain-tags{display:flex;flex-wrap:wrap;gap:8px;}
 .chain-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple-light);border:1px solid rgba(176,125,217,0.35);padding:6px 14px;border-radius:2px;transition:background .2s;}
 .chain-tag:hover{background:rgba(107,47,160,0.25);}
@@ -326,7 +330,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
 /* FOOTER */
 footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(176,125,217,0.15);}
-.footer-copy{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.35);}
+.footer-copy{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.55);}
 .footer-logo{font-family:'Playfair Display',serif;font-size:18px;letter-spacing:1px;font-weight:700;font-style:italic;color:var(--purple-light);text-decoration:none;}
 
 /* BLOG GRID */
@@ -800,7 +804,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
     <div class="section-label">Fine Art</div>
     <h2>Stories told through <em>brushstrokes</em></h2>
     <p>Victory&rsquo;s art lives both on canvas and on-chain — paintings that explore identity, transformation, freedom, and constraint. Original works available physically and as on-chain editions for collectors in the Web3 space.</p>
-    <a href="https://art.vhictorry.com" class="btn-ghost" style="color:var(--purple-light);border-color:rgba(176,125,217,0.4);">View the Art &rarr;</a>
+    <a href="https://art.vhictorry.com" class="btn-ghost btn-ghost--onDark">View the Art &rarr;</a>
   </div>
   <div class="art-teaser-visual fade-up">
     <div class="art-tile" style="height:300px;">
@@ -957,6 +961,38 @@ document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
     });
   },{threshold:.5});
   document.querySelectorAll('.projects-header p').forEach(function(el){phObs.observe(el);});
+})();
+
+/* Topic labels ("Who I Am", "My Services", "Fine Art", etc.) cascade in letter-by-letter too.
+   Letters are wrapped in an inner span so the label's flex "gap" (used for the ::after line)
+   doesn't get applied between every single letter. */
+(function(){
+  document.querySelectorAll('.section-label').forEach(function(el){
+    var text=el.textContent;
+    var wrap=document.createElement('span');
+    wrap.style.display='inline-flex';
+    var i=0;
+    Array.from(text).forEach(function(ch){
+      if(ch===' '){wrap.appendChild(document.createTextNode(' '));return;}
+      var s=document.createElement('span');
+      s.className='tl-letter';
+      s.textContent=ch;
+      s.style.transitionDelay=(i*25)+'ms';
+      wrap.appendChild(s);
+      i++;
+    });
+    el.innerHTML='';
+    el.appendChild(wrap);
+  });
+  var tlObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.tl-letter').forEach(function(s){s.classList.add('show');});
+        tlObs.unobserve(e.target);
+      }
+    });
+  },{threshold:.4});
+  document.querySelectorAll('.section-label').forEach(function(el){tlObs.observe(el);});
 })();
 
 // Mobile nav
