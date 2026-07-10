@@ -23,14 +23,15 @@
 html{scroll-behavior:smooth;}
 body{background:var(--purple-pale);color:var(--ink);font-family:'Cormorant Garamond',serif;overflow-x:hidden;cursor:none;}
 
-/* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ── */
-#home,#about,#expertise,.projects-section,#testimonials,#events,#art-teaser,#blog,#contact{
+/* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ──
+   .marquee-bar and .web3-strip are plain <div>s (not <section>), easy to miss — included here too. */
+#home,.marquee-bar,#about,#expertise,.web3-strip,.projects-section,#testimonials,#events,#art-teaser,#blog,#contact{
   margin:0 24px 24px;border-radius:28px;overflow:hidden;
   box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
 }
 #home{margin-top:24px;}
 @media(max-width:900px){
-  #home,#about,#expertise,.projects-section,#testimonials,#events,#art-teaser,#blog,#contact{
+  #home,.marquee-bar,#about,#expertise,.web3-strip,.projects-section,#testimonials,#events,#art-teaser,#blog,#contact{
     margin:0 14px 14px;border-radius:20px;
   }
   #home{margin-top:14px;}
@@ -97,10 +98,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 @media (prefers-reduced-motion:reduce){.logo-intro{display:none;}}
 
 /* MARQUEE */
-.marquee-bar{background:var(--purple);padding:11px 0;overflow:hidden;white-space:nowrap;}
+.marquee-bar{background:var(--purple);padding:11px 0;overflow:hidden;white-space:nowrap;position:relative;}
+.marquee-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);background-size:220% 100%;animation:marqueeSheen 5s ease-in-out infinite;pointer-events:none;}
+@keyframes marqueeSheen{0%{background-position:120% 0}100%{background-position:-20% 0}}
 .marquee-inner{display:inline-flex;animation:marquee 26s linear infinite;}
-.marquee-item{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.85);padding:0 36px;}
-.marquee-item::before{content:'◇';margin-right:14px;font-size:8px;}
+.marquee-bar:hover .marquee-inner{animation-play-state:paused;}
+.marquee-item{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.85);padding:0 36px;display:inline-flex;align-items:center;transition:color .25s,transform .25s;}
+.marquee-item:hover{color:#fff;transform:scale(1.08);}
+.marquee-item::before{content:'◇';margin-right:14px;font-size:8px;transition:transform .5s ease;}
+.marquee-item:hover::before{transform:rotate(180deg);}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* SHARED */
@@ -207,10 +213,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .logos-track-wrap::before{left:0;background:linear-gradient(to right,var(--white),transparent);}
 .logos-track-wrap::after{right:0;background:linear-gradient(to left,var(--white),transparent);}
 .logos-track{display:flex;gap:48px;align-items:center;animation:logos-scroll 30s linear infinite;width:max-content;}
-.logo-item{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);opacity:.6;white-space:nowrap;transition:opacity .2s;}
-.logo-item:hover{opacity:1;color:var(--purple);}
-.logo-img{height:44px;width:auto;max-width:150px;object-fit:contain;opacity:.85;transition:opacity .2s,transform .2s;flex-shrink:0;}
-.logo-img:hover{opacity:1;transform:scale(1.08);}
+.logos-track-wrap:hover .logos-track{animation-play-state:paused;}
+.logo-item{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);opacity:.6;white-space:nowrap;transition:opacity .3s,color .3s,transform .3s;}
+.logo-item:hover{opacity:1;color:var(--purple);transform:translateY(-3px);}
+.logo-img{height:44px;width:auto;max-width:150px;object-fit:contain;opacity:.6;filter:grayscale(1);transition:opacity .35s,transform .35s,filter .35s,drop-shadow .35s;flex-shrink:0;}
+.logo-img:hover{opacity:1;filter:grayscale(0) drop-shadow(0 10px 18px rgba(107,47,160,.35));transform:scale(1.1) translateY(-4px);}
 @keyframes logos-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* TESTIMONIALS */

@@ -36,15 +36,16 @@ body {
   cursor:none;
 }
 
-/* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ── */
-.page-hero, .gallery-section, .featured-section, .statement-section, .web3art-section,
+/* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ──
+   .marquee-bar is a plain <div> (not <section>), easy to miss — included here too. */
+.page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .web3art-section,
 .exhibitions-section, .interviews-section, .blog-section, .commission-section {
   margin:0 24px 24px; border-radius:28px; overflow:hidden;
   box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
 }
 .page-hero { margin-top:24px; }
 @media (max-width:900px){
-  .page-hero, .gallery-section, .featured-section, .statement-section, .web3art-section,
+  .page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .web3art-section,
   .exhibitions-section, .interviews-section, .blog-section, .commission-section {
     margin:0 14px 14px; border-radius:20px;
   }
@@ -210,14 +211,20 @@ nav {
 }
 
 /* ── MARQUEE ── */
-.marquee-bar { background:var(--purple); padding:11px 0; overflow:hidden; white-space:nowrap; }
+.marquee-bar { background:var(--purple); padding:11px 0; overflow:hidden; white-space:nowrap; position:relative; }
+.marquee-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);background-size:220% 100%;animation:marqueeSheen 5s ease-in-out infinite;pointer-events:none;}
+@keyframes marqueeSheen{0%{background-position:120% 0}100%{background-position:-20% 0}}
 .marquee-inner { display:inline-flex; animation:marquee 28s linear infinite; }
+.marquee-bar:hover .marquee-inner{animation-play-state:paused;}
 .marquee-item {
   font-family:'DM Mono',monospace; font-size:10px;
   letter-spacing:3px; text-transform:uppercase;
   color:rgba(255,255,255,.85); padding:0 36px;
+  display:inline-flex; align-items:center; transition:color .25s,transform .25s;
 }
-.marquee-item::before { content:'◇'; margin-right:14px; font-size:8px; }
+.marquee-item:hover{color:#fff;transform:scale(1.08);}
+.marquee-item::before { content:'◇'; margin-right:14px; font-size:8px; transition:transform .5s ease; }
+.marquee-item:hover::before{transform:rotate(180deg);}
 @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
 /* ── SHARED ── */
