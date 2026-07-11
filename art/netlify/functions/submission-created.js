@@ -1,6 +1,10 @@
 // Fires automatically whenever a Netlify Form on this site is submitted.
 // Sends the notification itself (via Resend) so the email has a real
 // Reply-To pointing at the customer, instead of Netlify's own address.
+const { getStore } = require('@netlify/blobs');
+
+const RATE_LIMIT_PER_HOUR = 10;
+
 exports.handler = async (event) => {
   try {
     const { payload } = JSON.parse(event.body || '{}');
@@ -26,6 +30,21 @@ exports.handler = async (event) => {
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!name.trim() || !isValidEmail || !vision.trim()) {
       return { statusCode: 200, body: 'ignored: missing or invalid required fields' };
+    }
+
+    // Rate limit: caps how many notification emails (and Resend sends) this function
+    // can trigger per hour, since its URL is directly callable and bypasses the real
+    // form's honeypot entirely. Not perfectly atomic, but sufficient to stop a flood.
+    try {
+      const store = getStore('rate-limits');
+      const key = `commission-${new Date().toISOString().slice(0, 13)}`;
+      const count = (await store.get(key, { type: 'json' })) || 0;
+      if (count >= RATE_LIMIT_PER_HOUR) {
+        return { statusCode: 200, body: 'ignored: rate limit reached' };
+      }
+      await store.setJSON(key, count + 1);
+    } catch (rateLimitErr) {
+      console.error('Rate limit check failed (allowing request through):', rateLimitErr);
     }
 
     const apiKey = process.env.RESEND_API_KEY;
