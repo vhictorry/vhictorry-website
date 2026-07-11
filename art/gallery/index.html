@@ -405,25 +405,26 @@ async function sanity(q){
 
 /* GIFs stay untransformed so they keep animating; others get size-capped for speed */
 function imgSrc(u,w){return u.toLowerCase().endsWith('.gif')?u:u+'?w='+w+'&fit=max&auto=format';}
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 function cardHTML(aw){
-  const cats=Array.isArray(aw.category)?aw.category.join(' '):(aw.category||'');
+  const cats=esc(Array.isArray(aw.category)?aw.category.join(' '):(aw.category||''));
   const av=aw.status||'soon';
   const bClass=av==='available'?'available':'soon';
   const bText=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
-  const meta=[aw.medium,aw.year].filter(Boolean).join(' · ');
-  const desc=(aw.description||'').replace(/"/g,'&quot;');
-  const dims=(aw.dimensions||'—').replace(/"/g,'&quot;');
-  const title=(aw.title||'Untitled').replace(/"/g,'&quot;');
+  const meta=esc([aw.medium,aw.year].filter(Boolean).join(' · '));
+  const desc=esc(aw.description||'');
+  const dims=esc(aw.dimensions||'—');
+  const title=esc(aw.title||'Untitled');
   const media=aw.imageUrl
-    ?`<img class="card-img" src="${imgSrc(aw.imageUrl,1200)}" alt="${title}" loading="lazy">`
+    ?`<img class="card-img" src="${esc(imgSrc(aw.imageUrl,1200))}" alt="${title}" loading="lazy">`
     :`<div class="card-img" style="height:280px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
-  const series=(aw.series||'').replace(/"/g,'&quot;');
-  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-img="${aw.imageUrl||''}" data-buy="${aw.buyUrl||''}" data-series="${series}" data-title="${title}" data-medium="${(aw.medium||'').replace(/"/g,'&quot;')}" data-year="${aw.year||''}" data-size="${dims}" data-desc="${desc}">
+  const series=esc(aw.series||'');
+  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-img="${esc(aw.imageUrl||'')}" data-buy="${esc(aw.buyUrl||'')}" data-series="${series}" data-title="${title}" data-medium="${esc(aw.medium||'')}" data-year="${esc(aw.year||'')}" data-size="${dims}" data-desc="${desc}">
   ${media}
   <div class="card-badge ${bClass}">${bText}</div>
   <div class="card-overlay">
-    ${aw.series?`<div class="card-overlay-series">◆ ${aw.series}</div>`:''}
-    <div class="card-overlay-title">${aw.title||'Untitled'}</div>
+    ${aw.series?`<div class="card-overlay-series">◆ ${series}</div>`:''}
+    <div class="card-overlay-title">${title}</div>
     <div class="card-overlay-meta">${meta}</div>
     <span class="card-overlay-cta">View Work →</span>
   </div>
@@ -432,23 +433,23 @@ function cardHTML(aw){
 
 /* Gallery B — the featured spotlight (first work) */
 function featureHTML(aw){
-  const cats=Array.isArray(aw.category)?aw.category.join(' '):(aw.category||'');
+  const cats=esc(Array.isArray(aw.category)?aw.category.join(' '):(aw.category||''));
   const av=aw.status||'soon';
   const bClass=av==='available'?'':' soon';
   const bText=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
-  const dims=(aw.dimensions||'—').replace(/"/g,'&quot;');
-  const meta=[aw.medium,(aw.dimensions&&aw.dimensions!=='—')?aw.dimensions:'',aw.year].filter(Boolean).join(' · ');
-  const title=(aw.title||'Untitled').replace(/"/g,'&quot;');
-  const series=(aw.series||'').replace(/"/g,'&quot;');
-  const desc=(aw.description||'').replace(/"/g,'&quot;');
-  const bg=aw.imageUrl?`background-image:url('${imgSrc(aw.imageUrl,1500)}');`:`background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);`;
-  return `<article class="gallery-feature fade-up" data-cat="${cats}" data-avail="${av}" data-img="${aw.imageUrl||''}" data-buy="${aw.buyUrl||''}" data-series="${series}" data-title="${title}" data-medium="${(aw.medium||'').replace(/"/g,'&quot;')}" data-year="${aw.year||''}" data-size="${dims}" data-desc="${desc}">
+  const dims=esc(aw.dimensions||'—');
+  const meta=esc([aw.medium,(aw.dimensions&&aw.dimensions!=='—')?aw.dimensions:'',aw.year].filter(Boolean).join(' · '));
+  const title=esc(aw.title||'Untitled');
+  const series=esc(aw.series||'');
+  const desc=esc(aw.description||'');
+  const bg=aw.imageUrl?`background-image:url('${esc(imgSrc(aw.imageUrl,1500))}');`:`background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);`;
+  return `<article class="gallery-feature fade-up" data-cat="${cats}" data-avail="${av}" data-img="${esc(aw.imageUrl||'')}" data-buy="${esc(aw.buyUrl||'')}" data-series="${series}" data-title="${title}" data-medium="${esc(aw.medium||'')}" data-year="${esc(aw.year||'')}" data-size="${dims}" data-desc="${desc}">
     <div class="gf-imgwrap"><div class="gf-img" style="${bg}"></div><div class="gf-badge${bClass}">${bText}</div></div>
     <div class="gf-body">
-      <div class="gf-tagline">Featured Work${aw.series?` · <span class="gf-series">◆ ${aw.series}</span>`:''}</div>
-      <h2 class="gf-title">${aw.title||'Untitled'}</h2>
+      <div class="gf-tagline">Featured Work${aw.series?` · <span class="gf-series">◆ ${series}</span>`:''}</div>
+      <h2 class="gf-title">${title}</h2>
       <div class="gf-meta">${meta}</div>
-      ${aw.description?`<p class="gf-desc">${aw.description}</p>`:''}
+      ${aw.description?`<p class="gf-desc">${desc}</p>`:''}
       <span class="gf-cta">View Full Work →</span>
     </div>
   </article>`;

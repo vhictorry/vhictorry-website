@@ -1004,7 +1004,7 @@ function toggleEvents(){
 (async function(){
   const PROJ='3ihweswz',DS='production';
   const q=async gq=>{const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=${encodeURIComponent(gq)}`);return(await r.json()).result;};
-  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   const img=(u,w)=>u.toLowerCase().endsWith('.gif')?u:u+`?w=${w}&fit=max&auto=format`;
   try{
     const hp=await q(`*[_type=="homePage"][0]{...,"heroPhotoUrl":heroPhoto.asset->url,"aboutMainUrl":aboutPhotoMain.asset->url,"aboutAccentUrl":aboutPhotoAccent.asset->url,"resumeUrl":resume.asset->url,"projectLogos":projectLogos[]{name,"url":logo.asset->url}}`);
@@ -1017,7 +1017,7 @@ function toggleEvents(){
       if(Array.isArray(hp.credentials)&&hp.credentials.length){
         document.querySelector('.hero-credentials').innerHTML=hp.credentials.slice(0,3).map((c,i)=>`<div class="credential-badge ${i===0?'credential-badge--purple':'credential-badge--dark'}">${esc(c)}</div>`).join('');
       }
-      if(hp.resumeUrl){const rb=document.querySelector('.hero-btns .btn-primary');if(rb){rb.href=hp.resumeUrl;rb.target='_blank';}}
+      if(hp.resumeUrl){const rb=document.querySelector('.hero-btns .btn-primary');if(rb){rb.href=hp.resumeUrl;rb.target='_blank';rb.rel='noopener';}}
       if(Array.isArray(hp.marqueeItems)&&hp.marqueeItems.length){
         const mi=document.querySelector('.marquee-inner');
         const s=hp.marqueeItems.map(t=>`<span class="marquee-item">${esc(t)}</span>`).join('');
@@ -1082,7 +1082,7 @@ function toggleEvents(){
     ['.hero-social','.social-links-row'].forEach(sel=>{
       const el=document.querySelector(sel);
       if(!el)return;
-      el.innerHTML=socials.filter(s=>s.url&&SOC[s.platform]).map(s=>`<a href="${s.url}" class="social-link" aria-label="${s.platform}" data-tip="${s.platform}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${SOC[s.platform]}</svg></a>`).join('');
+      el.innerHTML=socials.filter(s=>s.url&&SOC[s.platform]).map(s=>`<a href="${esc(s.url)}" class="social-link" aria-label="${esc(s.platform)}" data-tip="${esc(s.platform)}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${SOC[s.platform]}</svg></a>`).join('');
     });
     /* Art teaser tiles — automatically show the first 3 artworks from the gallery */
     const arts=await q(`*[_type=="artwork" && defined(image)]|order(order asc)[0...3]{"u":image.asset->url}`)||[];
@@ -1125,17 +1125,18 @@ function toggleEvents(){
   }
   const posts=await sanity(`*[_type=="mainBlogPost"]|order(order asc){title,tag,description,url,emoji,"coverUrl":coverImage.asset->url}`);
   if(!posts.length)return;
+  const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   const grads=['linear-gradient(135deg,#1A0E2E,#6B2FA0)','linear-gradient(135deg,#3D2B5C,#B07DD9)','linear-gradient(135deg,#6B2FA0,#C9A84C)'];
   const cimg=u=>u.toLowerCase().endsWith('.gif')?u:u+'?w=800&fit=max&auto=format';
   const grid=document.getElementById('blogGrid');
   grid.innerHTML=posts.map((p,i)=>`
     <div class="blog-card">
-      <div class="blog-card-thumb" style="background:${p.coverUrl?`url('${cimg(p.coverUrl)}') center/cover no-repeat`:grads[i%grads.length]};">${p.coverUrl?'':(p.emoji||'✍️')}</div>
+      <div class="blog-card-thumb" style="background:${p.coverUrl?`url('${esc(cimg(p.coverUrl))}') center/cover no-repeat`:grads[i%grads.length]};">${p.coverUrl?'':esc(p.emoji||'✍️')}</div>
       <div class="blog-card-body">
-        <div class="blog-card-tag">${p.tag||'Post'}</div>
-        <div class="blog-card-title">${p.title}</div>
-        <p class="blog-card-desc">${p.description||''}</p>
-        ${p.url?`<a href="${p.url}" target="_blank" rel="noopener" class="blog-card-cta">Read Post →</a>`:''}
+        <div class="blog-card-tag">${esc(p.tag||'Post')}</div>
+        <div class="blog-card-title">${esc(p.title)}</div>
+        <p class="blog-card-desc">${esc(p.description||'')}</p>
+        ${p.url?`<a href="${esc(p.url)}" target="_blank" rel="noopener" class="blog-card-cta">Read Post →</a>`:''}
       </div>
     </div>`).join('');
 })();
@@ -1268,7 +1269,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeContact
   var track=document.querySelector('.t-track'), marquee=document.querySelector('.t-marquee');
   if(!track||!marquee)return;
   var PROJ='3ihweswz',DS='production';
-  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
   function img(u,w){return u.toLowerCase().endsWith('.gif')?u:u+'?w='+w+'&fit=max&auto=format';}
   function cardHTML(t){
     var av=t.photoUrl?'<img src="'+img(t.photoUrl,200)+'" alt="'+esc(t.name||'')+'">':esc((t.name||'?').charAt(0));

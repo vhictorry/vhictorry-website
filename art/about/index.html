@@ -251,7 +251,7 @@ if(nt)nt.addEventListener('click',()=>document.getElementById('navLinks').classL
 /* ── SANITY (optional) — fills this page from an "Art About" document if one exists; otherwise the drafted text above stays ── */
 (async function(){
   const PROJ='3ihweswz',DS='production';
-  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   try{
     const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=`+encodeURIComponent('*[_type=="artAbout"][0]{introPlain,introAccent,intro,statement,background,"portraitUrl":portrait.asset->url}'));
     const a=(await r.json()).result;
@@ -264,7 +264,7 @@ if(nt)nt.addEventListener('click',()=>document.getElementById('navLinks').classL
     }
     if(a.portraitUrl){
       const src=a.portraitUrl.toLowerCase().endsWith('.gif')?a.portraitUrl:a.portraitUrl+'?w=900&fit=max&auto=format';
-      document.getElementById('portrait').outerHTML=`<img src="${src}" alt="Victory Adewojo">`;
+      document.getElementById('portrait').outerHTML=`<img src="${esc(src)}" alt="Victory Adewojo">`;
     }
   }catch(e){}
 })();

@@ -9,10 +9,24 @@ exports.handler = async (event) => {
     }
 
     const data = payload.data || {};
-    const name = data.name || 'Someone';
-    const email = data.email || '';
+
+    // Honeypot: a real browser submission always leaves this blank. Netlify's own
+    // form-detection already enforces this for genuine form submits, but this function's
+    // URL is also directly callable, bypassing that — so re-check it here too.
+    if (data['bot-field']) {
+      return { statusCode: 200, body: 'ignored: honeypot triggered' };
+    }
+
+    const stripNewlines = (s) => String(s || '').replace(/[\r\n]+/g, ' ').trim();
+    const name = stripNewlines(data.name) || 'Someone';
+    const email = stripNewlines(data.email);
     const interest = data.interest || '';
     const message = data.message || '';
+
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!name.trim() || !isValidEmail || !message.trim()) {
+      return { statusCode: 200, body: 'ignored: missing or invalid required fields' };
+    }
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {

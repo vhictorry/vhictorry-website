@@ -1907,22 +1907,22 @@ function openLightboxSanity(aw){
   const price=aw.status==='available'?'On Inquiry':aw.status==='sold'?'Sold':'—';
   const tagLine=[aw.series||(Array.isArray(aw.category)?aw.category[0]:''),aw.year].filter(Boolean).join(' · ');
   document.getElementById('lbImg').innerHTML=aw.imageUrl
-    ?`<div style="width:100%;height:100%;min-height:400px;background:#160B26 url('${cap(aw.imageUrl)}') center/contain no-repeat;"></div>`
+    ?`<div style="width:100%;height:100%;min-height:400px;background:#160B26 url('${esc(cap(aw.imageUrl))}') center/contain no-repeat;"></div>`
     :`<div style="width:100%;height:100%;min-height:400px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
   const buyBtn=aw.buyUrl
-    ?`<a href="${aw.buyUrl}" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;text-decoration:none;padding:14px;background:var(--gold);color:var(--ink);margin-bottom:10px;">${aw.buyUrl.includes('saatchi')?'Buy on Saatchi Art →':aw.buyUrl.includes('opensea')?'View on OpenSea →':'Buy This Work →'}</a>`
+    ?`<a href="${esc(aw.buyUrl)}" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;text-decoration:none;padding:14px;background:var(--gold);color:var(--ink);margin-bottom:10px;">${aw.buyUrl.includes('saatchi')?'Buy on Saatchi Art →':aw.buyUrl.includes('opensea')?'View on OpenSea →':'Buy This Work →'}</a>`
     :'';
   document.getElementById('lbInfo').innerHTML=`
     <div>
-      <div class="lb-series">${tagLine}</div>
-      <div class="lb-title">${aw.title||'Untitled'}</div>
+      <div class="lb-series">${esc(tagLine)}</div>
+      <div class="lb-title">${esc(aw.title||'Untitled')}</div>
       <div class="lb-meta">
-        ${aw.medium?`<div class="lb-meta-item"><span class="lb-meta-key">Medium</span><span class="lb-meta-val">${aw.medium}</span></div>`:''}
-        ${aw.dimensions?`<div class="lb-meta-item"><span class="lb-meta-key">Size</span><span class="lb-meta-val">${aw.dimensions}</span></div>`:''}
-        ${aw.year?`<div class="lb-meta-item"><span class="lb-meta-key">Year</span><span class="lb-meta-val">${aw.year}</span></div>`:''}
+        ${aw.medium?`<div class="lb-meta-item"><span class="lb-meta-key">Medium</span><span class="lb-meta-val">${esc(aw.medium)}</span></div>`:''}
+        ${aw.dimensions?`<div class="lb-meta-item"><span class="lb-meta-key">Size</span><span class="lb-meta-val">${esc(aw.dimensions)}</span></div>`:''}
+        ${aw.year?`<div class="lb-meta-item"><span class="lb-meta-key">Year</span><span class="lb-meta-val">${esc(aw.year)}</span></div>`:''}
         <div class="lb-meta-item"><span class="lb-meta-key">Status</span><span class="lb-meta-val" style="color:var(--gold)">${st}</span></div>
       </div>
-      <p class="lb-desc">${aw.description||''}</p>
+      <p class="lb-desc">${esc(aw.description||'')}</p>
     </div>
     <div>
       <div class="lb-price">${price}</div>
@@ -2009,6 +2009,7 @@ async function sanityFetch(q){
 }
 
 /* Artworks → masonry grid */
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 function masonryCard(aw,h){
   const cat=Array.isArray(aw.category)?aw.category.join(' '):(aw.category||'');
   const av=aw.status||'soon';
@@ -2016,19 +2017,19 @@ function masonryCard(aw,h){
   const bText=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
   /* GIFs stay untransformed so they keep animating; real images render at natural proportions — no cropping */
   const media=aw.imageUrl
-    ?`<img src="${aw.imageUrl.toLowerCase().endsWith('.gif')?aw.imageUrl:aw.imageUrl+'?w=1200&fit=max&auto=format'}" alt="${aw.title||'Artwork'}" style="width:100%;height:auto;display:block;" loading="lazy">`
+    ?`<img src="${esc(aw.imageUrl.toLowerCase().endsWith('.gif')?aw.imageUrl:aw.imageUrl+'?w=1200&fit=max&auto=format')}" alt="${esc(aw.title||'Artwork')}" style="width:100%;height:auto;display:block;" loading="lazy">`
     :`<div class="art-card-placeholder" style="height:${h}px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
   const price=av==='available'?'On Inquiry':av==='sold'?'Sold':'—';
   const priceClass=av==='available'?'available':av==='sold'?'sold':'';
-  return `<div class="art-card fade-up" data-category="${cat}">
+  return `<div class="art-card fade-up" data-category="${esc(cat)}">
   <div class="art-expand-btn">↗</div>
   <div class="art-badge ${bClass}">${bText}</div>
   ${media}
   <div class="art-overlay">
-    <div class="art-series">${aw.series||cat.split(' ')[0]||''} · ${aw.year||''}</div>
-    <div class="art-name">${aw.title||'Untitled'}</div>
+    <div class="art-series">${esc(aw.series||cat.split(' ')[0]||'')} · ${esc(aw.year||'')}</div>
+    <div class="art-name">${esc(aw.title||'Untitled')}</div>
     <div class="art-details">
-      <div class="art-medium">${aw.medium||''}${aw.dimensions?' · '+aw.dimensions:''}</div>
+      <div class="art-medium">${esc(aw.medium||'')}${aw.dimensions?' · '+esc(aw.dimensions):''}</div>
       <div class="art-price ${priceClass}">${price}</div>
     </div>
   </div>
@@ -2055,15 +2056,15 @@ const heights=[520,380,300,450,340,420,360,480,320];
 
 /* Blog posts */
 function blogCard(p){
-  const em=p.emoji||'✍️';
-  const cu=p.coverUrl?(p.coverUrl.toLowerCase().endsWith('.gif')?p.coverUrl:p.coverUrl+'?w=800&fit=max&auto=format'):null;
+  const em=esc(p.emoji||'✍️');
+  const cu=p.coverUrl?esc(p.coverUrl.toLowerCase().endsWith('.gif')?p.coverUrl:p.coverUrl+'?w=800&fit=max&auto=format'):null;
   return `<div class="blog-card fade-up">
   <div class="blog-card-img"><div class="blog-card-img-inner" style="height:180px;background:${cu?`url('${cu}') center/cover no-repeat`:'linear-gradient(135deg,#1A0E2E,#6B2FA0)'};display:flex;align-items:center;justify-content:center;font-size:64px;">${cu?'':em}</div></div>
   <div class="blog-card-body">
-    <div class="blog-tag">${p.tag||''}</div>
-    <div class="blog-title">${p.title||''}</div>
-    <p class="blog-excerpt">${p.description||''}</p>
-    <div class="blog-meta"><a href="${p.url||'https://btwtheblocks.substack.com'}" target="_blank" rel="noopener" class="blog-read">Read →</a></div>
+    <div class="blog-tag">${esc(p.tag||'')}</div>
+    <div class="blog-title">${esc(p.title||'')}</div>
+    <p class="blog-excerpt">${esc(p.description||'')}</p>
+    <div class="blog-meta"><a href="${esc(p.url||'https://btwtheblocks.substack.com')}" target="_blank" rel="noopener" class="blog-read">Read →</a></div>
   </div>
 </div>`;
 }
@@ -2083,9 +2084,9 @@ function exhibRow(ex){
   const tClass=ex.status==='featured'?'featured':ex.status==='upcoming'?'featured':'';
   const tText=ex.status==='featured'?'Featured':ex.status==='upcoming'?'Upcoming':'Closed';
   return `<div class="exhibition-item fade-up">
-  <div class="exhibition-year">${ex.year||''}</div>
-  <div class="exhibition-title">${ex.title||''}</div>
-  <div class="exhibition-venue">${[ex.venue,ex.location].filter(Boolean).join(' · ')}</div>
+  <div class="exhibition-year">${esc(ex.year||'')}</div>
+  <div class="exhibition-title">${esc(ex.title||'')}</div>
+  <div class="exhibition-venue">${esc([ex.venue,ex.location].filter(Boolean).join(' · '))}</div>
   <div class="exhibition-tag ${tClass}">${tText}</div>
 </div>`;
 }
@@ -2102,15 +2103,15 @@ function exhibRow(ex){
 
 /* Interviews */
 function interviewCard(iv){
-  const bg=iv.thumbnailUrl?`background-image:url('${iv.thumbnailUrl}');background-size:cover;background-position:center;`:`background:linear-gradient(135deg,#1A0E2E,#6B2FA0);`;
+  const bg=iv.thumbnailUrl?`background-image:url('${esc(iv.thumbnailUrl)}');background-size:cover;background-position:center;`:`background:linear-gradient(135deg,#1A0E2E,#6B2FA0);`;
   return `<div class="interview-card fade-up">
-  <a href="${iv.url||'#'}" target="_blank" rel="noopener">
+  <a href="${esc(iv.url||'#')}" target="_blank" rel="noopener">
     <div class="interview-thumb" style="${bg}">🎙️<div class="interview-play"><div class="interview-play-btn"></div></div></div>
   </a>
   <div class="interview-body">
-    <div class="interview-year">${iv.year||''}</div>
-    <div class="interview-title">${iv.title||''}</div>
-    <p class="interview-desc">${iv.description||''}</p>
+    <div class="interview-year">${esc(iv.year||'')}</div>
+    <div class="interview-title">${esc(iv.title||'')}</div>
+    <p class="interview-desc">${esc(iv.description||'')}</p>
   </div>
 </div>`;
 }
@@ -2139,7 +2140,7 @@ function interviewCard(iv){
   const DEF={instagram:'https://www.instagram.com/vhictorry',tiktok:'https://www.tiktok.com/@vhictorry',youtube:'https://youtube.com/@vhictorry',substack:'https://substack.com/@vhictorry'};
   const WANT=['instagram','tiktok','youtube','substack'];
   const PROJ='3ihweswz',DS='production';
-  const render=links=>{const html=WANT.map(p=>`<a href="${links[p]}" aria-label="${p}" data-tip="${p}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${SOC[p]}</svg></a>`).join('');els.forEach(e=>{e.innerHTML=html;});};
+  const render=links=>{const html=WANT.map(p=>`<a href="${esc(links[p])}" aria-label="${p}" data-tip="${p}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${SOC[p]}</svg></a>`).join('');els.forEach(e=>{e.innerHTML=html;});};
   render(DEF);
   (async()=>{
     try{
@@ -2159,7 +2160,6 @@ function interviewCard(iv){
   try{
     const h=await sanityFetch(`*[_type=="artHero"][0]{eyebrow,headingPlain,headingAccent,intro,stats,caption,marqueeItems,portfolioUrl,portfolioHeadingPlain,portfolioHeadingAccent,portfolioNote,"frames":frameImages[].asset->url}`);
     if(!h)return;
-    const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
     if(h.eyebrow)document.querySelector('.hero-eyebrow').textContent=h.eyebrow;
     if(h.headingPlain){
       const em=h.headingAccent?` <em>${esc(h.headingAccent)}</em>`:'';
