@@ -19,9 +19,14 @@
       box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
     }
     .gallery-hero { margin-top:24px; }
+    /* .filter-bar sits between the two cards and (being sticky, not part of the card system)
+       carries no margin of its own -- gallery-section needs an explicit top gap or it sits
+       flush against the filter bar above it. */
+    .gallery-section { margin-top:20px; }
     @media (max-width:900px){
       .gallery-hero, .gallery-section { margin:0 14px 14px; border-radius:20px; }
       .gallery-hero { margin-top:14px; }
+      .gallery-section { margin-top:14px; }
     }
     a { text-decoration:none; color:inherit; }
     button { font-family:inherit; cursor:none; border:none; }
@@ -35,7 +40,7 @@
       --gold:#C9A84C;
     }
 
-    .cursor { position:fixed; width:8px; height:8px; background:var(--purple); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
+    .cursor { position:fixed; width:28px; height:28px; background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%270%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%23B07DD9%27%2F%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%236B2FA0%27%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%276%27%20r%3D%273.2%27%20fill%3D%27url(%23g)%27%2F%3E%3Cpath%20d%3D%27M9.5%2010c-.8%201.6-1.3%203.4-1.1%205.2h7.2c.2-1.8-.3-3.6-1.1-5.2z%27%20fill%3D%27url(%23g)%27%2F%3E%3Crect%20x%3D%277%27%20y%3D%2716%27%20width%3D%2710%27%20height%3D%271.8%27%20rx%3D%27.9%27%20fill%3D%27url(%23g)%27%2F%3E%3Crect%20x%3D%276%27%20y%3D%2718.2%27%20width%3D%2712%27%20height%3D%272.2%27%20rx%3D%271.1%27%20fill%3D%27url(%23g)%27%2F%3E%3C%2Fsvg%3E"); background-size:contain; background-repeat:no-repeat; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; filter:drop-shadow(0 2px 4px rgba(107,47,160,.5)); }
     .cursor-ring { position:fixed; width:32px; height:32px; border:1.5px solid rgba(107,47,160,0.4); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s, height .3s; }
     /* Touch / no-mouse devices: no custom cursor */
     @media (hover:none),(pointer:coarse){
@@ -89,14 +94,17 @@
       display:flex; align-items:center; justify-content:center; gap:26px; flex-wrap:wrap;
     }
     .filter-label { display:none; }
-    .filter-pills { display:flex; gap:26px; flex-wrap:wrap; justify-content:center; }
-    .filter-pill { font-family:'Jost',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; padding:0 0 5px; border:none; background:none; color:var(--muted); position:relative; transition:color .25s; cursor:pointer; }
-    .filter-pill::after { content:''; position:absolute; left:0; bottom:0; height:1.5px; width:0; background:var(--purple); transition:width .3s cubic-bezier(.2,.7,.2,1); }
-    .filter-pill:hover { color:var(--ink); }
-    .filter-pill:hover::after, .filter-pill.active::after { width:100%; }
-    .filter-pill.active { color:var(--purple); }
-    .filter-pill[data-filter^="s:"] { color:var(--gold); }
-    .filter-pill[data-filter^="s:"]:hover::after, .filter-pill[data-filter^="s:"].active::after { background:var(--gold); }
+    .filter-pills { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+    .filter-pill {
+      font-family:'Jost',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase;
+      padding:10px 18px; border:1.5px solid var(--border-strong); border-radius:30px;
+      background:var(--white); color:var(--muted); transition:all .25s; cursor:pointer;
+    }
+    .filter-pill:hover { color:var(--purple); border-color:var(--purple); }
+    .filter-pill.active { color:#fff; background:var(--purple); border-color:var(--purple); }
+    .filter-pill[data-filter^="s:"] { color:var(--gold); border-color:rgba(201,168,76,.4); }
+    .filter-pill[data-filter^="s:"]:hover { border-color:var(--gold); }
+    .filter-pill[data-filter^="s:"].active { background:var(--gold); border-color:var(--gold); color:#fff; }
     .web3-filter-banner {
       display:flex; align-items:center; justify-content:center; gap:20px; flex-wrap:wrap;
       max-width:1000px; margin:24px auto 0; padding:16px 28px;

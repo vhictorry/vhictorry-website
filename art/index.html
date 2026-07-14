@@ -39,28 +39,29 @@ body {
 
 /* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ──
    .marquee-bar is a plain <div> (not <section>), easy to miss — included here too. */
-.page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .web3art-teaser,
+.page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .process-section, .web3art-teaser,
 .exhibitions-section, .interviews-section, .blog-section, .commission-section {
   margin:0 24px 24px; border-radius:28px; overflow:hidden;
   box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
 }
 .page-hero { margin-top:24px; }
 @media (max-width:900px){
-  .page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .web3art-teaser,
+  .page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .process-section, .web3art-teaser,
   .exhibitions-section, .interviews-section, .blog-section, .commission-section {
     margin:0 14px 14px; border-radius:20px;
   }
   .page-hero { margin-top:14px; }
 }
 
-/* ── CURSOR ── */
+/* ── CURSOR — a gradient chess pawn instead of a plain dot ── */
 .cursor {
-  position:fixed; width:10px; height:10px;
-  background:var(--purple); border-radius:50%;
+  position:fixed; width:30px; height:30px;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%270%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%23B07DD9%27%2F%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%236B2FA0%27%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%276%27%20r%3D%273.2%27%20fill%3D%27url(%23g)%27%2F%3E%3Cpath%20d%3D%27M9.5%2010c-.8%201.6-1.3%203.4-1.1%205.2h7.2c.2-1.8-.3-3.6-1.1-5.2z%27%20fill%3D%27url(%23g)%27%2F%3E%3Crect%20x%3D%277%27%20y%3D%2716%27%20width%3D%2710%27%20height%3D%271.8%27%20rx%3D%27.9%27%20fill%3D%27url(%23g)%27%2F%3E%3Crect%20x%3D%276%27%20y%3D%2718.2%27%20width%3D%2712%27%20height%3D%272.2%27%20rx%3D%271.1%27%20fill%3D%27url(%23g)%27%2F%3E%3C%2Fsvg%3E");
+  background-size:contain; background-repeat:no-repeat;
   pointer-events:none; z-index:9999;
   transform:translate(-50%,-50%);
   transition:width .15s, height .15s;
-  mix-blend-mode:multiply;
+  filter:drop-shadow(0 2px 4px rgba(107,47,160,.5));
 }
 .cursor-ring {
   position:fixed; width:32px; height:32px;
@@ -1772,8 +1773,8 @@ document.addEventListener('mousemove',e=>{
   requestAnimationFrame(loop);
 })();
 document.querySelectorAll('a,button,.art-card,.sidebar-item,.motif-node').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='50px';ring.style.height='50px';});
-  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
+  el.addEventListener('mouseenter',()=>{cursor.style.width='30px';cursor.style.height='30px';ring.style.width='50px';ring.style.height='50px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='30px';cursor.style.height='30px';ring.style.width='32px';ring.style.height='32px';});
 });
 
 /* FADE IN */
@@ -2062,8 +2063,8 @@ const heights=[520,380,300,450,340,420,360,480,320];
     grid.querySelectorAll('.art-card').forEach((el,i)=>{
       el.style.cursor='pointer';
       el.addEventListener('click',()=>openLightboxSanity(works[i]));
-      el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='50px';ring.style.height='50px';});
-      el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
+      el.addEventListener('mouseenter',()=>{cursor.style.width='30px';cursor.style.height='30px';ring.style.width='50px';ring.style.height='50px';});
+      el.addEventListener('mouseleave',()=>{cursor.style.width='30px';cursor.style.height='30px';ring.style.width='32px';ring.style.height='32px';});
     });
     applyGalleryTeaser();
   }catch(e){}
@@ -2388,8 +2389,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();}
     el.addEventListener('click',function(e){e.stopPropagation();select(i);});
     var cursor=document.getElementById('cursor'), ring=document.getElementById('cursorRing');
     if(cursor&&ring){
-      el.addEventListener('mouseenter',function(){cursor.style.width='18px';cursor.style.height='18px';ring.style.width='50px';ring.style.height='50px';});
-      el.addEventListener('mouseleave',function(){cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
+      el.addEventListener('mouseenter',function(){cursor.style.width='30px';cursor.style.height='30px';ring.style.width='50px';ring.style.height='50px';});
+      el.addEventListener('mouseleave',function(){cursor.style.width='30px';cursor.style.height='30px';ring.style.width='32px';ring.style.height='32px';});
     }
     scene.appendChild(el);
     return el;

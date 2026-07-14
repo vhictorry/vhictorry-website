@@ -39,8 +39,10 @@ body{background:var(--purple-pale);color:var(--ink);font-family:'Montserrat',san
 }
 
 /* CURSOR */
-.cursor{position:fixed;width:10px;height:10px;background:var(--purple);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;mix-blend-mode:multiply;}
-.cursor-ring{position:fixed;width:32px;height:32px;border:1.5px solid var(--purple-mid);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease;opacity:.5;}
+/* Cursor — a small glowing hexagon (echoes the Web3 orbit core shape elsewhere on this page)
+   instead of a plain dot. */
+.cursor{position:fixed;width:14px;height:14px;background:linear-gradient(160deg,var(--purple-light),var(--purple));clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;filter:drop-shadow(0 2px 5px rgba(107,47,160,.6));}
+.cursor-ring{position:fixed;width:30px;height:30px;border:1.5px solid var(--purple-mid);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease;opacity:.4;}
 /* Touch / no-mouse devices: no custom cursor — use the normal system cursor */
 @media (hover:none),(pointer:coarse){
   body{cursor:auto;}
