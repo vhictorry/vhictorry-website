@@ -97,6 +97,19 @@
     .filter-pill.active { color:var(--purple); }
     .filter-pill[data-filter^="s:"] { color:var(--gold); }
     .filter-pill[data-filter^="s:"]:hover::after, .filter-pill[data-filter^="s:"].active::after { background:var(--gold); }
+    .web3-filter-banner {
+      display:flex; align-items:center; justify-content:center; gap:20px; flex-wrap:wrap;
+      max-width:1000px; margin:24px auto 0; padding:16px 28px;
+      background:var(--ink-bright); border-radius:40px;
+      font-size:14px; color:rgba(253,252,255,.85); line-height:1.5;
+      transition:transform .2s, box-shadow .2s;
+    }
+    .web3-filter-banner:hover { transform:translateY(-2px); box-shadow:0 14px 30px -16px rgba(26,14,46,.4); }
+    .web3-filter-banner-text strong { color:#fff; }
+    .web3-filter-banner-cta {
+      font-family:'Jost',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase;
+      color:var(--gold); white-space:nowrap; flex-shrink:0;
+    }
     .gallery-count { font-family:'Jost',sans-serif; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); position:absolute; right:56px; top:50%; transform:translateY(-50%); white-space:nowrap; }
 
     /* ── GALLERY B — featured spotlight + clean collection grid (2026-07-08) ── */
@@ -265,6 +278,12 @@
   <span class="gallery-count" id="galleryCount"></span>
 </div>
 
+<!-- Shown only while the "Web3 / NFT" filter is active — points to the full on-chain page -->
+<a href="../web3/" class="web3-filter-banner" id="web3FilterBanner" style="display:none;">
+  <span class="web3-filter-banner-text"><strong>Looking for chain &amp; mint details?</strong> The full on-chain collection — with marketplace links — lives on the Art × Web3 page.</span>
+  <span class="web3-filter-banner-cta">Enter My NFT World →</span>
+</a>
+
 <!-- Gallery cards are loaded from Sanity Studio — manage your artworks at https://vhictorry.sanity.studio -->
 <section class="gallery-section">
   <div id="galleryFeature"></div>
@@ -383,6 +402,9 @@ function applyFilter(){
   });
   updateCount();
   applyLimit();
+  /* Point to the full on-chain page whenever the Web3/NFT filter is the active one */
+  const banner=document.getElementById('web3FilterBanner');
+  if(banner)banner.style.display=(f==='web3')?'flex':'none';
 }
 document.querySelector('.filter-pills').addEventListener('click',e=>{
   const p=e.target.closest('.filter-pill');if(!p)return;
