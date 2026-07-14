@@ -405,6 +405,9 @@ function applyFilter(){
   /* Point to the full on-chain page whenever the Web3/NFT filter is the active one */
   const banner=document.getElementById('web3FilterBanner');
   if(banner)banner.style.display=(f==='web3')?'flex':'none';
+  /* Featured spotlight card belongs to "All Works" only -- hide it under every other filter */
+  const featWrap=document.getElementById('galleryFeature');
+  if(featWrap)featWrap.style.display=(f==='all')?'':'none';
 }
 document.querySelector('.filter-pills').addEventListener('click',e=>{
   const p=e.target.closest('.filter-pill');if(!p)return;
