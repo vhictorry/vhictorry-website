@@ -70,6 +70,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .hero-name em{font-style:italic;color:var(--purple);display:block;}
 .hero-tagline{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;margin-top:12px;}
 .hero-short-bio{font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;font-weight:300;color:var(--muted);margin-bottom:32px;margin-top:8px;letter-spacing:.5px;line-height:1.7;}
+/* Cycling role word ("Artist." / "Community builder." / "Operations specialist.") with a
+   blinking caret bar while it types/deletes. */
+#heroRoleTypewriter{color:var(--purple);font-style:normal;font-weight:500;}
+#heroRoleTypewriter::after{
+  content:''; display:inline-block; width:.08em; height:.85em;
+  background:var(--purple-light); margin-left:4px; vertical-align:-.08em;
+  animation:fx-caret-main .8s steps(1) infinite;
+}
+@keyframes fx-caret-main{50%{opacity:0;}}
+@media (prefers-reduced-motion:reduce){#heroRoleTypewriter::after{animation:none;}}
 .hero-desc{font-size:17px;line-height:1.85;color:var(--ink-mid);max-width:440px;margin-bottom:44px;font-weight:300;}
 .hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
 .btn-primary{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--white);background:var(--purple);border:none;padding:14px 32px;text-decoration:none;display:inline-block;border-radius:2px;transition:background .2s,transform .2s;cursor:none;}
@@ -486,7 +496,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
   <div class="hero-left">
     <div class="hero-eyebrow">Lagos, Nigeria &nbsp;&middot;&nbsp; Web3 Native</div>
     <h1 class="hero-name">Victory<em>Adewojo</em></h1>
-    <p class="hero-short-bio">Artist. Community builder. Operations specialist.<br>Founder of Pontys. With over five years in Web3, building things that hold.</p>
+    <p class="hero-short-bio"><span id="heroRoleTypewriter">Artist.</span><br><span class="hero-bio-rest">Founder of Pontys. With over five years in Web3, building things that hold.</span></p>
     <p class="hero-desc">
       I build communities that last, brands that have a point of view, and operational systems that hold up under pressure. Based in Lagos. Active everywhere Web3 moves.
     </p>
@@ -941,6 +951,36 @@ if(noMouse){
 const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.1});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
+/* Hero role cycling word — "Artist." / "Community builder." / "Operations specialist." typed
+   and deleted in a loop (JS-driven since the phrases differ in length). Called after the
+   homePage Sanity fetch settles (success or failure) so it targets whichever element is
+   actually live — the CMS may overwrite the whole .hero-short-bio via hp.shortBio, in which
+   case #heroRoleTypewriter simply won't exist and this is a harmless no-op. */
+function initHeroRoleTypewriter(){
+  var el=document.getElementById('heroRoleTypewriter');
+  if(!el||el._twStarted)return;
+  el._twStarted=true;
+  var words=['Artist.','Community builder.','Operations specialist.'];
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(reduce){el.textContent=words[0];return;}
+  var wi=0,ci=0,deleting=false;
+  function tick(){
+    var word=words[wi];
+    if(!deleting){
+      ci++;
+      el.textContent=word.slice(0,ci);
+      if(ci===word.length){deleting=true;setTimeout(tick,1500);return;}
+      setTimeout(tick,75);
+    }else{
+      ci--;
+      el.textContent=word.slice(0,ci);
+      if(ci===0){deleting=false;wi=(wi+1)%words.length;setTimeout(tick,350);return;}
+      setTimeout(tick,40);
+    }
+  }
+  tick();
+}
+
 /* "Projects I've worked with" — letters cascade in one after another as the label scrolls into view.
    Reuses the SAME `obs` observer that already drives every .fade-up reveal on the page (proven to
    fire reliably) instead of a second parallel observer — .visible gets added straight to the <p>,
@@ -1010,7 +1050,14 @@ function toggleEvents(){
     const hp=await q(`*[_type=="homePage"][0]{...,"heroPhotoUrl":heroPhoto.asset->url,"aboutMainUrl":aboutPhotoMain.asset->url,"aboutAccentUrl":aboutPhotoAccent.asset->url,"resumeUrl":resume.asset->url,"projectLogos":projectLogos[]{name,"url":logo.asset->url}}`);
     if(hp){
       if(hp.eyebrow)document.querySelector('.hero-eyebrow').textContent=hp.eyebrow;
-      if(hp.shortBio)document.querySelector('.hero-short-bio').innerHTML=esc(hp.shortBio).replace(/\s*\/\s*/g,'<br>');
+      /* Only the "rest" text after the cycling role is CMS-editable now, so a custom Short Bio
+         value in Studio no longer wipes out the role typewriter -- see initHeroRoleTypewriter().
+         If .hero-bio-rest is missing (older cached markup), fall back to the old full-replace. */
+      if(hp.shortBio){
+        const rest=document.querySelector('.hero-bio-rest');
+        if(rest)rest.innerHTML=esc(hp.shortBio).replace(/\s*\/\s*/g,'<br>');
+        else document.querySelector('.hero-short-bio').innerHTML=esc(hp.shortBio).replace(/\s*\/\s*/g,'<br>');
+      }
       if(hp.heroDesc)document.querySelector('.hero-desc').textContent=hp.heroDesc;
       if(hp.heroPhotoUrl)document.querySelector('.hero-photo').style.background=`url('${img(hp.heroPhotoUrl,900)}') center/cover no-repeat`;
       if(hp.photoLabel)document.querySelector('.hero-photo-label span').textContent=hp.photoLabel;
@@ -1114,6 +1161,7 @@ function toggleEvents(){
       document.querySelectorAll('#eventsMain .fade-up,#eventsExtra .fade-up').forEach(el=>obs.observe(el));
     }
   }catch(e){}
+  initHeroRoleTypewriter();
 })();
 
 /* ── SANITY CMS — BLOG ── */
