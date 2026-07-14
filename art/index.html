@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="/logo-mark.png">
 <link rel="apple-touch-icon" href="/logo-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:ital,wght@0,300;0,400;0,500;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 <style>
 :root {
   --white:         #FDFCFF;
@@ -32,7 +32,7 @@ html { scroll-behavior:smooth; }
 body {
   background:var(--purple-pale);
   color:var(--ink);
-  font-family:'Cormorant Garamond', serif;
+  font-family:'Montserrat', sans-serif;
   overflow-x:hidden;
   cursor:none;
 }
@@ -87,20 +87,20 @@ nav {
   border-bottom:1px solid var(--border);
 }
 .nav-logo {
-  font-family:'Playfair Display',serif; font-size:20px;
+  font-family:'Poppins',sans-serif; font-size:20px;
   letter-spacing:1px; color:var(--purple);
   text-decoration:none; font-weight:700; font-style:italic;
 }
 .nav-links { display:flex; gap:36px; list-style:none; }
 .nav-links a {
-  font-family:'DM Mono',monospace; font-size:10px;
+  font-family:'Jost',sans-serif; font-size:10px;
   letter-spacing:2px; text-transform:uppercase;
   color:var(--ink-mid); text-decoration:none; opacity:.7;
   transition:opacity .2s, color .2s;
 }
 .nav-links a:hover, .nav-links a.active { opacity:1; color:var(--purple); }
 .nav-cta {
-  font-family:'DM Mono',monospace; font-size:10px;
+  font-family:'Jost',sans-serif; font-size:10px;
   letter-spacing:2px; text-transform:uppercase;
   color:var(--white); background:var(--purple);
   border:none; padding:10px 24px;
@@ -126,12 +126,12 @@ nav {
 }
 .hero-indexnum {
   position:absolute; top:96px; left:48px; z-index:-1;
-  font-family:'Playfair Display',serif; font-style:italic; font-weight:700;
+  font-family:'Poppins',sans-serif; font-style:italic; font-weight:700;
   font-size:clamp(110px,15vw,180px); line-height:.7;
   color:rgba(176,125,217,0.09); pointer-events:none; user-select:none;
 }
 .hero-eyebrow {
-  font-family:'DM Mono',monospace; font-size:10px;
+  font-family:'Jost',sans-serif; font-size:10px;
   letter-spacing:4px; text-transform:uppercase;
   color:var(--purple-light); margin-bottom:20px;
   display:flex; align-items:center; gap:12px;
@@ -140,7 +140,7 @@ nav {
   content:''; display:block; width:32px; height:1.5px; background:var(--purple-light);
 }
 .page-hero h1 {
-  font-family:'Playfair Display',serif;
+  font-family:'Poppins',sans-serif;
   font-size:clamp(56px,8vw,104px); line-height:.86;
   font-weight:700; color:var(--white); margin-bottom:24px; letter-spacing:-.015em;
 }
@@ -162,11 +162,11 @@ nav {
 .hero-statement {
   font-size:19px; line-height:1.7; color:rgba(253,252,255,.85);
   font-weight:300; max-width:400px; margin-bottom:0;
-  font-family:'Cormorant Garamond',serif;
+  font-family:'Montserrat',sans-serif;
 }
 .hero-cta {
   display:inline-block; margin-top:28px;
-  font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2.5px; text-transform:uppercase;
+  font-family:'Jost',sans-serif; font-size:11px; letter-spacing:2.5px; text-transform:uppercase;
   color:var(--ink); background:var(--gold); padding:14px 28px; border-radius:3px; text-decoration:none;
   position:relative; overflow:hidden; cursor:none;
   transition:transform .3s, box-shadow .3s;
@@ -191,11 +191,11 @@ nav {
   background:rgba(253,252,255,0.07);
 }
 .hstat-num {
-  font-family:'Playfair Display',serif; font-size:42px; color:var(--white);
+  font-family:'Poppins',sans-serif; font-size:42px; color:var(--white);
   line-height:1; font-weight:700;
 }
 .hstat-label {
-  font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px;
+  font-family:'Jost',sans-serif; font-size:8px; letter-spacing:2px;
   text-transform:uppercase; color:rgba(253,252,255,.68); margin-top:9px;
 }
 /* right column — tall single artwork that bleeds to the hero edges */
@@ -206,7 +206,7 @@ nav {
 }
 .hero-featured-label {
   position:absolute; top:22px; right:22px; z-index:3;
-  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px;
+  font-family:'Jost',sans-serif; font-size:9px; letter-spacing:3px;
   text-transform:uppercase; color:var(--gold); opacity:.8;
 }
 .featured-stack { position:absolute; inset:0; }
@@ -218,7 +218,7 @@ nav {
 .page-hero:hover .feat-img { transform:scale(1.05); }
 .feat-caption {
   position:absolute; left:20px; bottom:18px; z-index:3;
-  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase;
+  font-family:'Jost',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase;
   color:var(--gold);
 }
 
@@ -229,7 +229,7 @@ nav {
 .marquee-inner { display:inline-flex; animation:marquee 28s linear infinite; }
 .marquee-bar:hover .marquee-inner{animation-play-state:paused;}
 .marquee-item {
-  font-family:'DM Mono',monospace; font-size:10px;
+  font-family:'Jost',sans-serif; font-size:10px;
   letter-spacing:3px; text-transform:uppercase;
   color:rgba(255,255,255,.85); padding:0 36px;
   display:inline-flex; align-items:center; transition:color .25s,transform .25s;
@@ -241,7 +241,7 @@ nav {
 
 /* ── SHARED ── */
 .section-label {
-  font-family:'DM Mono',monospace; font-size:10px;
+  font-family:'Jost',sans-serif; font-size:10px;
   letter-spacing:4px; text-transform:uppercase;
   color:var(--purple); margin-bottom:16px;
   display:flex; align-items:center; gap:10px;
@@ -250,11 +250,26 @@ nav {
   content:''; display:block; width:36px; height:1.5px; background:var(--purple-light);
 }
 .section-heading {
-  font-family:'Playfair Display',serif;
+  font-family:'Poppins',sans-serif;
   font-size:clamp(34px,3.5vw,50px); font-weight:700;
   line-height:1.1; margin-bottom:24px; color:var(--ink);
 }
 .section-heading em { font-style:italic; color:var(--purple); }
+/* Pendulum — the accent word/phrase in each H2 swings letter-by-letter on a loop (pure CSS,
+   no JS). Font/size inherit from the heading itself rather than the demo's monospace, so the
+   accent stays visually consistent with the rest of the (now Poppins) heading. */
+.fx-pendulum { display:inline-block; }
+.fx-pendulum b {
+  font-weight:inherit; display:inline-block;
+  transform-origin:50% -80%;
+  animation:fx-pendulum 1.8s ease-in-out infinite;
+  animation-delay:calc(var(--i) * -.12s);
+}
+.fx-pendulum b:nth-child(even) { color:var(--gold); }
+@keyframes fx-pendulum { 0%,100% { transform:rotate(10deg); } 50% { transform:rotate(-10deg); } }
+@media (prefers-reduced-motion:reduce) {
+  .fx-pendulum b { animation:none; }
+}
 .fade-up { opacity:0; transform:translateY(28px); transition:opacity .65s ease, transform .65s ease; }
 .fade-up.visible { opacity:1; transform:translateY(0); }
 
@@ -268,12 +283,12 @@ nav {
   padding-bottom:24px; border-bottom:1.5px solid var(--border);
 }
 .filter-label {
-  font-family:'DM Mono',monospace; font-size:9px;
+  font-family:'Jost',sans-serif; font-size:9px;
   letter-spacing:3px; text-transform:uppercase; color:var(--muted);
   margin-right:8px;
 }
 .filter-btn {
-  font-family:'DM Mono',monospace; font-size:9px;
+  font-family:'Jost',sans-serif; font-size:9px;
   letter-spacing:1.5px; text-transform:uppercase;
   color:var(--muted); background:transparent;
   border:1.5px solid var(--border); padding:8px 18px;
@@ -294,7 +309,7 @@ nav {
 }
 .gallery-section::before {
   content:'ART'; position:absolute; bottom:-20px; right:-10px;
-  font-family:'Playfair Display',serif; font-size:320px; font-weight:700; font-style:italic;
+  font-family:'Poppins',sans-serif; font-size:320px; font-weight:700; font-style:italic;
   color:rgba(107,47,160,0.03); pointer-events:none; line-height:1; letter-spacing:-12px;
 }
 .masonry-grid {
@@ -321,7 +336,7 @@ nav {
   width:100%; display:block;
   background:var(--purple-pale);
   display:flex; align-items:center; justify-content:center;
-  font-family:'Playfair Display',serif; font-style:italic;
+  font-family:'Poppins',sans-serif; font-style:italic;
   color:var(--purple-light);
 }
 .art-overlay {
@@ -332,12 +347,12 @@ nav {
 }
 .art-card:hover .art-overlay { opacity:1; }
 .art-series {
-  font-family:'DM Mono',monospace; font-size:8px;
+  font-family:'Jost',sans-serif; font-size:8px;
   letter-spacing:3px; text-transform:uppercase;
   color:var(--purple-light); margin-bottom:4px;
 }
 .art-name {
-  font-family:'Playfair Display',serif; font-size:20px;
+  font-family:'Poppins',sans-serif; font-size:20px;
   color:var(--white); font-weight:400; font-style:italic; line-height:1.2;
   margin-bottom:6px;
 }
@@ -345,19 +360,19 @@ nav {
   display:flex; justify-content:space-between; align-items:flex-end;
 }
 .art-medium {
-  font-family:'DM Mono',monospace; font-size:9px;
+  font-family:'Jost',sans-serif; font-size:9px;
   letter-spacing:1.5px; text-transform:uppercase;
   color:rgba(255,255,255,.5);
 }
 .art-price {
-  font-family:'Playfair Display',serif; font-size:15px;
+  font-family:'Poppins',sans-serif; font-size:15px;
   color:var(--gold); font-style:italic;
 }
 .art-price.available { color:var(--purple-light); }
 .art-price.sold { color:rgba(255,255,255,.3); }
 .art-badge {
   position:absolute; top:14px; right:14px;
-  font-family:'DM Mono',monospace; font-size:8px;
+  font-family:'Jost',sans-serif; font-size:8px;
   letter-spacing:2px; text-transform:uppercase;
   padding:5px 10px; border-radius:2px;
 }
@@ -396,7 +411,7 @@ nav {
 }
 .featured-header-right {
   font-size:16px; line-height:1.9; color:var(--muted); font-weight:300;
-  font-family:'Cormorant Garamond',serif;
+  font-family:'Montserrat',sans-serif;
 }
 .featured-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:0; }
 .featured-main-work {
@@ -414,11 +429,11 @@ nav {
   display:flex; flex-direction:column; justify-content:flex-end; padding:44px;
 }
 .featured-main-title {
-  font-family:'Playfair Display',serif; font-size:36px; font-style:italic;
+  font-family:'Poppins',sans-serif; font-size:36px; font-style:italic;
   color:var(--white); font-weight:400; line-height:1.15; margin-bottom:12px;
 }
 .featured-main-sub {
-  font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px;
+  font-family:'Jost',sans-serif; font-size:10px; letter-spacing:2px;
   text-transform:uppercase; color:var(--purple-light); margin-bottom:20px;
 }
 .featured-main-desc {
@@ -446,11 +461,11 @@ nav {
   background:linear-gradient(to top, rgba(26,14,46,0.75) 0%, transparent 60%);
 }
 .sidebar-name {
-  font-family:'Playfair Display',serif; font-size:18px; font-style:italic;
+  font-family:'Poppins',sans-serif; font-size:18px; font-style:italic;
   color:var(--white); line-height:1.2; margin-bottom:4px;
 }
 .sidebar-meta {
-  font-family:'DM Mono',monospace; font-size:8px; letter-spacing:2px;
+  font-family:'Jost',sans-serif; font-size:8px; letter-spacing:2px;
   text-transform:uppercase; color:var(--purple-light);
 }
 
@@ -468,7 +483,7 @@ nav {
   pointer-events:none;
 }
 .statement-deco {
-  font-family:'Playfair Display',serif; font-size:220px; font-style:italic;
+  font-family:'Poppins',sans-serif; font-size:220px; font-style:italic;
   font-weight:700; color:rgba(255,255,255,0.02);
   position:absolute; bottom:-40px; left:-10px; line-height:1;
   pointer-events:none;
@@ -477,7 +492,7 @@ nav {
 .statement-left .section-label { color:var(--purple-light); }
 .statement-left .section-label::after { background:var(--purple-light); }
 .statement-left h2 {
-  font-family:'Playfair Display',serif;
+  font-family:'Poppins',sans-serif;
   font-size:clamp(34px,3.5vw,50px); font-weight:700; color:var(--white);
   line-height:1.1; margin-bottom:28px;
 }
@@ -492,7 +507,7 @@ nav {
 }
 .statement-sig-line { width:48px; height:1.5px; background:var(--purple-light); }
 .statement-sig-text {
-  font-family:'Playfair Display',serif; font-size:18px; font-style:italic;
+  font-family:'Poppins',sans-serif; font-size:18px; font-style:italic;
   color:var(--purple-light);
 }
 .statement-right { position:relative; z-index:2; }
@@ -514,8 +529,8 @@ nav {
 /* Chess/skeleton render as plain glyphs (not full-color emoji) — a white card keeps them visible against the dark section */
 .motif-node-dot.light { background:var(--white); color:var(--ink); border-color:rgba(255,255,255,.7); box-shadow:0 4px 16px rgba(0,0,0,.25); }
 .motif-node.active .motif-node-dot { background:#fff; border-color:#fff; box-shadow:0 0 26px rgba(216,180,254,.6); transform:translate(-50%,-50%) scale(1.28); }
-.motif-hint { position:absolute; bottom:2px; left:50%; transform:translateX(-50%); font-family:'DM Mono',monospace; font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(176,125,217,.5); transition:opacity .25s; pointer-events:none; }
-.motif-label { position:absolute; left:50%; bottom:-8px; transform:translateX(-50%) translateY(8px); z-index:6; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2.5px; text-transform:uppercase; color:var(--purple-light); background:rgba(21,7,41,.9); border:1px solid rgba(176,125,217,.3); border-radius:20px; padding:7px 16px; opacity:0; pointer-events:none; transition:opacity .25s,transform .25s; white-space:nowrap; }
+.motif-hint { position:absolute; bottom:2px; left:50%; transform:translateX(-50%); font-family:'Jost',sans-serif; font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(176,125,217,.5); transition:opacity .25s; pointer-events:none; }
+.motif-label { position:absolute; left:50%; bottom:-8px; transform:translateX(-50%) translateY(8px); z-index:6; font-family:'Jost',sans-serif; font-size:9px; letter-spacing:2.5px; text-transform:uppercase; color:var(--purple-light); background:rgba(21,7,41,.9); border:1px solid rgba(176,125,217,.3); border-radius:20px; padding:7px 16px; opacity:0; pointer-events:none; transition:opacity .25s,transform .25s; white-space:nowrap; }
 .motif-label.show { opacity:1; transform:translateX(-50%) translateY(0); }
 @media (max-width:540px){
   .motif-scene { height:300px; }
@@ -561,14 +576,14 @@ nav {
 .process-step:last-child { border-right:none; }
 .process-step:hover { background:var(--purple-xpale); }
 .step-num {
-  font-family:'Playfair Display',serif; font-size:72px;
+  font-family:'Poppins',sans-serif; font-size:72px;
   font-style:italic; font-weight:700;
   color:rgba(107,47,160,0.06); position:absolute;
   top:12px; right:18px; line-height:1;
 }
 .step-icon { font-size:26px; margin-bottom:16px; }
 .step-title {
-  font-family:'Playfair Display',serif; font-size:20px;
+  font-family:'Poppins',sans-serif; font-size:20px;
   font-weight:600; color:var(--ink); margin-bottom:10px; line-height:1.25;
 }
 .step-desc {
@@ -582,7 +597,7 @@ nav {
   display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center;
 }
 .web3art-text h2 {
-  font-family:'Playfair Display',serif;
+  font-family:'Poppins',sans-serif;
   font-size:clamp(32px,3.5vw,48px); font-weight:700; color:var(--ink);
   line-height:1.1; margin-bottom:20px;
 }
@@ -592,7 +607,7 @@ nav {
 }
 .nft-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px; }
 .nft-tag {
-  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1.5px;
+  font-family:'Jost',sans-serif; font-size:9px; letter-spacing:1.5px;
   text-transform:uppercase; color:var(--purple);
   border:1.5px solid var(--border-strong); padding:6px 14px; border-radius:2px;
   transition:background .2s;
@@ -609,7 +624,7 @@ nav {
 .web3-card:hover { border-color:var(--border-strong); box-shadow:0 8px 28px rgba(107,47,160,0.1); transform:translateY(-3px); }
 .web3-card-icon { font-size:28px; margin-bottom:12px; }
 .web3-card-title {
-  font-family:'Playfair Display',serif; font-size:16px; font-weight:600;
+  font-family:'Poppins',sans-serif; font-size:16px; font-weight:600;
   color:var(--ink); margin-bottom:6px; line-height:1.25;
 }
 .web3-card-desc {
@@ -632,19 +647,19 @@ nav {
   display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:24px;
 }
 .sub-thin { max-width:520px; margin:40px auto 0; width:100%; }
-.sub-thin-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--purple); margin-bottom:10px; text-align:center; }
+.sub-thin-label { font-family:'Jost',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--purple); margin-bottom:10px; text-align:center; }
 .sub-thin-row { display:flex; gap:8px; }
-.sub-thin input { flex:1; min-width:0; padding:13px 16px; border:1.5px solid var(--border); border-radius:4px; background:var(--white); font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--ink); outline:none; transition:border-color .2s; }
+.sub-thin input { flex:1; min-width:0; padding:13px 16px; border:1.5px solid var(--border); border-radius:4px; background:var(--white); font-family:'Montserrat',sans-serif; font-size:15px; color:var(--ink); outline:none; transition:border-color .2s; }
 .sub-thin input:focus { border-color:var(--purple); }
 .sub-thin input::placeholder { color:var(--muted); }
-.sub-thin button { padding:0 22px; background:var(--purple); color:#fff; border:none; border-radius:4px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; cursor:none; white-space:nowrap; transition:background .2s; }
+.sub-thin button { padding:0 22px; background:var(--purple); color:#fff; border:none; border-radius:4px; font-family:'Jost',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; cursor:none; white-space:nowrap; transition:background .2s; }
 .sub-thin button:hover { background:var(--purple-mid); }
 /* Substack card + popup (matches the main site "Between the Blocks" pattern) */
 .blog-substack-link{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:520px;margin:40px auto 0;padding:20px 28px;background:var(--white);border:1.5px solid var(--border);border-radius:4px;text-decoration:none;transition:all .2s;cursor:pointer;}
 .blog-substack-link:hover{border-color:var(--border-strong);background:var(--purple-xpale);}
-.blog-substack-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:4px;}
-.blog-substack-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);font-style:italic;}
-.blog-substack-arrow{font-family:'DM Mono',monospace;font-size:12px;color:var(--purple);}
+.blog-substack-label{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:4px;}
+.blog-substack-title{font-family:'Poppins',sans-serif;font-size:18px;color:var(--ink);font-style:italic;}
+.blog-substack-arrow{font-family:'Jost',sans-serif;font-size:12px;color:var(--purple);}
 .sub-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(26,14,46,.6);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:24px;}
 .sub-modal.open{display:flex;animation:subFade .2s ease;}
 @keyframes subFade{from{opacity:0}to{opacity:1}}
@@ -652,10 +667,10 @@ nav {
 .sub-modal-box{background:#fff;border-radius:16px;padding:36px 28px 28px;max-width:400px;width:100%;position:relative;box-shadow:0 30px 90px rgba(26,14,46,.5);text-align:center;}
 .sub-modal-close{position:absolute;top:10px;right:15px;background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0;}
 .sub-modal-close:hover{color:var(--ink);}
-.sub-modal-name{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:26px;color:var(--ink);margin-bottom:6px;}
-.sub-modal-note{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
+.sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:26px;color:var(--ink);margin-bottom:6px;}
+.sub-modal-note{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
 .sub-modal .sub-thin{margin:0;}
-.sub-modal-read{display:inline-block;margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
+.sub-modal-read{display:inline-block;margin-top:16px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
 .sub-modal-read:hover{color:var(--purple-mid);text-decoration:underline;}
 .blog-card {
   background:var(--white); border-radius:2px;
@@ -676,14 +691,14 @@ nav {
 .blog-card:hover .blog-card-img-inner { transform:scale(1.04); }
 .blog-card-body { padding:28px 28px 32px; }
 .blog-tag {
-  font-family:'DM Mono',monospace; font-size:8px;
+  font-family:'Jost',sans-serif; font-size:8px;
   letter-spacing:3px; text-transform:uppercase;
   color:var(--purple); margin-bottom:12px;
   display:flex; align-items:center; gap:8px;
 }
 .blog-tag::before { content:''; display:block; width:20px; height:1.5px; background:var(--purple-light); }
 .blog-title {
-  font-family:'Playfair Display',serif; font-size:20px;
+  font-family:'Poppins',sans-serif; font-size:20px;
   font-weight:600; color:var(--ink); line-height:1.25; margin-bottom:12px;
 }
 .blog-card.featured .blog-title { font-size:26px; }
@@ -695,11 +710,11 @@ nav {
   padding-top:16px; border-top:1.5px solid var(--border);
 }
 .blog-date {
-  font-family:'DM Mono',monospace; font-size:8px;
+  font-family:'Jost',sans-serif; font-size:8px;
   letter-spacing:2px; text-transform:uppercase; color:var(--muted);
 }
 .blog-read {
-  font-family:'DM Mono',monospace; font-size:8px;
+  font-family:'Jost',sans-serif; font-size:8px;
   letter-spacing:2px; text-transform:uppercase;
   color:var(--purple); text-decoration:none;
   display:flex; align-items:center; gap:6px;
@@ -726,7 +741,7 @@ nav {
 .commission-text .section-label { color:var(--purple-light); }
 .commission-text .section-label::after { background:var(--purple-light); }
 .commission-text h2 {
-  font-family:'Playfair Display',serif;
+  font-family:'Poppins',sans-serif;
   font-size:clamp(38px,4.5vw,60px); font-weight:700; color:var(--white);
   line-height:1.05; margin-bottom:24px;
 }
@@ -749,20 +764,20 @@ nav {
   display:flex; flex-direction:column; gap:20px;
 }
 .commission-form h3 {
-  font-family:'Playfair Display',serif; font-size:26px; color:var(--white);
+  font-family:'Poppins',sans-serif; font-size:26px; color:var(--white);
   font-weight:600; margin-bottom:2px;
 }
 .commission-form-sub {
-  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
+  font-family:'Jost',sans-serif; font-size:9px; letter-spacing:2px;
   text-transform:uppercase; color:var(--purple-light); margin-bottom:4px;
 }
 .form-group { display:flex; flex-direction:column; gap:7px; }
 .form-group-hint {
   font-size:13px; color:rgba(253,252,255,.55); font-style:italic;
-  font-family:'Cormorant Garamond',serif; margin-top:-2px; margin-bottom:2px;
+  font-family:'Montserrat',sans-serif; margin-top:-2px; margin-bottom:2px;
 }
 .form-label {
-  font-family:'DM Mono',monospace; font-size:9px;
+  font-family:'Jost',sans-serif; font-size:9px;
   letter-spacing:2px; text-transform:uppercase; color:var(--purple-light);
 }
 .form-label span { color:rgba(176,125,217,.5); font-size:8px; margin-left:6px; }
@@ -770,7 +785,7 @@ nav {
 .form-input, .form-textarea, .form-select {
   background:rgba(255,255,255,0.06);
   border:1.5px solid rgba(176,125,217,0.2);
-  color:var(--white); font-family:'Cormorant Garamond',serif; font-size:16px;
+  color:var(--white); font-family:'Montserrat',sans-serif; font-size:16px;
   padding:13px 16px; outline:none; border-radius:2px; resize:none;
   transition:border-color .2s;
   -webkit-appearance:none;
@@ -797,7 +812,7 @@ nav {
   font-size:18px; color:rgba(176,125,217,.6);
 }
 .form-upload-label {
-  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
+  font-family:'Jost',sans-serif; font-size:9px; letter-spacing:2px;
   text-transform:uppercase; color:rgba(176,125,217,.6);
 }
 
@@ -817,7 +832,7 @@ nav {
 .budget-option input[type=radio]:checked ~ .budget-radio-ring::after { opacity:1; }
 .budget-option:has(input:checked) { border-color:var(--purple-light); background:rgba(107,47,160,0.12); }
 .budget-label {
-  font-family:'Cormorant Garamond',serif; font-size:16px; color:rgba(253,252,255,.9);
+  font-family:'Montserrat',sans-serif; font-size:16px; color:rgba(253,252,255,.9);
   font-style:italic; pointer-events:none;
 }
 .budget-radio-ring {
@@ -835,7 +850,7 @@ nav {
 .form-date {
   background:rgba(255,255,255,0.06);
   border:1.5px solid rgba(176,125,217,0.2);
-  color:var(--white); font-family:'Cormorant Garamond',serif; font-size:16px;
+  color:var(--white); font-family:'Montserrat',sans-serif; font-size:16px;
   padding:13px 16px; outline:none; border-radius:2px;
   transition:border-color .2s; width:100%;
   color-scheme:dark;
@@ -859,10 +874,10 @@ nav {
   background:var(--purple-light); border-color:var(--purple-light);
 }
 .form-checkbox-group input:checked + .custom-checkbox::after {
-  content:'✓'; color:var(--white); font-size:11px; font-family:'DM Mono',monospace;
+  content:'✓'; color:var(--white); font-size:11px; font-family:'Jost',sans-serif;
 }
 .form-checkbox-label {
-  font-family:'Cormorant Garamond',serif; font-size:14px;
+  font-family:'Montserrat',sans-serif; font-size:14px;
   color:rgba(253,252,255,.85); line-height:1.6; font-style:italic;
 }
 .form-checkbox-label strong { color:rgba(253,252,255,.94); font-weight:500; font-style:normal; }
@@ -874,11 +889,11 @@ nav {
 }
 .budget-confirm-box p {
   font-size:13px; line-height:1.75; color:rgba(253,252,255,.68);
-  font-family:'Cormorant Garamond',serif; margin-bottom:14px;
+  font-family:'Montserrat',sans-serif; margin-bottom:14px;
 }
 
 .btn-primary {
-  font-family:'DM Mono',monospace; font-size:10px;
+  font-family:'Jost',sans-serif; font-size:10px;
   letter-spacing:2px; text-transform:uppercase;
   color:var(--white); background:var(--purple); border:none;
   padding:14px 32px; text-decoration:none; display:inline-block;
@@ -886,7 +901,7 @@ nav {
 }
 .btn-primary:hover { background:var(--purple-mid); transform:translateY(-2px); }
 .btn-ghost-light {
-  font-family:'DM Mono',monospace; font-size:10px;
+  font-family:'Jost',sans-serif; font-size:10px;
   letter-spacing:2px; text-transform:uppercase;
   color:var(--purple-light); background:transparent;
   border:1.5px solid rgba(176,125,217,0.35);
@@ -921,11 +936,11 @@ nav {
   overflow-y:auto; min-height:0;
 }
 .lb-series {
-  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px;
+  font-family:'Jost',sans-serif; font-size:9px; letter-spacing:3px;
   text-transform:uppercase; color:var(--purple); margin-bottom:8px;
 }
 .lb-title {
-  font-family:'Playfair Display',serif; font-size:32px; font-style:italic;
+  font-family:'Poppins',sans-serif; font-size:32px; font-style:italic;
   font-weight:400; color:var(--ink); line-height:1.2; margin-bottom:16px;
 }
 .lb-meta {
@@ -936,13 +951,13 @@ nav {
   display:flex; justify-content:space-between; align-items:center;
 }
 .lb-meta-key {
-  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
+  font-family:'Jost',sans-serif; font-size:9px; letter-spacing:2px;
   text-transform:uppercase; color:var(--muted);
 }
 .lb-meta-val { font-size:14px; color:var(--ink-mid); font-style:italic; }
 .lb-desc { font-size:15px; line-height:1.9; color:var(--muted); font-weight:300; margin-bottom:28px; }
 .lb-price {
-  font-family:'Playfair Display',serif; font-size:28px; color:var(--purple);
+  font-family:'Poppins',sans-serif; font-size:28px; color:var(--purple);
   font-style:italic; margin-bottom:20px;
 }
 .lightbox-close {
@@ -962,11 +977,11 @@ footer {
   border-top:1px solid rgba(176,125,217,0.15);
 }
 .footer-copy {
-  font-family:'DM Mono',monospace; font-size:9px;
+  font-family:'Jost',sans-serif; font-size:9px;
   letter-spacing:2px; text-transform:uppercase; color:rgba(253,252,255,.55);
 }
 .footer-logo {
-  font-family:'Playfair Display',serif; font-size:18px;
+  font-family:'Poppins',sans-serif; font-size:18px;
   letter-spacing:1px; font-weight:700; font-style:italic; color:var(--purple-light);
 }
 .footer-center { display:flex; flex-direction:column; align-items:center; gap:16px; }
@@ -976,7 +991,7 @@ footer {
 .hero-social a,.footer-social a{position:relative;width:42px;height:42px;border:none;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--purple);background:transparent;transition:transform .28s cubic-bezier(.2,.7,.2,1),background .25s,color .25s,box-shadow .25s;}
 .hero-social a:hover,.footer-social a:hover{color:#fff;background:linear-gradient(160deg,var(--purple-light),var(--purple));transform:translateY(-7px);box-shadow:0 12px 22px -8px rgba(107,47,160,.7);}
 .hero-social svg,.footer-social svg{width:18px;height:18px;fill:currentColor;}
-.hero-social a::after,.footer-social a::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(5px);background:#fff;color:var(--ink);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px;text-transform:capitalize;padding:5px 11px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 8px 20px -8px rgba(0,0,0,.5);z-index:6;}
+.hero-social a::after,.footer-social a::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(5px);background:#fff;color:var(--ink);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.5px;text-transform:capitalize;padding:5px 11px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 8px 20px -8px rgba(0,0,0,.5);z-index:6;}
 .hero-social a::before,.footer-social a::before{content:'';position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#fff;opacity:0;transition:opacity .2s;z-index:6;}
 .hero-social a:hover::after,.footer-social a:hover::after{opacity:1;transform:translateX(-50%) translateY(0);}
 .hero-social a:hover::before,.footer-social a:hover::before{opacity:1;}
@@ -1000,19 +1015,19 @@ footer {
 }
 .exhibition-item:hover { background:var(--white); }
 .exhibition-year {
-  font-family:'Playfair Display',serif; font-size:40px; font-style:italic;
+  font-family:'Poppins',sans-serif; font-size:40px; font-style:italic;
   font-weight:700; color:rgba(107,47,160,0.1); line-height:1;
 }
 .exhibition-title {
-  font-family:'Playfair Display',serif; font-size:18px;
+  font-family:'Poppins',sans-serif; font-size:18px;
   font-weight:600; color:var(--ink); line-height:1.3;
 }
 .exhibition-venue {
-  font-family:'DM Mono',monospace; font-size:9px;
+  font-family:'Jost',sans-serif; font-size:9px;
   letter-spacing:2px; text-transform:uppercase; color:var(--muted);
 }
 .exhibition-tag {
-  font-family:'DM Mono',monospace; font-size:8px;
+  font-family:'Jost',sans-serif; font-size:8px;
   letter-spacing:2px; text-transform:uppercase;
   color:var(--muted); text-align:right;
 }
@@ -1048,11 +1063,11 @@ footer {
 }
 .interview-body { padding:20px 22px 24px; }
 .interview-year {
-  font-family:'DM Mono',monospace; font-size:8px;
+  font-family:'Jost',sans-serif; font-size:8px;
   letter-spacing:3px; text-transform:uppercase; color:var(--purple); margin-bottom:8px;
 }
 .interview-title {
-  font-family:'Playfair Display',serif; font-size:17px;
+  font-family:'Poppins',sans-serif; font-size:17px;
   font-weight:600; color:var(--ink); line-height:1.3; margin-bottom:8px;
 }
 .interview-desc { font-size:13px; line-height:1.75; color:var(--muted); font-weight:300; }
@@ -1223,7 +1238,7 @@ footer {
     <div class="hero-featured-label">Featured Work</div>
     <div class="featured-stack">
       <div class="feat-img">
-        <div style="width:100%;height:100%;background:radial-gradient(circle at 42% 34%,#B07DD9,transparent 48%),radial-gradient(circle at 72% 78%,rgba(201,168,76,.4),transparent 44%),linear-gradient(158deg,#3D2B5C,#0C0812);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:150px;font-style:italic;color:rgba(237,231,245,0.14);">♛</div>
+        <div style="width:100%;height:100%;background:radial-gradient(circle at 42% 34%,#B07DD9,transparent 48%),radial-gradient(circle at 72% 78%,rgba(201,168,76,.4),transparent 44%),linear-gradient(158deg,#3D2B5C,#0C0812);display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-size:150px;font-style:italic;color:rgba(237,231,245,0.14);">♛</div>
       </div>
     </div>
     <div class="feat-caption">◆ Borrowed Crowns</div>
@@ -1405,7 +1420,7 @@ footer {
 
   </div>
   <div style="text-align:center;margin-top:48px;">
-    <a href="gallery/" style="display:inline-block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);text-decoration:none;border:1.5px solid var(--border-strong);padding:14px 32px;border-radius:2px;transition:background .3s,color .3s;" onmouseover="this.style.background='var(--purple)';this.style.color='#fff';" onmouseout="this.style.background='transparent';this.style.color='var(--purple)';">View Full Gallery →</a>
+    <a href="gallery/" style="display:inline-block;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);text-decoration:none;border:1.5px solid var(--border-strong);padding:14px 32px;border-radius:2px;transition:background .3s,color .3s;" onmouseover="this.style.background='var(--purple)';this.style.color='#fff';" onmouseout="this.style.background='transparent';this.style.color='var(--purple)';">View Full Gallery →</a>
   </div>
 </section>
 
@@ -1414,7 +1429,7 @@ footer {
   <div class="featured-header fade-up">
     <div>
       <div class="section-label">In Focus</div>
-      <h2 class="section-heading">The works <em>speaking loudest</em></h2>
+      <h2 class="section-heading">The works <em class="fx-pendulum" role="img" aria-label="speaking loudest"><b aria-hidden="true" style="--i:0">s</b><b aria-hidden="true" style="--i:1">p</b><b aria-hidden="true" style="--i:2">e</b><b aria-hidden="true" style="--i:3">a</b><b aria-hidden="true" style="--i:4">k</b><b aria-hidden="true" style="--i:5">i</b><b aria-hidden="true" style="--i:6">n</b><b aria-hidden="true" style="--i:7">g</b> <b aria-hidden="true" style="--i:8">l</b><b aria-hidden="true" style="--i:9">o</b><b aria-hidden="true" style="--i:10">u</b><b aria-hidden="true" style="--i:11">d</b><b aria-hidden="true" style="--i:12">e</b><b aria-hidden="true" style="--i:13">s</b><b aria-hidden="true" style="--i:14">t</b></em></h2>
     </div>
     <p class="featured-header-right" id="featuredBlurb">
       Two paintings. Two questions.
@@ -1433,7 +1448,7 @@ footer {
         </p>
         <div style="display:flex;gap:12px;align-items:center;">
           <a href="#commissions" class="btn-ghost-light">Inquire to Acquire</a>
-          <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">Available</span>
+          <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">Available</span>
         </div>
       </div>
     </div>
@@ -1468,7 +1483,7 @@ footer {
   <div class="statement-deco">V</div>
   <div class="statement-left fade-up">
     <div class="section-label">Artist Statement</div>
-    <h2>I paint what<br>language <em>can't hold.</em></h2>
+    <h2>I paint what<br>language <em class="fx-pendulum" role="img" aria-label="can't hold."><b aria-hidden="true" style="--i:0">c</b><b aria-hidden="true" style="--i:1">a</b><b aria-hidden="true" style="--i:2">n</b><b aria-hidden="true" style="--i:3">'</b><b aria-hidden="true" style="--i:4">t</b> <b aria-hidden="true" style="--i:5">h</b><b aria-hidden="true" style="--i:6">o</b><b aria-hidden="true" style="--i:7">l</b><b aria-hidden="true" style="--i:8">d</b><b aria-hidden="true" style="--i:9">.</b></em></h2>
     <p class="statement-body">
       My work begins with a question I can't answer out loud. 
       <strong>Chess pieces</strong> for the power dynamics we pretend don't exist. 
@@ -1487,7 +1502,7 @@ footer {
     </div>
   </div>
   <div class="statement-right fade-up">
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--purple-light);margin-bottom:20px;opacity:.7;text-align:center;">Recurring Symbols</div>
+    <div style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--purple-light);margin-bottom:20px;opacity:.7;text-align:center;">Recurring Symbols</div>
     <div class="motif-scene" id="motifScene">
       <div class="motif-ring r-in"></div>
       <div class="motif-ring r-mid"></div>
@@ -1505,7 +1520,7 @@ footer {
   <div class="process-header fade-up">
     <div>
       <div class="section-label">The Portfolio</div>
-      <h2 class="section-heading" id="portfolioHeading">Flip through<br><em>the full body of work</em></h2>
+      <h2 class="section-heading" id="portfolioHeading">Flip through<br><em class="fx-pendulum" role="img" aria-label="the full body of work"><b aria-hidden="true" style="--i:0">t</b><b aria-hidden="true" style="--i:1">h</b><b aria-hidden="true" style="--i:2">e</b> <b aria-hidden="true" style="--i:3">f</b><b aria-hidden="true" style="--i:4">u</b><b aria-hidden="true" style="--i:5">l</b><b aria-hidden="true" style="--i:6">l</b> <b aria-hidden="true" style="--i:7">b</b><b aria-hidden="true" style="--i:8">o</b><b aria-hidden="true" style="--i:9">d</b><b aria-hidden="true" style="--i:10">y</b> <b aria-hidden="true" style="--i:11">o</b><b aria-hidden="true" style="--i:12">f</b> <b aria-hidden="true" style="--i:13">w</b><b aria-hidden="true" style="--i:14">o</b><b aria-hidden="true" style="--i:15">r</b><b aria-hidden="true" style="--i:16">k</b></em></h2>
     </div>
     <p class="process-header-right" id="portfolioNote">
       A curated presentation of works and series — it plays on its own. Sit back.
@@ -1520,7 +1535,7 @@ footer {
 <section class="web3art-section">
   <div class="web3art-text fade-up">
     <div class="section-label">Art × Web3</div>
-    <h2>Owning art in<br>the <em>decentralized</em> age</h2>
+    <h2>Owning art in<br>the <em class="fx-pendulum" role="img" aria-label="decentralized"><b aria-hidden="true" style="--i:0">d</b><b aria-hidden="true" style="--i:1">e</b><b aria-hidden="true" style="--i:2">c</b><b aria-hidden="true" style="--i:3">e</b><b aria-hidden="true" style="--i:4">n</b><b aria-hidden="true" style="--i:5">t</b><b aria-hidden="true" style="--i:6">r</b><b aria-hidden="true" style="--i:7">a</b><b aria-hidden="true" style="--i:8">l</b><b aria-hidden="true" style="--i:9">i</b><b aria-hidden="true" style="--i:10">z</b><b aria-hidden="true" style="--i:11">e</b><b aria-hidden="true" style="--i:12">d</b></em> age</h2>
     <p>
       I live at the intersection of classical fine art and Web3. Paintings leave my studio two ways — framed and shipped to a collector, or minted and held on-chain. Both are real. Both are permanent.
     </p>
@@ -1562,7 +1577,7 @@ footer {
   <div class="exhibitions-header fade-up">
     <div>
       <div class="section-label">Exhibitions</div>
-      <h2 class="section-heading">On walls <em>&amp; in spaces</em></h2>
+      <h2 class="section-heading">On walls <em class="fx-pendulum" role="img" aria-label="&amp; in spaces"><b aria-hidden="true" style="--i:0">&amp;</b> <b aria-hidden="true" style="--i:1">i</b><b aria-hidden="true" style="--i:2">n</b> <b aria-hidden="true" style="--i:3">s</b><b aria-hidden="true" style="--i:4">p</b><b aria-hidden="true" style="--i:5">a</b><b aria-hidden="true" style="--i:6">c</b><b aria-hidden="true" style="--i:7">e</b><b aria-hidden="true" style="--i:8">s</b></em></h2>
     </div>
     <p class="exhibitions-header-right">
       Group shows, curated features, and live events where the work has been presented — physically and in online spaces.
@@ -1601,7 +1616,7 @@ footer {
   <div class="interviews-header fade-up">
     <div>
       <div class="section-label">Conversations</div>
-      <h2 class="section-heading">Featured &amp; <em>in conversation</em></h2>
+      <h2 class="section-heading">Featured &amp; <em class="fx-pendulum" role="img" aria-label="in conversation"><b aria-hidden="true" style="--i:0">i</b><b aria-hidden="true" style="--i:1">n</b> <b aria-hidden="true" style="--i:2">c</b><b aria-hidden="true" style="--i:3">o</b><b aria-hidden="true" style="--i:4">n</b><b aria-hidden="true" style="--i:5">v</b><b aria-hidden="true" style="--i:6">e</b><b aria-hidden="true" style="--i:7">r</b><b aria-hidden="true" style="--i:8">s</b><b aria-hidden="true" style="--i:9">a</b><b aria-hidden="true" style="--i:10">t</b><b aria-hidden="true" style="--i:11">i</b><b aria-hidden="true" style="--i:12">o</b><b aria-hidden="true" style="--i:13">n</b></em></h2>
     </div>
     <p class="interviews-header-right">
       Speaking engagements, panel features, and community conversations across the Web3 space — where the work behind the work gets discussed.
@@ -1655,7 +1670,7 @@ footer {
   <div class="blog-header fade-up">
     <div>
       <div class="section-label">From the Studio</div>
-      <h2 class="section-heading">Thoughts on <em>art &amp; living</em></h2>
+      <h2 class="section-heading">Thoughts on <em class="fx-pendulum" role="img" aria-label="art &amp; living"><b aria-hidden="true" style="--i:0">a</b><b aria-hidden="true" style="--i:1">r</b><b aria-hidden="true" style="--i:2">t</b> <b aria-hidden="true" style="--i:3">&amp;</b> <b aria-hidden="true" style="--i:4">l</b><b aria-hidden="true" style="--i:5">i</b><b aria-hidden="true" style="--i:6">v</b><b aria-hidden="true" style="--i:7">i</b><b aria-hidden="true" style="--i:8">n</b><b aria-hidden="true" style="--i:9">g</b></em></h2>
     </div>
     <p class="blog-header-right">
       I write the way I paint &mdash; slowly, and only when something is worth saying. On process. On symbols. On what chess has to do with everything.
@@ -1727,7 +1742,7 @@ footer {
   <div class="commission-inner">
     <div class="commission-text fade-up">
       <div class="section-label">Commissions & Acquisitions</div>
-      <h2>Let's create<br>something <em>permanent.</em></h2>
+      <h2>Let's create<br>something <em class="fx-pendulum" role="img" aria-label="permanent."><b aria-hidden="true" style="--i:0">p</b><b aria-hidden="true" style="--i:1">e</b><b aria-hidden="true" style="--i:2">r</b><b aria-hidden="true" style="--i:3">m</b><b aria-hidden="true" style="--i:4">a</b><b aria-hidden="true" style="--i:5">n</b><b aria-hidden="true" style="--i:6">e</b><b aria-hidden="true" style="--i:7">n</b><b aria-hidden="true" style="--i:8">t</b><b aria-hidden="true" style="--i:9">.</b></em></h2>
       <p>
         Whether you're a collector building a curated space, a Web3 protocol wanting a visual identity, or someone whose question deserves a canvas — I'd like to hear from you.
       </p>
@@ -1771,7 +1786,7 @@ footer {
         <label class="form-label" for="commVision">Your Vision</label>
         <textarea id="commVision" name="vision" class="form-textarea" placeholder="Tell me what you're looking for…" required></textarea>
       </div>
-      <div id="commissionStatus" role="status" aria-live="polite" style="display:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.5px;line-height:1.6;"></div>
+      <div id="commissionStatus" role="status" aria-live="polite" style="display:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.5px;line-height:1.6;"></div>
       <button type="submit" class="btn-primary" id="commissionSubmitBtn" style="text-align:center;padding:16px;font-size:11px;">Send Inquiry →</button>
     </form>
   </div>
@@ -2052,6 +2067,18 @@ async function sanityFetch(q){
 
 /* Artworks → masonry grid */
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+/* Pendulum accent markup, generated at runtime for CMS-driven heading text (variable length,
+   so it can't be hand-authored like the static headings). Screen readers get the plain text via
+   aria-label; the per-letter <b> spans are aria-hidden decoration only. */
+function pendulumHTML(text){
+  var i=0,out=[];
+  for(const ch of String(text)){
+    if(ch===' '){out.push(' ');continue;}
+    out.push('<b aria-hidden="true" style="--i:'+i+'">'+esc(ch)+'</b>');
+    i++;
+  }
+  return '<em class="fx-pendulum" role="img" aria-label="'+esc(text)+'">'+out.join('')+'</em>';
+}
 function masonryCard(aw,h){
   const cat=Array.isArray(aw.category)?aw.category.join(' '):(aw.category||'');
   const av=aw.status||'soon';
@@ -2233,7 +2260,7 @@ function interviewCard(iv){
       const sec=document.getElementById('portfolioSection');
       if(sec){
         document.getElementById('portfolioFrame').src=h.portfolioUrl;
-        if(h.portfolioHeadingPlain)document.getElementById('portfolioHeading').innerHTML=esc(h.portfolioHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(h.portfolioHeadingAccent?` <em>${esc(h.portfolioHeadingAccent)}</em>`:'');
+        if(h.portfolioHeadingPlain)document.getElementById('portfolioHeading').innerHTML=esc(h.portfolioHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(h.portfolioHeadingAccent?` ${pendulumHTML(h.portfolioHeadingAccent)}`:'');
         if(h.portfolioNote)document.getElementById('portfolioNote').textContent=h.portfolioNote;
         sec.style.display='';
       }
@@ -2264,7 +2291,7 @@ function interviewCard(iv){
         <p class="featured-main-desc">${d.length>200?d.slice(0,200)+'…':d}</p>
         <div style="display:flex;gap:12px;align-items:center;">
           <a href="#commissions" class="btn-ghost-light" onclick="event.stopPropagation()">Inquire to Acquire</a>
-          <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">${stTxt(m.status)}</span>
+          <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">${stTxt(m.status)}</span>
         </div>
       </div>`;
     }

@@ -9,7 +9,7 @@
 <meta name="description" content="Victory Adewojo — Nigerian surrealist painter working in oil and mixed media, using the language of chess to explore power, identity, and transformation.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:ital,wght@0,300;0,400;0,500;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -18,7 +18,7 @@ html{scroll-behavior:smooth}
   --purple-pale:#EDE4F8;--purple-xpale:#F7F2FD;--ink:#1A0E2E;--ink-bright:#3E205B;--ink-mid:#3D2B5C;--muted:#7A6B94;
   --border:rgba(107,47,160,0.15);--border-strong:rgba(107,47,160,0.35);--gold:#C9A84C;
 }
-body{background:var(--purple-pale);color:var(--ink);font-family:'Cormorant Garamond',serif;cursor:none;overflow-x:hidden}
+body{background:var(--purple-pale);color:var(--ink);font-family:'Montserrat',sans-serif;cursor:none;overflow-x:hidden}
 /* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ── */
 .about-hero,.statement,.background,.more{
   margin:0 24px 24px;border-radius:28px;overflow:hidden;
@@ -39,14 +39,14 @@ button{font-family:inherit;cursor:none;border:none}
 
 /* NAV (matches art site) */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:rgba(253,252,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transition:padding .3s}
-.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;font-style:italic;color:var(--ink);letter-spacing:1px}
+.nav-logo{font-family:'Poppins',sans-serif;font-size:20px;font-weight:700;font-style:italic;color:var(--ink);letter-spacing:1px}
 .nav-mark{height:26px;width:26px;object-fit:contain;vertical-align:-7px;margin-right:9px}
 .nav-links{display:flex;gap:34px;list-style:none}
-.nav-links a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);transition:color .2s;position:relative}
+.nav-links a{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);transition:color .2s;position:relative}
 .nav-links a:hover,.nav-links a.active{color:var(--ink)}
 .nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;height:1.5px;width:0;background:var(--purple);transition:width .35s cubic-bezier(.2,.7,.2,1)}
 .nav-links a:hover::after,.nav-links a.active::after{width:100%}
-.nav-cta{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:10px 20px;background:var(--purple);color:var(--white);border-radius:2px;transition:background .2s;position:relative;overflow:hidden}
+.nav-cta{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:10px 20px;background:var(--purple);color:var(--white);border-radius:2px;transition:background .2s;position:relative;overflow:hidden}
 .nav-cta:hover{background:var(--purple-mid)}
 .nav-cta::after{content:'';position:absolute;top:0;left:-90%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .6s}
 .nav-cta:hover::after{left:150%}
@@ -60,61 +60,61 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   background:radial-gradient(90% 80% at 85% 15%,rgba(139,77,191,0.30),transparent 60%),var(--ink-bright);
   position:relative;overflow:hidden;
 }
-.about-hero::after{content:'ARTIST';position:absolute;bottom:-40px;right:-10px;font-family:'Playfair Display',serif;font-size:200px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.025);line-height:1;letter-spacing:-6px;pointer-events:none}
+.about-hero::after{content:'ARTIST';position:absolute;bottom:-40px;right:-10px;font-family:'Poppins',sans-serif;font-size:200px;font-weight:700;font-style:italic;color:rgba(255,255,255,0.025);line-height:1;letter-spacing:-6px;pointer-events:none}
 .portrait-wrap{position:relative;z-index:2}
 .portrait{aspect-ratio:4/5;border-radius:3px;overflow:hidden;border:1px solid rgba(201,168,76,0.4);box-shadow:0 40px 80px -30px #000}
 /* PORTRAIT PLACEHOLDER — swap for a real photo of Victory (upload in Sanity → Art About, or replace this gradient with <img>) */
-.portrait .ph{width:100%;height:100%;background:radial-gradient(circle at 40% 30%,#B07DD9,transparent 48%),linear-gradient(160deg,#3D2B5C,#0C0812);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-style:italic;font-size:72px;color:rgba(237,231,245,0.35)}
+.portrait .ph{width:100%;height:100%;background:radial-gradient(circle at 40% 30%,#B07DD9,transparent 48%),linear-gradient(160deg,#3D2B5C,#0C0812);display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-style:italic;font-size:72px;color:rgba(237,231,245,0.35)}
 .portrait img{width:100%;height:100%;object-fit:cover;display:block}
-.portrait-cap{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:14px;text-align:center}
+.portrait-cap{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:14px;text-align:center}
 .about-hero-text{position:relative;z-index:2}
-.ah-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple-light);display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.ah-eyebrow{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple-light);display:flex;align-items:center;gap:12px;margin-bottom:20px}
 .ah-eyebrow::before{content:'';width:32px;height:1.5px;background:var(--purple-light)}
-.about-hero-text h1{font-family:'Playfair Display',serif;font-size:clamp(44px,5.6vw,78px);line-height:.98;font-weight:700;color:var(--white);margin-bottom:22px}
+.about-hero-text h1{font-family:'Poppins',sans-serif;font-size:clamp(44px,5.6vw,78px);line-height:.98;font-weight:700;color:var(--white);margin-bottom:22px}
 .about-hero-text h1 em{font-style:italic;color:var(--gold)}
-.about-hero-text .intro{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.7;color:rgba(253,252,255,.88);font-weight:300;max-width:520px}
+.about-hero-text .intro{font-family:'Montserrat',sans-serif;font-size:21px;line-height:1.7;color:rgba(253,252,255,.88);font-weight:300;max-width:520px}
 .ah-meta{display:flex;gap:34px;margin-top:34px;padding-top:24px;border-top:1px solid rgba(176,125,217,.22)}
-.ah-meta .k{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.6)}
-.ah-meta .v{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;color:var(--gold);margin-top:5px}
+.ah-meta .k{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.6)}
+.ah-meta .v{font-family:'Poppins',sans-serif;font-size:17px;font-style:italic;color:var(--gold);margin-top:5px}
 
 /* STATEMENT (light) */
 .statement{padding:110px 56px;background:var(--offwhite);display:grid;grid-template-columns:0.4fr 0.6fr;gap:56px}
-.sec-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;gap:10px}
+.sec-label{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;gap:10px}
 .sec-label::after{content:'';width:36px;height:1.5px;background:var(--purple-light)}
-.statement h2{font-family:'Playfair Display',serif;font-size:clamp(30px,3.4vw,44px);font-weight:700;line-height:1.1;color:var(--ink);margin-top:16px}
+.statement h2{font-family:'Poppins',sans-serif;font-size:clamp(30px,3.4vw,44px);font-weight:700;line-height:1.1;color:var(--ink);margin-top:16px}
 .statement h2 em{font-style:italic;color:var(--purple)}
 .statement-body p{font-size:19px;line-height:1.95;color:var(--ink-mid);font-weight:300;margin-bottom:22px}
-.statement-body p:first-child::first-letter{font-family:'Playfair Display',serif;font-style:italic;font-size:64px;line-height:.8;float:left;margin:6px 12px 0 0;color:var(--purple)}
-.pull{font-family:'Playfair Display',serif;font-style:italic;font-size:26px;line-height:1.4;color:var(--purple);border-left:2px solid var(--gold);padding-left:22px;margin:34px 0}
+.statement-body p:first-child::first-letter{font-family:'Poppins',sans-serif;font-style:italic;font-size:64px;line-height:.8;float:left;margin:6px 12px 0 0;color:var(--purple)}
+.pull{font-family:'Poppins',sans-serif;font-style:italic;font-size:26px;line-height:1.4;color:var(--purple);border-left:2px solid var(--gold);padding-left:22px;margin:34px 0}
 
 /* BACKGROUND / DETAILS (dark strip) */
 .background{padding:90px 56px;background:var(--ink-bright);display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;position:relative;overflow:hidden}
 .background::before{content:'';position:absolute;top:-30%;left:-8%;width:460px;height:460px;background:radial-gradient(circle,rgba(107,47,160,0.28),transparent 65%);pointer-events:none}
 .background .sec-label{color:var(--purple-light)}
 .background .sec-label::after{background:var(--purple-light)}
-.background h2{font-family:'Playfair Display',serif;font-size:clamp(28px,3vw,40px);font-weight:700;color:var(--white);line-height:1.1;margin:16px 0 20px;position:relative;z-index:2}
+.background h2{font-family:'Poppins',sans-serif;font-size:clamp(28px,3vw,40px);font-weight:700;color:var(--white);line-height:1.1;margin:16px 0 20px;position:relative;z-index:2}
 .background h2 em{font-style:italic;color:var(--purple-light)}
 .background p{font-size:17px;line-height:1.9;color:rgba(253,252,255,.85);font-weight:300;margin-bottom:18px;position:relative;z-index:2;max-width:460px}
 .facts{position:relative;z-index:2;display:flex;flex-direction:column;gap:2px}
 .fact{display:flex;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid rgba(176,125,217,.18)}
-.fact .k{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.62)}
-.fact .v{font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--white);text-align:right}
+.fact .k{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.62)}
+.fact .v{font-family:'Poppins',sans-serif;font-style:italic;font-size:19px;color:var(--white);text-align:right}
 
 /* EXHIBITIONS / PRESS teaser (light) */
 .more{padding:100px 56px;background:var(--white);text-align:center}
-.more h2{font-family:'Playfair Display',serif;font-size:clamp(28px,3vw,40px);font-weight:700;font-style:italic;color:var(--ink);margin-bottom:16px}
+.more h2{font-family:'Poppins',sans-serif;font-size:clamp(28px,3vw,40px);font-weight:700;font-style:italic;color:var(--ink);margin-bottom:16px}
 .more p{font-size:18px;color:var(--muted);font-weight:300;max-width:520px;margin:0 auto 32px;line-height:1.7}
 .more-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.btn-primary{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--white);background:var(--purple);padding:15px 30px;border-radius:2px;display:inline-block;position:relative;overflow:hidden;transition:background .2s,transform .2s}
+.btn-primary{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--white);background:var(--purple);padding:15px 30px;border-radius:2px;display:inline-block;position:relative;overflow:hidden;transition:background .2s,transform .2s}
 .btn-primary:hover{background:var(--purple-mid);transform:translateY(-2px)}
 .btn-primary::after{content:'';position:absolute;top:0;left:-90%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.3),transparent);transform:skewX(-20deg);transition:left .6s}
 .btn-primary:hover::after{left:150%}
-.btn-ghost{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);background:transparent;border:1.5px solid var(--border-strong);padding:15px 30px;border-radius:2px;display:inline-block;transition:all .2s}
+.btn-ghost{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);background:transparent;border:1.5px solid var(--border-strong);padding:15px 30px;border-radius:2px;display:inline-block;transition:all .2s}
 .btn-ghost:hover{border-color:var(--purple);background:var(--purple-xpale);transform:translateY(-2px)}
 
 footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(176,125,217,0.15)}
-.footer-copy{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.55)}
-.footer-logo{font-family:'Playfair Display',serif;font-size:18px;letter-spacing:1px;font-weight:700;font-style:italic;color:var(--purple-light)}
+.footer-copy{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.55)}
+.footer-logo{font-family:'Poppins',sans-serif;font-size:18px;letter-spacing:1px;font-weight:700;font-style:italic;color:var(--purple-light)}
 
 @media(max-width:900px){
   nav{padding:16px 20px}

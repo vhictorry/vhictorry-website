@@ -11,7 +11,7 @@
 <meta property="og:description" content="Artist · Community Builder · Web3 Operations. All my links in one place.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:ital,wght@0,300;0,400;0,500;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 <style>
 :root{
   --white:#FDFCFF; --offwhite:#F6F3FC;
@@ -23,7 +23,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
-  font-family:'Cormorant Garamond',serif;
+  font-family:'Montserrat',sans-serif;
   background:var(--offwhite);
   color:var(--ink);
   min-height:100vh;
@@ -48,7 +48,7 @@ body::before{
   background-size:300% 300%;
   animation:avatarShift 8s ease-in-out infinite;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Playfair Display',serif;font-style:italic;font-weight:700;
+  font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;
   font-size:38px;color:var(--purple-light);
   border:2px solid var(--border-strong);
   box-shadow:0 10px 30px rgba(107,47,160,0.18);
@@ -61,11 +61,11 @@ body::before{
 }
 /* To use a photo instead: replace the letter below with <img src="YOUR-PHOTO.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"> */
 .logo{
-  font-family:'Playfair Display',serif;font-style:italic;font-weight:700;
+  font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;
   font-size:30px;text-align:center;color:var(--ink);letter-spacing:1px;
 }
 .tagline{
-  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;
+  font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;
   text-transform:uppercase;color:var(--purple);text-align:center;
   margin:10px 0 6px;
 }
@@ -76,7 +76,7 @@ body::before{
 
 /* SECTION LABELS */
 .section-label{
-  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;
+  font-family:'Jost',sans-serif;font-size:8px;letter-spacing:3px;
   text-transform:uppercase;color:var(--purple-light);
   text-align:center;margin:28px 0 12px;
   display:flex;align-items:center;gap:12px;
@@ -109,15 +109,15 @@ body::before{
 }
 .link-text{flex:1;}
 .link-title{
-  font-family:'Playfair Display',serif;font-size:16px;font-weight:600;
+  font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;
   color:var(--ink);
 }
 .link-sub{
-  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;
+  font-family:'Jost',sans-serif;font-size:8px;letter-spacing:2px;
   text-transform:uppercase;color:var(--muted);margin-top:3px;
 }
 .link-arrow{
-  font-family:'DM Mono',monospace;font-size:12px;color:var(--purple);
+  font-family:'Jost',sans-serif;font-size:12px;color:var(--purple);
   opacity:.6;
 }
 .link-card.featured{
@@ -168,27 +168,27 @@ body::before{
 }
 .art-embed-cap{padding:14px 18px;}
 .art-embed-title{
-  font-family:'Playfair Display',serif;font-size:17px;font-weight:600;
+  font-family:'Poppins',sans-serif;font-size:17px;font-weight:600;
   color:var(--ink);
 }
 .art-embed-sub{
-  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;
+  font-family:'Jost',sans-serif;font-size:8px;letter-spacing:2px;
   text-transform:uppercase;color:var(--muted);margin-top:4px;
 }
 
 /* FOOTER */
 .foot{
   margin-top:36px;text-align:center;
-  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;
+  font-family:'Jost',sans-serif;font-size:8px;letter-spacing:2px;
   text-transform:uppercase;color:var(--muted);opacity:.7;
 }
 .sub-thin{margin:12px 0 0;width:100%;}
-.sub-thin-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;text-align:center;}
+.sub-thin-label{font-family:'Jost',sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;text-align:center;}
 .sub-thin-row{display:flex;gap:8px;}
-.sub-thin input{flex:1;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--ink);outline:none;transition:border-color .2s;}
+.sub-thin input{flex:1;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-family:'Montserrat',sans-serif;font-size:15px;color:var(--ink);outline:none;transition:border-color .2s;}
 .sub-thin input:focus{border-color:var(--purple);}
 .sub-thin input::placeholder{color:var(--muted);}
-.sub-thin button{padding:0 18px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s;}
+.sub-thin button{padding:0 18px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s;}
 .sub-thin button:hover{background:var(--purple-mid);}
 .sub-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(26,14,46,.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:24px;}
 .sub-modal.open{display:flex;animation:subFade .2s ease;}
@@ -197,8 +197,8 @@ body::before{
 .sub-modal-box{background:#fff;border-radius:16px;padding:34px 26px 28px;max-width:380px;width:100%;position:relative;box-shadow:0 30px 80px rgba(26,14,46,.45);text-align:center;}
 .sub-modal-close{position:absolute;top:8px;right:14px;background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0;}
 .sub-modal-close:hover{color:var(--ink);}
-.sub-modal-name{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:24px;color:var(--ink);margin-bottom:6px;}
-.sub-modal-note{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--muted);margin-bottom:20px;}
+.sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:24px;color:var(--ink);margin-bottom:6px;}
+.sub-modal-note{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--muted);margin-bottom:20px;}
 .sub-modal .sub-thin{margin:0;}
 </style>
 </head>
