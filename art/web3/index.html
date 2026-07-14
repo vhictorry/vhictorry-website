@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art × Web3 — Victory Adewojo</title>
+<link rel="icon" type="image/png" href="/logo-mark.png">
+<link rel="apple-touch-icon" href="/logo-mark.png">
+<meta name="description" content="Victory Adewojo — where classical fine art meets Web3. Physical originals, on-chain editions, and a collection that lives both on a wall and in a wallet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:ital,wght@0,300;0,400;0,500;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --white:#FDFCFF;--offwhite:#F6F3FC;--purple:#6B2FA0;--purple-mid:#8B4DBF;--purple-light:#B07DD9;
+  --purple-pale:#EDE4F8;--purple-xpale:#F7F2FD;--ink:#1A0E2E;--ink-bright:#3E205B;--ink-mid:#3D2B5C;--muted:#7A6B94;
+  --border:rgba(107,47,160,0.15);--border-strong:rgba(107,47,160,0.35);--gold:#C9A84C;
+}
+body{background:var(--purple-pale);color:var(--ink);font-family:'Montserrat',sans-serif;cursor:none;overflow-x:hidden}
+/* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ── */
+.web3-hero,.web3-explainer,.web3-showcase,.web3-more{
+  margin:0 24px 24px;border-radius:28px;overflow:hidden;
+  box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
+}
+.web3-hero{margin-top:24px}
+@media (max-width:900px){
+  .web3-hero,.web3-explainer,.web3-showcase,.web3-more{margin:0 14px 14px;border-radius:20px}
+  .web3-hero{margin-top:14px}
+}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:none;border:none}
+.cursor{position:fixed;width:8px;height:8px;background:var(--purple);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1.5px solid rgba(107,47,160,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+.mo-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,var(--purple),var(--purple-light) 60%,var(--gold));pointer-events:none}
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.fade-up.visible{opacity:1;transform:none}
+/* Touch / no-mouse devices: no custom cursor */
+@media (hover:none),(pointer:coarse){
+  body{cursor:auto!important}
+  .cursor,.cursor-ring{display:none!important}
+  a,button{cursor:pointer!important}
+}
+
+/* NAV (matches art site) */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:rgba(253,252,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transition:padding .3s}
+.nav-logo{font-family:'Poppins',sans-serif;font-size:20px;font-weight:700;font-style:italic;color:var(--ink);letter-spacing:1px}
+.nav-mark{height:26px;width:26px;object-fit:contain;vertical-align:-7px;margin-right:9px}
+.nav-links{display:flex;gap:34px;list-style:none}
+.nav-links a{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);transition:color .2s;position:relative}
+.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;height:1.5px;width:0;background:var(--purple);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-cta{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:10px 20px;background:var(--purple);color:var(--white);border-radius:2px;transition:background .2s;position:relative;overflow:hidden}
+.nav-cta:hover{background:var(--purple-mid)}
+.nav-cta::after{content:'';position:absolute;top:0;left:-90%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .6s}
+.nav-cta:hover::after{left:150%}
+.nav-mobile-toggle{display:none;background:none;flex-direction:column;gap:5px;padding:4px}
+.nav-mobile-toggle span{display:block;width:22px;height:1.5px;background:var(--ink)}
+
+/* HERO (dark) */
+.web3-hero{
+  padding:160px 56px 90px;
+  display:grid;grid-template-columns:1fr;gap:28px;
+  background:radial-gradient(90% 80% at 85% 15%,rgba(139,77,191,0.30),transparent 60%),var(--ink-bright);
+  position:relative;overflow:hidden;text-align:center;
+}
+.web3-hero::after{content:'⬡';position:absolute;bottom:-60px;right:-10px;font-size:280px;color:rgba(255,255,255,0.03);line-height:1;pointer-events:none}
+.web3-hero-inner{position:relative;z-index:2;max-width:720px;margin:0 auto}
+.wh-eyebrow{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple-light);display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px}
+.wh-eyebrow::before,.wh-eyebrow::after{content:'';width:32px;height:1.5px;background:var(--purple-light)}
+.web3-hero h1{font-family:'Poppins',sans-serif;font-size:clamp(40px,6vw,76px);line-height:1.02;font-weight:700;color:var(--white);margin-bottom:22px}
+.web3-hero h1 em{font-style:italic;color:var(--gold)}
+.web3-hero .intro{font-family:'Montserrat',sans-serif;font-size:20px;line-height:1.75;color:rgba(253,252,255,.88);font-weight:300;max-width:560px;margin:0 auto 32px}
+.nft-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:8px}
+.nft-tag{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple-light);border:1.5px solid rgba(176,125,217,.35);padding:7px 16px;border-radius:2px;transition:background .2s}
+.nft-tag:hover{background:rgba(107,47,160,.25)}
+
+/* EXPLAINER — how it works (light) */
+.web3-explainer{padding:100px 56px;background:var(--white)}
+.we-head{text-align:center;max-width:640px;margin:0 auto 56px}
+.sec-label{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px}
+.sec-label::after{content:'\2192';font-size:13px;color:var(--purple-light)}
+.we-head h2{font-family:'Poppins',sans-serif;font-size:clamp(28px,3.2vw,42px);font-weight:700;color:var(--ink);line-height:1.15}
+.we-head h2 em{font-style:italic;color:var(--purple)}
+.we-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.we-card{background:var(--offwhite);border:1.5px solid var(--border);border-radius:6px;padding:30px 24px;transition:all .3s ease}
+.we-card:hover{border-color:var(--border-strong);box-shadow:0 12px 30px -18px rgba(107,47,160,.3);transform:translateY(-3px)}
+.we-icon{font-size:30px;margin-bottom:14px}
+.we-title{font-family:'Poppins',sans-serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.we-desc{font-size:14px;line-height:1.7;color:var(--muted);font-weight:300}
+
+/* ON-CHAIN SHOWCASE (light) */
+.web3-showcase{padding:100px 56px;background:var(--offwhite)}
+.ws-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:44px;flex-wrap:wrap}
+.ws-head h2{font-family:'Poppins',sans-serif;font-size:clamp(28px,3.2vw,42px);font-weight:700;color:var(--ink);line-height:1.15}
+.ws-head h2 em{font-style:italic;color:var(--purple)}
+.ws-head p{font-size:15px;color:var(--muted);font-weight:300;max-width:360px}
+.ws-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.ws-card{background:var(--white);border-radius:6px;overflow:hidden;border:1.5px solid var(--border);transition:all .3s ease;cursor:pointer}
+.ws-card:hover{border-color:var(--border-strong);box-shadow:0 16px 36px -20px rgba(107,47,160,.35);transform:translateY(-4px)}
+.ws-card-img{aspect-ratio:1;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden}
+.ws-card-img img{width:100%;height:100%;object-fit:cover;display:block}
+.ws-chain-badge{position:absolute;top:12px;left:12px;font-family:'Jost',sans-serif;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:rgba(26,14,46,.65);backdrop-filter:blur(4px);padding:5px 10px;border-radius:20px}
+.ws-card-body{padding:18px 20px}
+.ws-card-title{font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.ws-card-meta{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.ws-card-link{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple)}
+.ws-empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:15px;grid-column:1/-1}
+
+/* MORE / CTA (dark) */
+.web3-more{padding:100px 56px;background:var(--ink-bright);text-align:center;position:relative;overflow:hidden}
+.web3-more::before{content:'';position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(107,47,160,.3),transparent 65%);pointer-events:none}
+.web3-more-inner{position:relative;z-index:2}
+.web3-more h2{font-family:'Poppins',sans-serif;font-size:clamp(28px,3vw,40px);font-weight:700;font-style:italic;color:var(--white);margin-bottom:16px}
+.web3-more p{font-size:17px;color:rgba(253,252,255,.7);font-weight:300;max-width:520px;margin:0 auto 32px;line-height:1.75}
+.more-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-primary{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--white);background:var(--purple);padding:15px 30px;border-radius:2px;display:inline-block;position:relative;overflow:hidden;transition:background .2s,transform .2s}
+.btn-primary:hover{background:var(--purple-mid);transform:translateY(-2px)}
+.btn-primary::after{content:'';position:absolute;top:0;left:-90%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.3),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn-primary:hover::after{left:150%}
+.btn-ghost{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:transparent;border:1.5px solid rgba(255,255,255,.5);padding:15px 30px;border-radius:2px;display:inline-block;transition:all .2s}
+.btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.12)}
+
+footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(176,125,217,0.15)}
+.footer-copy{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.55)}
+.footer-logo{font-family:'Poppins',sans-serif;font-size:18px;letter-spacing:1px;font-weight:700;font-style:italic;color:var(--purple-light)}
+
+@media(max-width:900px){
+  nav{padding:16px 20px}
+  .nav-links{display:none;position:fixed;top:60px;left:0;right:0;background:var(--white);flex-direction:column;padding:24px 20px;gap:20px;border-bottom:1px solid var(--border);z-index:99;box-shadow:0 8px 24px rgba(26,14,46,0.08)}
+  .nav-links.open{display:flex}
+  .nav-cta{display:none}
+  .nav-mobile-toggle{display:flex}
+  .web3-hero{padding:120px 24px 64px}
+  .web3-explainer{padding:56px 24px}
+  .we-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .web3-showcase{padding:56px 24px}
+  .ws-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .web3-more{padding:70px 24px}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:24px}
+}
+@media(max-width:540px){
+  .we-grid{grid-template-columns:1fr}
+  .ws-grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.fade-up{opacity:1;transform:none}.mo-progress{display:none}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="mo-progress" id="moProgress"></div>
+
+<nav id="mainNav">
+  <a href="/" class="nav-logo"><img class="nav-mark" src="/logo-mark.png" alt="">vhictorry</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/">Art</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="/gallery/">Gallery</a></li>
+    <li><a href="/#portfolioSection">Portfolio</a></li>
+    <li><a href="#" class="active">Art × Web3</a></li>
+    <li><a href="/#exhibitions">Exhibitions</a></li>
+    <li><a href="/#press">Press</a></li>
+    <li><a href="https://vhictorry.com/">Tech &rarr;</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a href="/#commissions" class="nav-cta">Acquire a Piece</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="web3-hero">
+  <div class="web3-hero-inner fade-up">
+    <div class="wh-eyebrow">Art × Web3</div>
+    <h1 id="web3Heading">Enter my <em>NFT world.</em></h1>
+    <!-- INTRO: editable in Sanity (Art Web3 → intro), falls back to this if no document exists yet -->
+    <p class="intro" id="web3Intro">I live at the intersection of classical fine art and Web3. Paintings leave my studio two ways — framed and shipped to a collector, or minted and held on-chain. Both are real. Both are permanent.</p>
+    <div class="nft-tags" id="web3Tags">
+      <span class="nft-tag">NFT Editions</span>
+      <span class="nft-tag">Physical + Digital</span>
+      <span class="nft-tag">Collector Certificates</span>
+      <span class="nft-tag">On-Chain Provenance</span>
+      <span class="nft-tag">DeFi Community Drops</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="web3-explainer">
+  <div class="we-head fade-up">
+    <div class="sec-label">How It Works</div>
+    <h2>Two ways to <em>own the work</em></h2>
+  </div>
+  <div class="we-grid">
+    <div class="we-card fade-up">
+      <div class="we-icon">🖼️</div>
+      <div class="we-title">Physical Originals</div>
+      <p class="we-desc">Signed originals on canvas, shipped worldwide with a certificate of authenticity.</p>
+    </div>
+    <div class="we-card fade-up">
+      <div class="we-icon">⛓️</div>
+      <div class="we-title">NFT Editions</div>
+      <p class="we-desc">Limited digital editions minted on-chain. Own a provably scarce piece of the work.</p>
+    </div>
+    <div class="we-card fade-up">
+      <div class="we-icon">📜</div>
+      <div class="we-title">Collector Drops</div>
+      <p class="we-desc">Exclusive drops for Web3 community members. First access for early believers.</p>
+    </div>
+    <div class="we-card fade-up">
+      <div class="we-icon">🤝</div>
+      <div class="we-title">Commission Work</div>
+      <p class="we-desc">Custom pieces available as physical originals, on-chain editions, or both at once.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ON-CHAIN COLLECTION ═══ -->
+<section class="web3-showcase">
+  <div class="ws-head fade-up">
+    <div>
+      <div class="sec-label">The Collection</div>
+      <h2>Minted &amp; <em>on-chain</em></h2>
+    </div>
+    <p>Every piece here has a wallet as its permanent home — chain, mint details, and a direct link to view or collect.</p>
+  </div>
+  <div class="ws-grid" id="web3ShowcaseGrid">
+    <p class="ws-empty" id="web3ShowcaseMsg">Loading the on-chain collection…</p>
+  </div>
+</section>
+
+<!-- ═══ MORE / CTA ═══ -->
+<section class="web3-more">
+  <div class="web3-more-inner fade-up">
+    <h2>Want the full picture?</h2>
+    <p>Walk the complete gallery, or reach out directly about acquiring a piece — physical, digital, or both.</p>
+    <div class="more-btns">
+      <a href="/gallery/" class="btn-primary">Enter the Gallery →</a>
+      <a href="/#commissions" class="btn-ghost">Acquire a Piece</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2025 Victory Adewojo · All Rights Reserved</div>
+  <a href="https://vhictorry.com/" class="footer-logo">vhictorry</a>
+  <div class="footer-copy">Art · Web3 · Community · Strategy</div>
+</footer>
+
+<script>
+/* CURSOR */
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+const noMouse=window.matchMedia&&matchMedia('(hover:none),(pointer:coarse)').matches;
+if(!noMouse){
+  let mx=-100,my=-100,rx=-100,ry=-100;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function loop(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(1.8)';ring.style.width='52px';ring.style.height='52px';});
+    el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';ring.style.width='32px';ring.style.height='32px';});
+  });
+}
+/* FADE-UP */
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+/* PROGRESS BAR */
+const pb=document.getElementById('moProgress');
+addEventListener('scroll',()=>{const h=document.documentElement,m=h.scrollHeight-h.clientHeight;pb.style.width=(m>0?h.scrollTop/m*100:0)+'%';},{passive:true});
+/* NAV SCROLL */
+const nav=document.getElementById('mainNav');
+addEventListener('scroll',()=>{nav.style.padding=scrollY>40?'14px 56px':'20px 56px';},{passive:true});
+/* MOBILE NAV */
+const nt=document.getElementById('navToggle');
+if(nt)nt.addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+
+const PROJ='3ihweswz',DS='production';
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+async function sanity(q){
+  const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=${encodeURIComponent(q)}`);
+  return(await r.json()).result;
+}
+const imgSrc=(u,w)=>u.toLowerCase().endsWith('.gif')?u:u+`?w=${w}&fit=max&auto=format`;
+
+/* ── Optional "Art Web3" Sanity document — overrides the drafted hero copy above if one exists ── */
+(async function(){
+  try{
+    const w=await sanity('*[_type=="artWeb3"][0]{headingPlain,headingAccent,intro,tags}');
+    if(!w)return;
+    if(w.headingPlain)document.getElementById('web3Heading').innerHTML=esc(w.headingPlain).replace(/\s*\/\s*/g,'<br>')+(w.headingAccent?` <em>${esc(w.headingAccent)}</em>`:'');
+    if(w.intro)document.getElementById('web3Intro').textContent=w.intro;
+    if(Array.isArray(w.tags)&&w.tags.length){
+      document.getElementById('web3Tags').innerHTML=w.tags.map(t=>`<span class="nft-tag">${esc(t)}</span>`).join('');
+    }
+  }catch(e){}
+})();
+
+/* ── On-chain collection — artworks tagged "nft" or "web3" in Sanity Studio ── */
+(async function(){
+  const grid=document.getElementById('web3ShowcaseGrid');
+  const msg=document.getElementById('web3ShowcaseMsg');
+  try{
+    const works=await sanity(`*[_type=="artwork" && (count((category[])[@ in ["nft","web3"]]) > 0)]|order(order asc){title,"imageUrl":image.asset->url,category,medium,year,chain,buyUrl}`);
+    if(!works||!works.length){
+      if(msg)msg.textContent='On-chain pieces will appear here once tagged “NFT / Web3” in Sanity Studio.';
+      return;
+    }
+    if(msg)msg.remove();
+    grid.innerHTML=works.map(w=>{
+      const img=w.imageUrl?`<img src="${imgSrc(w.imageUrl,700)}" alt="${esc(w.title||'')}" loading="lazy">`:'⛓️';
+      const chain=w.chain||'On-Chain';
+      const meta=[w.medium,w.year].filter(Boolean).join(' · ');
+      const link=w.buyUrl?`<a class="ws-card-link" href="${esc(w.buyUrl)}" target="_blank" rel="noopener">${w.buyUrl.includes('opensea')?'View on OpenSea →':'View piece →'}</a>`:'';
+      return `<div class="ws-card fade-up">
+        <div class="ws-card-img"><span class="ws-chain-badge">${esc(chain)}</span>${img}</div>
+        <div class="ws-card-body">
+          <div class="ws-card-title">${esc(w.title||'Untitled')}</div>
+          ${meta?`<div class="ws-card-meta">${esc(meta)}</div>`:''}
+          ${link}
+        </div>
+      </div>`;
+    }).join('');
+    document.querySelectorAll('.ws-card.fade-up').forEach(el=>obs.observe(el));
+  }catch(e){
+    if(msg)msg.textContent='Could not load the on-chain collection right now.';
+  }
+})();
+</script>
+</body>
+</html>

@@ -124,8 +124,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
 /* SHARED */
 .section-label{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
-.section-label::after{content:'';display:block;width:36px;height:1.5px;background:var(--purple-light);}
-.tl-letter{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity .4s cubic-bezier(.2,.7,.2,1),transform .4s cubic-bezier(.2,.7,.2,1);}
+.section-label::after{content:'\2192';display:block;font-size:13px;line-height:1;color:var(--purple-light);}
+/* letter-spacing on the parent doesn't reliably apply across separate inline-block letter
+   spans (a real cross-browser gap), so each letter carries its own explicit trailing margin
+   instead -- matches the section-label's 4px letter-spacing exactly. */
+.tl-letter{display:inline-block;opacity:0;transform:translateY(8px);margin-right:4px;letter-spacing:normal;transition:opacity .4s cubic-bezier(.2,.7,.2,1),transform .4s cubic-bezier(.2,.7,.2,1);}
+.tl-letter:last-child{margin-right:0;}
 .section-label.visible .tl-letter{opacity:1;transform:translateY(0);}
 .section-heading{font-family:'Poppins',sans-serif;font-size:clamp(34px,3.5vw,50px);font-weight:700;line-height:1.1;margin-bottom:24px;color:var(--ink);}
 .section-heading em{font-style:italic;color:var(--purple);}
@@ -1026,6 +1030,7 @@ function initHeroRoleTypewriter(){
     var text=el.textContent;
     var wrap=document.createElement('span');
     wrap.style.display='inline-flex';
+    wrap.style.letterSpacing='normal';
     var i=0;
     Array.from(text).forEach(function(ch){
       if(ch===' '){wrap.appendChild(document.createTextNode(' '));return;}
