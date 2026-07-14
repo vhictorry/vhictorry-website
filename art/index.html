@@ -148,6 +148,17 @@ nav {
   font-style:italic; font-weight:400; display:block;
   color:transparent; -webkit-text-stroke:1.3px var(--gold);
 }
+/* Cycling word ("see it." / "play it." / "paint it.") — same gold-outline treatment as the
+   static em it replaces, plus a blinking caret bar while it types/deletes. */
+#heroTypewriter::after {
+  content:''; display:inline-block; width:.09em; height:.82em;
+  background:var(--gold); margin-left:6px; vertical-align:-.06em;
+  animation:fx-caret .8s steps(1) infinite;
+}
+@keyframes fx-caret { 50% { opacity:0; } }
+@media (prefers-reduced-motion:reduce) {
+  #heroTypewriter::after { animation:none; }
+}
 .hero-statement {
   font-size:19px; line-height:1.7; color:rgba(253,252,255,.85);
   font-weight:300; max-width:400px; margin-bottom:0;
@@ -1187,7 +1198,7 @@ footer {
   <div class="hero-text fade-up">
     <div class="hero-indexnum">01</div>
     <div class="hero-eyebrow">Fine Art · Oil on Canvas · Mixed Media</div>
-    <h1>The world<br>as I <em>see it.</em></h1>
+    <h1>The world<br>as I <em id="heroTypewriter">see it.</em></h1>
     <p class="hero-statement">
       Each painting is a philosophical question. A chess move. A symbol of transformation held still on canvas — waiting for you to sit with it.
     </p>
@@ -1811,6 +1822,37 @@ const obs = new IntersectionObserver(entries=>
 );
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
+/* Hero cycling word — "see it." / "play it." / "paint it." typed and deleted in a loop.
+   JS-driven (not pure CSS steps()) because the three words have different lengths; a static
+   ch-width keyframe can only ever animate one fixed-width word cleanly.
+   Called once the artHero Sanity fetch below settles (whether it supplies custom content or
+   not), so it always targets whichever #heroTypewriter element actually ends up in the DOM —
+   the CMS-driven one if Studio has hero content set, otherwise the static fallback markup. */
+function initHeroTypewriter(){
+  var el=document.getElementById('heroTypewriter');
+  if(!el||el._twStarted)return;
+  el._twStarted=true;
+  var words=['see it.','play it.','paint it.'];
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(reduce){el.textContent=words[0];return;}
+  var wi=0,ci=0,deleting=false;
+  function tick(){
+    var word=words[wi];
+    if(!deleting){
+      ci++;
+      el.textContent=word.slice(0,ci);
+      if(ci===word.length){deleting=true;setTimeout(tick,1500);return;}
+      setTimeout(tick,75);
+    }else{
+      ci--;
+      el.textContent=word.slice(0,ci);
+      if(ci===0){deleting=false;wi=(wi+1)%words.length;setTimeout(tick,350);return;}
+      setTimeout(tick,40);
+    }
+  }
+  tick();
+}
+
 /* FILTER — cards are looked up at click time because Sanity replaces the grid after load */
 /* Teaser preview: only a few works show clear (3 desktop / 2 mobile), the next few are
    blurred to tease, and the rest are hidden — "View Full Gallery" reveals everything. */
@@ -2159,10 +2201,10 @@ function interviewCard(iv){
 (async()=>{
   try{
     const h=await sanityFetch(`*[_type=="artHero"][0]{eyebrow,headingPlain,headingAccent,intro,stats,caption,marqueeItems,portfolioUrl,portfolioHeadingPlain,portfolioHeadingAccent,portfolioNote,"frames":frameImages[].asset->url}`);
-    if(!h)return;
+    if(!h){initHeroTypewriter();return;}
     if(h.eyebrow)document.querySelector('.hero-eyebrow').textContent=h.eyebrow;
     if(h.headingPlain){
-      const em=h.headingAccent?` <em>${esc(h.headingAccent)}</em>`:'';
+      const em=h.headingAccent?` <em id="heroTypewriter">${esc(h.headingAccent)}</em>`:'';
       document.querySelector('.page-hero h1').innerHTML=esc(h.headingPlain).replace(/\s*\/\s*/g,'<br>')+em;
     }
     if(h.intro)document.querySelector('.hero-statement').textContent=h.intro;
@@ -2197,6 +2239,7 @@ function interviewCard(iv){
       }
     }
   }catch(e){}
+  initHeroTypewriter();
 })();
 
 /* Featured works — "In Focus" section, driven by the Featured switch in Sanity Studio */
