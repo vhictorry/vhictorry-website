@@ -1155,7 +1155,7 @@ function toggleEvents(){
     if(evs.length){
       const grads=['linear-gradient(135deg,#1A0E2E,#6B2FA0)','linear-gradient(135deg,#3D2B5C,#B07DD9)','linear-gradient(135deg,#6B2FA0,#C9A84C)','linear-gradient(135deg,#1A0E2E,#8B4DBF)','linear-gradient(135deg,#3D2B5C,#6B2FA0)'];
       const card=(e,i)=>`<div class="event-card fade-up">
-        <a ${e.url?`href="${e.url}" target="_blank" rel="noopener"`:''}>
+        <a ${e.url?`href="${esc(e.url)}" target="_blank" rel="noopener"`:''}>
           <div class="event-thumb" style="background:${e.thumbUrl?`url('${img(e.thumbUrl,700)}') center/cover no-repeat`:grads[i%grads.length]};">
             ${e.thumbUrl?'':`<div class="event-thumb-placeholder">${e.emoji||'🎤'}</div>`}
             <div class="event-play"><div class="event-play-btn"></div></div>
