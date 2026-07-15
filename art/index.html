@@ -323,10 +323,14 @@ nav {
   position:relative; overflow:hidden; border-radius:2px;
   transition:transform .3s ease; cursor:none;
 }
-/* Teaser cards share a uniform frame so row 1 (clear) and row 2 (blurred) line up cleanly */
-.masonry-grid .art-card { aspect-ratio:4/5; }
-.masonry-grid .art-card > img,
-.masonry-grid .art-card > .art-card-img { width:100%!important; height:100%!important; object-fit:cover; display:block; }
+/* Cards use the photo's natural proportions by default. .frame-landscape/.frame-portrait/.frame-square
+   force an explicit crop when a piece's "Gallery Frame Shape" is set to something other than Auto in Studio. */
+.masonry-grid .art-card.frame-landscape { aspect-ratio:16/10; }
+.masonry-grid .art-card.frame-portrait { aspect-ratio:4/5; }
+.masonry-grid .art-card.frame-square { aspect-ratio:1/1; }
+.masonry-grid .art-card.frame-landscape > img, .masonry-grid .art-card.frame-portrait > img, .masonry-grid .art-card.frame-square > img,
+.masonry-grid .art-card.frame-landscape > .art-card-img, .masonry-grid .art-card.frame-portrait > .art-card-img, .masonry-grid .art-card.frame-square > .art-card-img
+  { width:100%!important; height:100%!important; object-fit:cover; display:block; }
 .masonry-grid .art-card > .art-card-placeholder { width:100%!important; height:100%!important; }
 .art-card:hover { transform:translateY(-4px); }
 .art-card-img {
@@ -629,6 +633,7 @@ nav {
 .sub-modal-close:hover{color:var(--ink);}
 .sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:26px;color:var(--purple);margin-bottom:6px;}
 .sub-modal-note{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
+.sub-note-name{color:var(--purple);font-weight:600;}
 .sub-modal .sub-embed-wrap{margin:0;}
 .sub-modal-read{display:inline-block;margin-top:16px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
 .sub-modal-read:hover{color:var(--purple-mid);text-decoration:underline;}
@@ -1030,6 +1035,8 @@ footer {
   footer { flex-direction:column; gap:12px; text-align:center; padding:24px; }
 }
 @media (max-width:540px) {
+  .sub-modal-box { max-height:90vh; overflow-y:auto; }
+  .sub-embed, .sub-thanks { height:220px; }
   .featured-main-overlay { padding:24px; }
   .featured-main-title { font-size:26px; }
   .featured-main-desc { display:none; }
@@ -1103,7 +1110,7 @@ footer {
     <li><a href="about/">About</a></li>
     <li><a href="gallery/">Gallery</a></li>
     <li><a href="portfolio/">Portfolio</a></li>
-    <li><a href="web3/">NFT</a></li>
+    <li><a href="nft/">NFT</a></li>
     <li><a href="#exhibitions">Exhibitions</a></li>
     <li><a href="#press">Press</a></li>
     <li><a href="blog/">Blog</a></li>
@@ -1436,7 +1443,7 @@ footer {
     <div class="section-label">NFT</div>
     <h2>Where the canvas <em>meets the chain.</em></h2>
     <p>Physical originals, on-chain editions, and a growing collection that lives both on a wall and in a wallet.</p>
-    <a href="web3/" class="btn-primary">Enter My NFT World →</a>
+    <a href="nft/" class="btn-primary">Enter My NFT World →</a>
   </div>
 </section>
 
@@ -1897,7 +1904,8 @@ function masonryCard(aw,h){
     :`<div class="art-card-placeholder" style="height:${h}px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
   const price=av==='available'?'On Inquiry':av==='sold'?'Sold':'—';
   const priceClass=av==='available'?'available':av==='sold'?'sold':'';
-  return `<div class="art-card fade-up" data-category="${esc(cat)}">
+  const frameClass=['landscape','portrait','square'].includes(aw.frameStyle)?` frame-${aw.frameStyle}`:'';
+  return `<div class="art-card fade-up${frameClass}" data-category="${esc(cat)}">
   <div class="art-expand-btn">↗</div>
   <div class="art-badge ${bClass}">${bText}</div>
   ${media}
@@ -1916,7 +1924,7 @@ const heights=[520,380,300,450,340,420,360,480,320];
   const grid=document.getElementById('galleryGrid');
   if(!grid)return;
   try{
-    const works=await sanityFetch(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,description,buyUrl,"series":series->title}`);
+    const works=await sanityFetch(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,description,buyUrl,frameStyle,"series":series->title}`);
     if(!works.length)return;
     grid.innerHTML=works.map((w,i)=>masonryCard(w,heights[i%heights.length])).join('');
     grid.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
@@ -2137,43 +2145,37 @@ function openSub(sub,name){
   var n=document.getElementById('subModalName');if(n)n.textContent=name;
   var note=document.getElementById('subModalNote');if(note)note.innerHTML=SUB_DEFAULT_NOTE;
   var rd=document.getElementById('subModalRead');if(rd)rd.href='https://'+sub+'.substack.com';
-  var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
   resetSubThanks();
+  var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
   var m=document.getElementById('subModal');if(m)m.classList.add('open');
   return false;
 }
 function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
 
 /* Substack's embed is a cross-origin iframe, so we can't read its form state directly.
-   Primary signal: Substack posts a window.message when the embedded form actually submits --
-   if that arrives, we know for certain a subscribe happened. Fallback (only if no message
-   ever arrives): focus leaving the parent page onto the iframe, held for a pause, as a rough
-   proxy -- less exact, since it can't distinguish "clicked into the email field" from "submitted". */
+   But a real subscribe submission makes the iframe navigate internally (to Substack's own
+   "thanks" page) -- which fires a second `load` event on the iframe element. Merely clicking
+   into the email field does NOT trigger a reload, so counting loads is an accurate,
+   cross-origin-safe signal (unlike guessing from focus or message content). */
 (function(){
-  var armed=true, timer=null;
-  function showThanks(){
-    if(!armed)return;
-    armed=false;
-    if(timer)clearTimeout(timer);
+  var loadCount=0, watching=false;
+  function watch(){
+    if(watching)return;
     var frEl=document.getElementById('subEmbedFrame');
-    var thanksEl=document.getElementById('subThanks');
-    if(frEl)frEl.style.display='none';
-    if(thanksEl)thanksEl.style.display='flex';
+    if(!frEl)return;
+    watching=true;
+    frEl.addEventListener('load',function(){
+      loadCount++;
+      if(loadCount>1){
+        var thanksEl=document.getElementById('subThanks');
+        frEl.style.display='none';
+        if(thanksEl)thanksEl.style.display='flex';
+      }
+    });
   }
-  window.addEventListener('message',function(e){
-    if(!armed||!e.origin||e.origin.indexOf('substack.com')===-1)return;
-    var data=e.data;
-    var text=typeof data==='string'?data:(function(){try{return JSON.stringify(data||{});}catch(x){return '';}})();
-    if(/subscri|success|submit/i.test(text))showThanks();
-  });
-  window.addEventListener('blur',function(){
-    var frEl=document.getElementById('subEmbedFrame');
-    if(!armed||!frEl||document.activeElement!==frEl)return;
-    timer=setTimeout(showThanks,1200);
-  });
   window.resetSubThanks=function(){
-    armed=true;
-    if(timer)clearTimeout(timer);
+    loadCount=0;
+    watch();
     var frEl=document.getElementById('subEmbedFrame');
     var thanksEl=document.getElementById('subThanks');
     if(frEl)frEl.style.display='';
@@ -2192,10 +2194,10 @@ function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.r
     sessionStorage.setItem(KEY,'1');
     var n=document.getElementById('subModalName');if(n)n.textContent='Still looking?';
     var note=document.getElementById('subModalNote');
-    if(note)note.textContent="You've been here a minute — the paintings must be talking to you. Join In Between Strokes for the stories behind the canvas.";
+    if(note)note.innerHTML="You've been here a minute — the paintings must be talking to you. Join <span class=\"sub-note-name\">In Between Strokes</span> for the stories behind the canvas.";
     var rd=document.getElementById('subModalRead');if(rd)rd.href='https://inbtwstrokes.substack.com';
-    var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://inbtwstrokes.substack.com/embed';
     resetSubThanks();
+    var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://inbtwstrokes.substack.com/embed';
     subCur='inbtwstrokes';
     var m=document.getElementById('subModal');if(m)m.classList.add('open');
   }

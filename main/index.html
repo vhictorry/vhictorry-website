@@ -334,6 +334,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .sub-modal-close:hover{color:var(--ink);}
 .sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:26px;color:var(--purple);margin-bottom:6px;}
 .sub-modal-note{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
+.sub-note-name{color:var(--purple);font-weight:600;}
 .sub-modal .sub-embed-wrap{margin:0;}
 .sub-modal-read{display:inline-block;margin-top:16px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
 .sub-modal-read:hover{color:var(--purple-mid);text-decoration:underline;}
@@ -410,6 +411,8 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 @media(max-width:540px){
   .hero-name{font-size:54px;}
   .about-stats{grid-template-columns:1fr 1fr;}
+  .sub-modal-box{max-height:90vh;overflow-y:auto;}
+  .sub-embed,.sub-thanks{height:220px;}
   /* Orbit fits the narrow viewport: smaller rings, dots and core so nothing clips */
   .web3-visual{min-height:300px;}
   .orbit-scene{height:300px;}
@@ -573,7 +576,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
   </div>
   <div class="about-content fade-up">
     <div class="section-label">Who I Am</div>
-    <h2 class="section-heading">I didn&rsquo;t read about<br>Web3. <em class="fx-typewriter" style="--tw-ch:13">I built inside it.</em></h2>
+    <h2 class="section-heading">I didn&rsquo;t read about<br>Web3. <em class="fx-typewriter" style="--tw-ch:12">I built inside it.</em></h2>
     <p class="about-text">Victory Adewojo is a Web3 Community Builder, Operations Specialist, Brand Strategist, and the founder of Pontys. With over five years of hands-on experience in the decentralized space, she has worked with Web3 brands across community management, Discord structure, operational systems, and personal brand development.</p>
     <p class="about-text">Holding an MBA, Victory brings both strategic rigour and practical Web3 experience to every engagement. She understands how businesses are built and how this particular industry moves — a combination that is rare and, for her clients, consistently valuable.</p>
     <p class="about-text">She works with a selective client base, prioritising depth of engagement over volume. Her track record spans community builds, brand consultations, and operational frameworks that have brought measurable structure to projects that previously ran on instinct alone.</p>
@@ -695,7 +698,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
   <div class="t-header fade-up">
     <div>
       <div class="section-label">Social Proof</div>
-      <h2 class="section-heading">Voices from the <em class="fx-typewriter" style="--tw-ch:11">community</em></h2>
+      <h2 class="section-heading">Voices from the <em class="fx-typewriter" style="--tw-ch:10">community</em></h2>
     </div>
     <p class="t-subtext">Real results from real people. These aren&rsquo;t just words — they&rsquo;re outcomes. Jobs won. Communities built. Careers transformed in the Web3 space.</p>
   </div>
@@ -734,7 +737,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
   <div class="events-header fade-up">
     <div>
       <div class="section-label">Speaking</div>
-      <h2 class="section-heading">Featured &amp; <em class="fx-typewriter" style="--tw-ch:14">in conversation</em></h2>
+      <h2 class="section-heading">Featured &amp; <em class="fx-typewriter" style="--tw-ch:13">in conversation</em></h2>
     </div>
     <p class="events-header-right">
       Speaking engagements, panel features, and community conversations across the Web3 space. From onboarding developers to Women in DeFi summits — showing up where the work is being done.
@@ -824,7 +827,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 <section id="art-teaser">
   <div class="art-teaser-text fade-up">
     <div class="section-label">Fine Art</div>
-    <h2>Stories told through <em class="fx-typewriter" style="--tw-ch:12">brushstrokes</em></h2>
+    <h2>Stories told through <em class="fx-typewriter" style="--tw-ch:11">brushstrokes</em></h2>
     <p>Victory&rsquo;s art lives both on canvas and on-chain — paintings that explore identity, transformation, freedom, and constraint. Original works available physically and as on-chain editions for collectors in the Web3 space.</p>
     <a href="https://art.vhictorry.com" class="btn-ghost btn-ghost--onDark">View the Art &rarr;</a>
   </div>
@@ -854,7 +857,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 <section id="contact">
   <div class="contact-left fade-up">
     <div class="section-label">Get In Touch</div>
-    <h2>Let&rsquo;s make<br><em class="fx-typewriter" style="--tw-ch:14">something real.</em></h2>
+    <h2>Let&rsquo;s make<br><em class="fx-typewriter" style="--tw-ch:13">something real.</em></h2>
     <p>A community that holds. A brand with a real point of view. If any of that resonates — I&rsquo;d like to hear from you.</p>
     <div class="c-items">
       <div class="c-item"><div class="c-icon"><svg viewBox="0 0 24 24"><path d="M3 6.5l9 6 9-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg></div><div class="c-detail"><span>Email</span>vhictorryx@gmail.com</div></div>
@@ -1027,7 +1030,7 @@ function toggleEvents(){
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   const img=(u,w)=>u.toLowerCase().endsWith('.gif')?u:u+`?w=${w}&fit=max&auto=format`;
   try{
-    const hp=await q(`*[_type=="homePage"][0]{...,"heroPhotoUrl":heroPhoto.asset->url,"aboutMainUrl":aboutPhotoMain.asset->url,"aboutAccentUrl":aboutPhotoAccent.asset->url,"resumeUrl":resume.asset->url,"projectLogos":projectLogos[]{name,"url":logo.asset->url}}`);
+    const hp=await q(`*[_type=="homePage"][0]{...,"heroPhotoUrl":heroPhoto.asset->url,"aboutMainUrl":aboutPhotoMain.asset->url,"aboutAccentUrl":aboutPhotoAccent.asset->url,"resumeFileUrl":resume.asset->url,"projectLogos":projectLogos[]{name,"url":logo.asset->url}}`);
     if(hp){
       if(hp.eyebrow)document.querySelector('.hero-eyebrow').textContent=hp.eyebrow;
       /* Only the "rest" text after the cycling role is CMS-editable now, so a custom Short Bio
@@ -1044,7 +1047,8 @@ function toggleEvents(){
       if(Array.isArray(hp.credentials)&&hp.credentials.length){
         document.querySelector('.hero-credentials').innerHTML=hp.credentials.slice(0,3).map((c,i)=>`<div class="credential-badge ${i===0?'credential-badge--purple':'credential-badge--dark'}">${esc(c)}</div>`).join('');
       }
-      if(hp.resumeUrl){const rb=document.querySelector('.hero-btns .btn-primary');if(rb){rb.href=hp.resumeUrl;rb.target='_blank';rb.rel='noopener';}}
+      var resumeLink=hp.resumeUrl||hp.resumeFileUrl;
+      if(resumeLink){const rb=document.querySelector('.hero-btns .btn-primary');if(rb){rb.href=resumeLink;rb.target='_blank';rb.rel='noopener';}}
       if(Array.isArray(hp.marqueeItems)&&hp.marqueeItems.length){
         const mi=document.querySelector('.marquee-inner');
         const s=hp.marqueeItems.map(t=>`<span class="marquee-item">${esc(t)}</span>`).join('');
@@ -1064,7 +1068,7 @@ function toggleEvents(){
           twEm.appendChild(probe);
           const chPx=probe.getBoundingClientRect().width;
           probe.remove();
-          twEm.style.setProperty('--tw-ch',(textW/chPx+1.5).toFixed(1));
+          twEm.style.setProperty('--tw-ch',(textW/chPx+0.8).toFixed(1));
         }
       }
       if(hp.aboutText){
@@ -1077,7 +1081,9 @@ function toggleEvents(){
       if(hp.badgeValue)document.querySelector('.about-badge span:first-child').textContent=hp.badgeValue;
       if(hp.badgeLabel)document.querySelector('.about-badge span:last-child').textContent=hp.badgeLabel;
       if(Array.isArray(hp.aboutStats)&&hp.aboutStats.length){
-        document.querySelector('.about-stats').innerHTML=hp.aboutStats.slice(0,4).map(s=>`<div><div class="stat-number">${esc(s.value||'')}</div><div class="stat-label">${esc(s.label||'')}</div></div>`).join('');
+        var statsList=hp.aboutStats.slice(0,4);
+        if(statsList.length<4)statsList.push({value:'100%',label:'Remote Ready'});
+        document.querySelector('.about-stats').innerHTML=statsList.map(s=>`<div><div class="stat-number">${esc(s.value||'')}</div><div class="stat-label">${esc(s.label||'')}</div></div>`).join('');
       }
       if(hp.web3Text)document.querySelector('.web3-text p').textContent=hp.web3Text;
       if(Array.isArray(hp.chainTags)&&hp.chainTags.length)document.querySelector('.chain-tags').innerHTML=hp.chainTags.map(t=>`<span class="chain-tag">${esc(t)}</span>`).join('');
@@ -1212,43 +1218,37 @@ function openSub(sub,name){
   var n=document.getElementById('subModalName');if(n)n.textContent=name;
   var note=document.getElementById('subModalNote');if(note)note.innerHTML=SUB_DEFAULT_NOTE;
   var rd=document.getElementById('subModalRead');if(rd)rd.href='https://'+sub+'.substack.com';
-  var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
   resetSubThanks();
+  var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
   var m=document.getElementById('subModal');if(m)m.classList.add('open');
   return false;
 }
 function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
 
 /* Substack's embed is a cross-origin iframe, so we can't read its form state directly.
-   Primary signal: Substack posts a window.message when the embedded form actually submits --
-   if that arrives, we know for certain a subscribe happened. Fallback (only if no message
-   ever arrives): focus leaving the parent page onto the iframe, held for a pause, as a rough
-   proxy -- less exact, since it can't distinguish "clicked into the email field" from "submitted". */
+   But a real subscribe submission makes the iframe navigate internally (to Substack's own
+   "thanks" page) -- which fires a second `load` event on the iframe element. Merely clicking
+   into the email field does NOT trigger a reload, so counting loads is an accurate,
+   cross-origin-safe signal (unlike guessing from focus or message content). */
 (function(){
-  var armed=true, timer=null;
-  function showThanks(){
-    if(!armed)return;
-    armed=false;
-    if(timer)clearTimeout(timer);
+  var loadCount=0, watching=false;
+  function watch(){
+    if(watching)return;
     var frEl=document.getElementById('subEmbedFrame');
-    var thanksEl=document.getElementById('subThanks');
-    if(frEl)frEl.style.display='none';
-    if(thanksEl)thanksEl.style.display='flex';
+    if(!frEl)return;
+    watching=true;
+    frEl.addEventListener('load',function(){
+      loadCount++;
+      if(loadCount>1){
+        var thanksEl=document.getElementById('subThanks');
+        frEl.style.display='none';
+        if(thanksEl)thanksEl.style.display='flex';
+      }
+    });
   }
-  window.addEventListener('message',function(e){
-    if(!armed||!e.origin||e.origin.indexOf('substack.com')===-1)return;
-    var data=e.data;
-    var text=typeof data==='string'?data:(function(){try{return JSON.stringify(data||{});}catch(x){return '';}})();
-    if(/subscri|success|submit/i.test(text))showThanks();
-  });
-  window.addEventListener('blur',function(){
-    var frEl=document.getElementById('subEmbedFrame');
-    if(!armed||!frEl||document.activeElement!==frEl)return;
-    timer=setTimeout(showThanks,1200);
-  });
   window.resetSubThanks=function(){
-    armed=true;
-    if(timer)clearTimeout(timer);
+    loadCount=0;
+    watch();
     var frEl=document.getElementById('subEmbedFrame');
     var thanksEl=document.getElementById('subThanks');
     if(frEl)frEl.style.display='';
@@ -1267,10 +1267,10 @@ function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.r
     sessionStorage.setItem(KEY,'1');
     var n=document.getElementById('subModalName');if(n)n.textContent='Before you go…';
     var note=document.getElementById('subModalNote');
-    if(note)note.textContent="You've been here a minute — that's basically a first date. Join Between the Blocks for the blogs that don't make it into a LinkedIn post.";
+    if(note)note.innerHTML="You've been here a minute — that's basically a first date. Join <span class=\"sub-note-name\">Between the Blocks</span> for the blogs that don't make it into a LinkedIn post.";
     var rd=document.getElementById('subModalRead');if(rd)rd.href='https://btwtheblocks.substack.com';
-    var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://btwtheblocks.substack.com/embed';
     resetSubThanks();
+    var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://btwtheblocks.substack.com/embed';
     subCur='btwtheblocks';
     var m=document.getElementById('subModal');if(m)m.classList.add('open');
   }

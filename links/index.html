@@ -192,6 +192,10 @@ body::before{
 @keyframes subFade{from{opacity:0}to{opacity:1}}
 .sub-modal,.sub-modal *{cursor:auto;}
 .sub-modal-box{background:#fff;border-radius:16px;padding:34px 26px 28px;max-width:380px;width:100%;position:relative;box-shadow:0 30px 80px rgba(26,14,46,.45);text-align:center;}
+@media (max-width:480px){
+  .sub-modal-box{max-height:90vh;overflow-y:auto;}
+  .sub-embed,.sub-thanks{height:220px;}
+}
 .sub-modal-close{position:absolute;top:8px;right:14px;background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0;}
 .sub-modal-close:hover{color:var(--ink);}
 .sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:24px;color:var(--purple);margin-bottom:6px;}
@@ -369,43 +373,37 @@ var subCur='inbtwstrokes';
 function openSub(sub,name){
   subCur=sub;
   var n=document.getElementById('subModalName');if(n)n.textContent=name;
-  var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
   resetSubThanks();
+  var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
   var m=document.getElementById('subModal');if(m)m.classList.add('open');
   return false;
 }
 function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
 
 /* Substack's embed is a cross-origin iframe, so we can't read its form state directly.
-   Primary signal: Substack posts a window.message when the embedded form actually submits --
-   if that arrives, we know for certain a subscribe happened. Fallback (only if no message
-   ever arrives): focus leaving the parent page onto the iframe, held for a pause, as a rough
-   proxy -- less exact, since it can't distinguish "clicked into the email field" from "submitted". */
+   But a real subscribe submission makes the iframe navigate internally (to Substack's own
+   "thanks" page) -- which fires a second `load` event on the iframe element. Merely clicking
+   into the email field does NOT trigger a reload, so counting loads is an accurate,
+   cross-origin-safe signal (unlike guessing from focus or message content). */
 (function(){
-  var armed=true, timer=null;
-  function showThanks(){
-    if(!armed)return;
-    armed=false;
-    if(timer)clearTimeout(timer);
+  var loadCount=0, watching=false;
+  function watch(){
+    if(watching)return;
     var frEl=document.getElementById('subEmbedFrame');
-    var thanksEl=document.getElementById('subThanks');
-    if(frEl)frEl.style.display='none';
-    if(thanksEl)thanksEl.style.display='flex';
+    if(!frEl)return;
+    watching=true;
+    frEl.addEventListener('load',function(){
+      loadCount++;
+      if(loadCount>1){
+        var thanksEl=document.getElementById('subThanks');
+        frEl.style.display='none';
+        if(thanksEl)thanksEl.style.display='flex';
+      }
+    });
   }
-  window.addEventListener('message',function(e){
-    if(!armed||!e.origin||e.origin.indexOf('substack.com')===-1)return;
-    var data=e.data;
-    var text=typeof data==='string'?data:(function(){try{return JSON.stringify(data||{});}catch(x){return '';}})();
-    if(/subscri|success|submit/i.test(text))showThanks();
-  });
-  window.addEventListener('blur',function(){
-    var frEl=document.getElementById('subEmbedFrame');
-    if(!armed||!frEl||document.activeElement!==frEl)return;
-    timer=setTimeout(showThanks,1200);
-  });
   window.resetSubThanks=function(){
-    armed=true;
-    if(timer)clearTimeout(timer);
+    loadCount=0;
+    watch();
     var frEl=document.getElementById('subEmbedFrame');
     var thanksEl=document.getElementById('subThanks');
     if(frEl)frEl.style.display='';

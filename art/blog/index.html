@@ -142,7 +142,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
     <li><a href="/about/">About</a></li>
     <li><a href="/gallery/">Gallery</a></li>
     <li><a href="/portfolio/">Portfolio</a></li>
-    <li><a href="/web3/">NFT</a></li>
+    <li><a href="/nft/">NFT</a></li>
     <li><a href="/#exhibitions">Exhibitions</a></li>
     <li><a href="#" class="active">Blog</a></li>
     <li><a href="https://vhictorry.com/">Tech &rarr;</a></li>
@@ -220,31 +220,23 @@ const nt=document.getElementById('navToggle');
 if(nt)nt.addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
 
 /* Substack's embed is a cross-origin iframe, so we can't read its form state directly.
-   Primary signal: Substack posts a window.message when the embedded form actually submits --
-   if that arrives, we know for certain a subscribe happened. Fallback (only if no message
-   ever arrives): focus leaving the parent page onto the iframe, held for a pause, as a rough
-   proxy -- less exact, since it can't distinguish "clicked into the email field" from "submitted". */
+   But a real subscribe submission makes the iframe navigate internally (to Substack's own
+   "thanks" page) -- which fires a second `load` event on the iframe element. Merely clicking
+   into the email field does NOT trigger a reload, so counting loads is an accurate,
+   cross-origin-safe signal (unlike guessing from focus or message content). */
 (function(){
-  var armed=true;
-  function showThanks(){
-    if(!armed)return;
-    armed=false;
-    var frEl=document.getElementById('subEmbedFrame');
-    var thanksEl=document.getElementById('subThanks');
-    if(frEl)frEl.style.display='none';
-    if(thanksEl)thanksEl.style.display='flex';
+  var loadCount=0;
+  var frEl=document.getElementById('subEmbedFrame');
+  if(frEl){
+    frEl.addEventListener('load',function(){
+      loadCount++;
+      if(loadCount>1){
+        var thanksEl=document.getElementById('subThanks');
+        frEl.style.display='none';
+        if(thanksEl)thanksEl.style.display='flex';
+      }
+    });
   }
-  window.addEventListener('message',function(e){
-    if(!armed||!e.origin||e.origin.indexOf('substack.com')===-1)return;
-    var data=e.data;
-    var text=typeof data==='string'?data:(function(){try{return JSON.stringify(data||{});}catch(x){return '';}})();
-    if(/subscri|success|submit/i.test(text))showThanks();
-  });
-  window.addEventListener('blur',function(){
-    var frEl=document.getElementById('subEmbedFrame');
-    if(!armed||!frEl||document.activeElement!==frEl)return;
-    setTimeout(showThanks,1200);
-  });
 })();
 
 const PROJ='3ihweswz',DS='production';

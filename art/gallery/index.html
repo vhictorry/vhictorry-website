@@ -266,7 +266,7 @@
     <li><a href="/about/">About</a></li>
     <li><a href="#" class="active">Gallery</a></li>
     <li><a href="/portfolio/">Portfolio</a></li>
-    <li><a href="/web3/">NFT</a></li>
+    <li><a href="/nft/">NFT</a></li>
     <li><a href="/#exhibitions">Exhibitions</a></li>
     <li><a href="/#press">Press</a></li>
     <li><a href="/blog/">Blog</a></li>
@@ -319,7 +319,7 @@
 </div>
 
 <!-- Shown only while the "Web3 / NFT" filter is active — points to the full on-chain page -->
-<a href="../web3/" class="web3-filter-banner" id="web3FilterBanner" style="display:none;">
+<a href="../nft/" class="web3-filter-banner" id="web3FilterBanner" style="display:none;">
   <span class="web3-filter-banner-text"><strong>Looking for chain &amp; mint details?</strong> The full on-chain collection — with marketplace links — lives on the NFT page.</span>
   <span class="web3-filter-banner-cta">Enter My NFT World →</span>
 </a>
@@ -502,8 +502,10 @@ function cardHTML(aw){
   const desc=esc(aw.description||'');
   const dims=esc(aw.dimensions||'—');
   const title=esc(aw.title||'Untitled');
+  const frameRatios={landscape:'16/10',portrait:'4/5',square:'1/1'};
+  const frameCss=frameRatios[aw.frameStyle]?`aspect-ratio:${frameRatios[aw.frameStyle]};object-fit:cover;`:'';
   const media=aw.imageUrl
-    ?`<img class="card-img" src="${esc(imgSrc(aw.imageUrl,1200))}" alt="${title}" loading="lazy">`
+    ?`<img class="card-img" src="${esc(imgSrc(aw.imageUrl,1200))}" alt="${title}" loading="lazy"${frameCss?` style="${frameCss}"`:''}>`
     :`<div class="card-img" style="height:280px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
   const series=esc(aw.series||'');
   const extra=esc(JSON.stringify(aw.extraViewUrls||[]));
@@ -548,7 +550,7 @@ async function loadGallery(){
   const grid=document.getElementById('galleryGrid');
   const msg=document.getElementById('galleryMsg');
   try{
-    const works=await sanity(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,"extraViewUrls":extraViews[].asset->url,category,status,medium,year,dimensions,description,buyUrl,"series":series->title}`);
+    const works=await sanity(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,"extraViewUrls":extraViews[].asset->url,category,status,medium,year,dimensions,description,buyUrl,frameStyle,"series":series->title}`);
     if(!works.length){
       msg.innerHTML='No artworks yet — <a href="https://vhictorry.sanity.studio" target="_blank" style="color:var(--purple);">add your first piece in Sanity Studio.</a>';
       return;
