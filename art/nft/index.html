@@ -199,9 +199,9 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 <section class="web3-explainer">
   <div class="we-head fade-up">
     <div class="sec-label">How It Works</div>
-    <h2>Two ways to <em>own the work</em></h2>
+    <h2 id="howItWorksHeading">Two ways to <em>own the work</em></h2>
   </div>
-  <div class="we-grid">
+  <div class="we-grid" id="howItWorksGrid">
     <div class="we-card fade-up">
       <div class="we-icon">🖼️</div>
       <div class="we-title">Physical Originals</div>
@@ -236,7 +236,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
       <div class="sec-label">The Collection</div>
       <h2>Minted &amp; <em>on-chain</em></h2>
     </div>
-    <p>Every piece here has a wallet as its permanent home — chain, mint details, and a direct link to view or collect.</p>
+    <p id="collectionIntro">Every piece here has a wallet as its permanent home — chain, mint details, and a direct link to view or collect.</p>
   </div>
   <div class="ws-grid" id="web3ShowcaseGrid">
     <p class="ws-empty" id="web3ShowcaseMsg">Loading the on-chain collection…</p>
@@ -246,8 +246,8 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 <!-- ═══ MORE / CTA ═══ -->
 <section class="web3-more">
   <div class="web3-more-inner fade-up">
-    <h2>Want the full picture?</h2>
-    <p>Walk the complete gallery, or reach out directly about acquiring a piece — physical, digital, or both.</p>
+    <h2 id="ctaHeading">Want the full picture?</h2>
+    <p id="ctaBody">Walk the complete gallery, or reach out directly about acquiring a piece — physical, digital, or both.</p>
     <div class="more-btns">
       <a href="/gallery/" class="btn-primary">Enter the Gallery →</a>
       <a href="/#commissions" class="btn-ghost">Acquire a Piece</a>
@@ -299,13 +299,27 @@ const imgSrc=(u,w)=>u.toLowerCase().endsWith('.gif')?u:u+`?w=${w}&fit=max&auto=f
 /* ── Optional "Art Web3" Sanity document — overrides the drafted hero copy above if one exists ── */
 (async function(){
   try{
-    const w=await sanity('*[_type=="artWeb3"][0]{headingPlain,headingAccent,intro,tags}');
+    const w=await sanity('*[_type=="artWeb3"][0]{headingPlain,headingAccent,intro,tags,howItWorksHeadingPlain,howItWorksHeadingAccent,howItWorksCards,collectionIntro,ctaHeading,ctaBody}');
     if(!w)return;
     if(w.headingPlain)document.getElementById('web3Heading').innerHTML=esc(w.headingPlain).replace(/\s*\/\s*/g,'<br>')+(w.headingAccent?` <em>${esc(w.headingAccent)}</em>`:'');
     if(w.intro)document.getElementById('web3Intro').textContent=w.intro;
     if(Array.isArray(w.tags)&&w.tags.length){
       document.getElementById('web3Tags').innerHTML=w.tags.map(t=>`<span class="nft-tag">${esc(t)}</span>`).join('');
     }
+    if(w.howItWorksHeadingPlain){
+      document.getElementById('howItWorksHeading').innerHTML=esc(w.howItWorksHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(w.howItWorksHeadingAccent?` <em>${esc(w.howItWorksHeadingAccent)}</em>`:'');
+    }
+    if(Array.isArray(w.howItWorksCards)&&w.howItWorksCards.length){
+      const grid=document.getElementById('howItWorksGrid');
+      grid.innerHTML=w.howItWorksCards.map(c=>{
+        const more=c.learnMore?`<div class="we-more-body">${esc(c.learnMore)}</div>`:`<div class="we-more-body soon">Coming soon…</div>`;
+        return `<div class="we-card fade-up"><div class="we-icon">${esc(c.icon||'')}</div><div class="we-title">${esc(c.title||'')}</div><p class="we-desc">${esc(c.description||'')}</p><details class="we-more"><summary>Learn more</summary>${more}</details></div>`;
+      }).join('');
+      grid.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+    }
+    if(w.collectionIntro)document.getElementById('collectionIntro').textContent=w.collectionIntro;
+    if(w.ctaHeading)document.getElementById('ctaHeading').textContent=w.ctaHeading;
+    if(w.ctaBody)document.getElementById('ctaBody').textContent=w.ctaBody;
   }catch(e){}
 })();
 

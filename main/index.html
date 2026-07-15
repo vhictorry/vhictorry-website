@@ -598,7 +598,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
       <h2 class="section-heading" style="margin-bottom:0;">What I actually <em class="fx-typewriter" style="--tw-ch:9">do for you</em></h2>
     </div>
   </div>
-  <div class="expertise-grid">
+  <div class="expertise-grid" id="expertiseGrid">
     <div class="expertise-card fade-up">
       <div class="card-num">01</div>
       <span class="card-icon">⚙️</span>
@@ -1049,6 +1049,11 @@ function toggleEvents(){
       }
       var resumeLink=hp.resumeUrl||hp.resumeFileUrl;
       if(resumeLink){const rb=document.querySelector('.hero-btns .btn-primary');if(rb){rb.href=resumeLink;rb.target='_blank';rb.rel='noopener';}}
+      if(Array.isArray(hp.services)&&hp.services.length){
+        const eg=document.getElementById('expertiseGrid');
+        eg.innerHTML=hp.services.map((s,i)=>`<div class="expertise-card fade-up"><div class="card-num">${String(i+1).padStart(2,'0')}</div><span class="card-icon">${esc(s.icon||'')}</span><h3 class="card-title">${esc(s.title||'')}</h3><p class="card-desc">${esc(s.description||'')}</p></div>`).join('');
+        eg.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+      }
       if(Array.isArray(hp.marqueeItems)&&hp.marqueeItems.length){
         const mi=document.querySelector('.marquee-inner');
         const s=hp.marqueeItems.map(t=>`<span class="marquee-item">${esc(t)}</span>`).join('');

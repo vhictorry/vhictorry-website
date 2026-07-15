@@ -1397,11 +1397,12 @@ footer {
   <div class="statement-deco">V</div>
   <div class="statement-left fade-up">
     <div class="section-label">Artist Statement</div>
-    <h2>I paint what<br>language <em class="fx-pendulum" role="img" aria-label="can't hold."><b aria-hidden="true" style="--i:0">c</b><b aria-hidden="true" style="--i:1">a</b><b aria-hidden="true" style="--i:2">n</b><b aria-hidden="true" style="--i:3">'</b><b aria-hidden="true" style="--i:4">t</b> <b aria-hidden="true" style="--i:5">h</b><b aria-hidden="true" style="--i:6">o</b><b aria-hidden="true" style="--i:7">l</b><b aria-hidden="true" style="--i:8">d</b><b aria-hidden="true" style="--i:9">.</b></em></h2>
+    <h2 id="statementHeading">I paint what<br>language <em class="fx-pendulum" role="img" aria-label="can't hold."><b aria-hidden="true" style="--i:0">c</b><b aria-hidden="true" style="--i:1">a</b><b aria-hidden="true" style="--i:2">n</b><b aria-hidden="true" style="--i:3">'</b><b aria-hidden="true" style="--i:4">t</b> <b aria-hidden="true" style="--i:5">h</b><b aria-hidden="true" style="--i:6">o</b><b aria-hidden="true" style="--i:7">l</b><b aria-hidden="true" style="--i:8">d</b><b aria-hidden="true" style="--i:9">.</b></em></h2>
+    <div id="statementBodyWrap">
     <p class="statement-body">
-      My work begins with a question I can't answer out loud. 
-      <strong>Chess pieces</strong> for the power dynamics we pretend don't exist. 
-      <strong>Skeletons</strong> for everything we carry after transformation. 
+      My work begins with a question I can't answer out loud.
+      <strong>Chess pieces</strong> for the power dynamics we pretend don't exist.
+      <strong>Skeletons</strong> for everything we carry after transformation.
       <strong>Butterflies</strong> for what waits on the other side of it.
     </p>
     <p class="statement-body">
@@ -1410,6 +1411,7 @@ footer {
     <p class="statement-body">
       These paintings don't explain themselves. They wait. They ask you to sit.
     </p>
+    </div>
     <div class="statement-signature">
       <div class="statement-sig-line"></div>
       <div class="statement-sig-text">Victory Adewojo</div>
@@ -1555,11 +1557,11 @@ footer {
   <div class="commission-inner">
     <div class="commission-text fade-up">
       <div class="section-label">Commissions & Acquisitions</div>
-      <h2>Let's create<br>something <em class="fx-pendulum" role="img" aria-label="permanent."><b aria-hidden="true" style="--i:0">p</b><b aria-hidden="true" style="--i:1">e</b><b aria-hidden="true" style="--i:2">r</b><b aria-hidden="true" style="--i:3">m</b><b aria-hidden="true" style="--i:4">a</b><b aria-hidden="true" style="--i:5">n</b><b aria-hidden="true" style="--i:6">e</b><b aria-hidden="true" style="--i:7">n</b><b aria-hidden="true" style="--i:8">t</b><b aria-hidden="true" style="--i:9">.</b></em></h2>
-      <p>
+      <h2 id="commissionHeading">Let's create<br>something <em class="fx-pendulum" role="img" aria-label="permanent."><b aria-hidden="true" style="--i:0">p</b><b aria-hidden="true" style="--i:1">e</b><b aria-hidden="true" style="--i:2">r</b><b aria-hidden="true" style="--i:3">m</b><b aria-hidden="true" style="--i:4">a</b><b aria-hidden="true" style="--i:5">n</b><b aria-hidden="true" style="--i:6">e</b><b aria-hidden="true" style="--i:7">n</b><b aria-hidden="true" style="--i:8">t</b><b aria-hidden="true" style="--i:9">.</b></em></h2>
+      <p id="commissionIntro">
         Whether you're a collector building a curated space, a Web3 protocol wanting a visual identity, or someone whose question deserves a canvas — I'd like to hear from you.
       </p>
-      <ul class="commission-features">
+      <ul class="commission-features" id="commissionFeatures">
         <li>Original oil on canvas commissions</li>
         <li>Custom sizing and palette collaboration</li>
         <li>NFT minting for digital collectors</li>
@@ -2017,7 +2019,7 @@ function interviewCard(iv){
 /* Page hero — editable via the "Art Page — Hero Section" document in Sanity Studio */
 (async()=>{
   try{
-    const h=await sanityFetch(`*[_type=="artHero"][0]{eyebrow,headingPlain,headingAccent,intro,stats,caption,marqueeItems,portfolioUrl,portfolioHeadingPlain,portfolioHeadingAccent,portfolioNote,"frames":frameImages[].asset->url}`);
+    const h=await sanityFetch(`*[_type=="artHero"][0]{eyebrow,headingPlain,headingAccent,intro,stats,caption,marqueeItems,portfolioUrl,portfolioHeadingPlain,portfolioHeadingAccent,portfolioNote,statementHeadingPlain,statementHeadingAccent,statementBody,commissionHeadingPlain,commissionHeadingAccent,commissionIntro,commissionFeatures,"frames":frameImages[].asset->url}`);
     if(!h){initHeroTypewriter();return;}
     if(h.eyebrow)document.querySelector('.hero-eyebrow').textContent=h.eyebrow;
     if(h.headingPlain){
@@ -2044,6 +2046,19 @@ function interviewCard(iv){
         const span=h.marqueeItems.map(t=>`<span class="marquee-item">${esc(t)}</span>`).join('');
         mi.innerHTML=span+span;
       }
+    }
+    if(h.statementHeadingPlain){
+      document.getElementById('statementHeading').innerHTML=esc(h.statementHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(h.statementHeadingAccent?` ${pendulumHTML(h.statementHeadingAccent)}`:'');
+    }
+    if(h.statementBody){
+      document.getElementById('statementBodyWrap').innerHTML=h.statementBody.split(/\n\s*\n/).map(p=>`<p class="statement-body">${esc(p)}</p>`).join('');
+    }
+    if(h.commissionHeadingPlain){
+      document.getElementById('commissionHeading').innerHTML=esc(h.commissionHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(h.commissionHeadingAccent?` ${pendulumHTML(h.commissionHeadingAccent)}`:'');
+    }
+    if(h.commissionIntro)document.getElementById('commissionIntro').textContent=h.commissionIntro;
+    if(Array.isArray(h.commissionFeatures)&&h.commissionFeatures.length){
+      document.getElementById('commissionFeatures').innerHTML=h.commissionFeatures.map(f=>`<li>${esc(f)}</li>`).join('');
     }
   }catch(e){}
   initHeroTypewriter();
