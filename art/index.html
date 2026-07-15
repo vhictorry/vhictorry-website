@@ -10,20 +10,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:ital,wght@0,300;0,400;0,500;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --white:         #FDFCFF;
-  --offwhite:      #F6F3FC;
-  --purple:        #6B2FA0;
+  /* Palette revamp (2026-07-10): dark purple / light purple / off-white / gold */
+  --white:         #FFFFFF;
+  --offwhite:      #FFFFFF;
+  --purple:        #663998;
   --purple-mid:    #8B4DBF;
-  --purple-light:  #B07DD9;
+  --purple-light:  #E4B4FE;
   --purple-pale:   #EDE4F8;
   --purple-xpale:  #F7F2FD;
   --ink:           #1A0E2E;
   --ink-bright:    #3E205B;
   --ink-mid:       #3D2B5C;
   --muted:         #7A6B94;
-  --border:        rgba(107,47,160,0.15);
-  --border-strong: rgba(107,47,160,0.35);
-  --gold:          #C9A84C;
+  --border:        rgba(102,57,152,0.15);
+  --border-strong: rgba(102,57,152,0.35);
+  --gold:          #FFB335;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -305,6 +306,7 @@ nav {
 
 /* ── MASONRY GALLERY ── */
 .gallery-section {
+  margin-top:24px;
   padding:48px 56px 80px;
   background:var(--white); position:relative;
 }
@@ -624,14 +626,8 @@ nav {
 .blog-grid {
   display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:24px;
 }
-.sub-thin { max-width:520px; margin:40px auto 0; width:100%; }
-.sub-thin-label { font-family:'Jost',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--purple); margin-bottom:10px; text-align:center; }
-.sub-thin-row { display:flex; gap:8px; }
-.sub-thin input { flex:1; min-width:0; padding:13px 16px; border:1.5px solid var(--border); border-radius:4px; background:var(--white); font-family:'Montserrat',sans-serif; font-size:15px; color:var(--ink); outline:none; transition:border-color .2s; }
-.sub-thin input:focus { border-color:var(--purple); }
-.sub-thin input::placeholder { color:var(--muted); }
-.sub-thin button { padding:0 22px; background:var(--purple); color:#fff; border:none; border-radius:4px; font-family:'Jost',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; cursor:none; white-space:nowrap; transition:background .2s; }
-.sub-thin button:hover { background:var(--purple-mid); }
+.sub-embed-wrap { max-width:480px; margin:40px auto 0; width:100%; }
+.sub-embed { display:block; width:100%; height:150px; border:1.5px solid var(--border); border-radius:8px; background:#fff; }
 /* Substack card + popup (matches the main site "Between the Blocks" pattern) */
 .blog-substack-link{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:520px;margin:40px auto 0;padding:20px 28px;background:var(--white);border:1.5px solid var(--border);border-radius:4px;text-decoration:none;transition:all .2s;cursor:pointer;}
 .blog-substack-link:hover{border-color:var(--border-strong);background:var(--purple-xpale);}
@@ -647,7 +643,7 @@ nav {
 .sub-modal-close:hover{color:var(--ink);}
 .sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:26px;color:var(--ink);margin-bottom:6px;}
 .sub-modal-note{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
-.sub-modal .sub-thin{margin:0;}
+.sub-modal .sub-embed-wrap{margin:0;}
 .sub-modal-read{display:inline-block;margin-top:16px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
 .sub-modal-read:hover{color:var(--purple-mid);text-decoration:underline;}
 .blog-card {
@@ -1066,7 +1062,7 @@ footer {
   .hero-indexnum { top:70px; left:20px; }
   .hero-featured { display:none; }
   .filter-section { padding:40px 24px 0; }
-  .gallery-section { padding:36px 24px 60px; }
+  .gallery-section { margin-top:14px; padding:36px 24px 60px; }
   .masonry-grid { gap:14px; }
   .featured-section { padding:52px 24px; }
   .featured-header { grid-template-columns:1fr; }
@@ -1174,7 +1170,7 @@ footer {
     <li><a href="about/">About</a></li>
     <li><a href="gallery/">Gallery</a></li>
     <li><a href="#portfolioSection">Portfolio</a></li>
-    <li><a href="web3/">Art × Web3</a></li>
+    <li><a href="web3/">NFT</a></li>
     <li><a href="#exhibitions">Exhibitions</a></li>
     <li><a href="#press">Press</a></li>
     <li><a href="#blog">From the Studio</a></li>
@@ -1512,7 +1508,7 @@ footer {
 <!-- WEB3 + ART — teaser, links out to the standalone Art × Web3 page -->
 <section class="web3art-teaser">
   <div class="web3art-teaser-inner fade-up">
-    <div class="section-label">Art × Web3</div>
+    <div class="section-label">NFT</div>
     <h2>Where the canvas <em>meets the chain.</em></h2>
     <p>Physical originals, on-chain editions, and a growing collection that lives both on a wall and in a wallet.</p>
     <a href="web3/" class="btn-primary">Enter My NFT World →</a>
@@ -2306,21 +2302,40 @@ function subGo(e,sub){
 
 /* Newsletter popup — the Substack card opens this; offers both Subscribe and Read */
 var subCur='inbtwstrokes';
+var SUB_DEFAULT_NOTE='New paintings, process notes &amp; reflections &mdash; straight to your inbox.';
 function openSub(sub,name){
   subCur=sub;
   var n=document.getElementById('subModalName');if(n)n.textContent=name;
+  var note=document.getElementById('subModalNote');if(note)note.innerHTML=SUB_DEFAULT_NOTE;
   var rd=document.getElementById('subModalRead');if(rd)rd.href='https://'+sub+'.substack.com';
+  var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
   var m=document.getElementById('subModal');if(m)m.classList.add('open');
-  setTimeout(function(){var i=document.querySelector('#subModalForm input');if(i)i.focus();},60);
   return false;
 }
 function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
-function subSubmit(e){
-  e.preventDefault();
-  var input=e.target.querySelector('input');var email=input&&input.value?input.value.trim():'';
-  window.open('https://'+subCur+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
-  closeSub();if(e.target.reset)e.target.reset();return false;
-}
+
+/* Auto subscribe popup — fires once per session after ~60s of an engaged (scrolling) visit */
+(function(){
+  var KEY='vhx_auto_sub_shown';
+  if(sessionStorage.getItem(KEY))return;
+  var scrolled=false;
+  window.addEventListener('scroll',function(){scrolled=true;},{passive:true});
+  function trigger(){
+    if(sessionStorage.getItem(KEY))return;
+    sessionStorage.setItem(KEY,'1');
+    var n=document.getElementById('subModalName');if(n)n.textContent='Still looking?';
+    var note=document.getElementById('subModalNote');
+    if(note)note.textContent="You've been here a minute — the paintings must be talking to you. Join In Between Strokes for the stories behind the canvas.";
+    var rd=document.getElementById('subModalRead');if(rd)rd.href='https://inbtwstrokes.substack.com';
+    var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://inbtwstrokes.substack.com/embed';
+    subCur='inbtwstrokes';
+    var m=document.getElementById('subModal');if(m)m.classList.add('open');
+  }
+  setTimeout(function(){
+    if(scrolled){trigger();}
+    else{window.addEventListener('scroll',trigger,{passive:true,once:true});}
+  },60000);
+})();
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();});
 </script>
 
@@ -2329,13 +2344,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();}
   <div class="sub-modal-box">
     <button class="sub-modal-close" id="subClose" type="button" aria-label="Close" onclick="closeSub()">&times;</button>
     <div class="sub-modal-name" id="subModalName">In Between Strokes</div>
-    <div class="sub-modal-note">New paintings, process notes &amp; reflections &mdash; straight to your inbox.</div>
-    <form class="sub-thin" id="subModalForm" onsubmit="return subSubmit(event)">
-      <div class="sub-thin-row">
-        <input type="email" placeholder="Type your email…" required aria-label="Email address" />
-        <button type="submit">Subscribe</button>
-      </div>
-    </form>
+    <div class="sub-modal-note" id="subModalNote">New paintings, process notes &amp; reflections &mdash; straight to your inbox.</div>
+    <div class="sub-embed-wrap">
+      <iframe id="subEmbedFrame" class="sub-embed" src="https://inbtwstrokes.substack.com/embed" title="Subscribe" scrolling="no"></iframe>
+    </div>
     <a class="sub-modal-read" id="subModalRead" href="https://inbtwstrokes.substack.com" target="_blank" rel="noopener">Or read all essays on Substack &rarr;</a>
   </div>
 </div>

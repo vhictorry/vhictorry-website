@@ -11,14 +11,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:ital,wght@0,300;0,400;0,500;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --white:#FDFCFF; --offwhite:#F6F3FC;
-  --purple:#6B2FA0; --purple-mid:#8B4DBF;
-  --purple-light:#B07DD9; --purple-pale:#EDE4F8;
+  /* Palette revamp (2026-07-10): dark purple / light purple / off-white / gold */
+  --white:#FFFFFF; --offwhite:#FFFFFF;
+  --purple:#663998; --purple-mid:#8B4DBF;
+  --purple-light:#E4B4FE; --purple-pale:#EDE4F8;
   --purple-xpale:#F7F2FD; --ink:#1A0E2E;
   --ink-bright:#3E205B;
   --ink-mid:#3D2B5C; --muted:#7A6B94;
-  --border:rgba(107,47,160,0.15);
-  --border-strong:rgba(107,47,160,0.35);
+  --gold:#FFB335;
+  --border:rgba(102,57,152,0.15);
+  --border-strong:rgba(102,57,152,0.35);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -41,13 +43,13 @@ body{background:var(--purple-pale);color:var(--ink);font-family:'Montserrat',san
 /* CURSOR */
 /* Cursor — a small glowing hexagon (echoes the Web3 orbit core shape elsewhere on this page)
    instead of a plain dot. */
-.cursor{position:fixed;width:14px;height:14px;background:linear-gradient(160deg,var(--purple-light),var(--purple));clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;filter:drop-shadow(0 2px 5px rgba(107,47,160,.6));}
+.cursor{position:fixed;width:22px;height:22px;background:url('logo-mark.png') center/contain no-repeat;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;filter:drop-shadow(0 2px 5px rgba(107,47,160,.6));}
 .cursor-ring{position:fixed;width:30px;height:30px;border:1.5px solid var(--purple-mid);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease;opacity:.4;}
 /* Touch / no-mouse devices: no custom cursor — use the normal system cursor */
 @media (hover:none),(pointer:coarse){
   body{cursor:auto;}
   .cursor,.cursor-ring{display:none!important;}
-  a,button,.btn-primary,.btn-ghost,.btn-outline,.btn-outline,.nav-cta,.filter-btn,.chain-tag,.sub-thin button,.blog-substack-link,label{cursor:pointer;}
+  a,button,.btn-primary,.btn-ghost,.btn-outline,.btn-outline,.nav-cta,.filter-btn,.chain-tag,.blog-substack-link,label{cursor:pointer;}
   input,textarea,select{cursor:auto;}
 }
 
@@ -254,7 +256,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .logos-track-wrap:hover .logos-track{animation-play-state:paused;}
 .logo-item{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);opacity:.6;white-space:nowrap;transition:opacity .3s,color .3s,transform .3s;}
 .logo-item:hover{opacity:1;color:var(--purple);transform:translateY(-3px);}
-.logo-img{height:44px;width:auto;max-width:150px;object-fit:contain;opacity:.6;filter:grayscale(1);transition:opacity .35s,transform .35s,filter .35s,drop-shadow .35s;flex-shrink:0;}
+.logo-img{height:44px;width:auto;max-width:150px;object-fit:contain;opacity:.6;filter:grayscale(1);transition:opacity .35s,transform .35s,filter .35s,drop-shadow .35s;flex-shrink:0;border-radius:10px;}
 .logo-img:hover{opacity:1;filter:grayscale(0) drop-shadow(0 10px 18px rgba(107,47,160,.35));transform:scale(1.1) translateY(-4px);}
 @keyframes logos-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
@@ -317,14 +319,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .blog-substack-label{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);}
 .blog-substack-title{font-family:'Poppins',sans-serif;font-size:18px;color:var(--ink);font-style:italic;}
 .blog-substack-arrow{font-family:'Jost',sans-serif;font-size:12px;color:var(--purple);}
-.sub-thin{max-width:520px;margin:28px auto 0;width:100%;}
-.sub-thin-label{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:10px;text-align:center;}
-.sub-thin-row{display:flex;gap:8px;}
-.sub-thin input{flex:1;min-width:0;padding:13px 16px;border:1.5px solid var(--border);border-radius:4px;background:var(--white);font-family:'Montserrat',sans-serif;font-size:15px;color:var(--ink);outline:none;transition:border-color .2s;}
-.sub-thin input:focus{border-color:var(--purple);}
-.sub-thin input::placeholder{color:var(--muted);}
-.sub-thin button{padding:0 22px;background:var(--purple);color:#fff;border:none;border-radius:4px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s;}
-.sub-thin button:hover{background:var(--purple-mid);}
+.sub-embed-wrap{max-width:480px;margin:28px auto 0;width:100%;}
+.sub-embed{display:block;width:100%;height:150px;border:1.5px solid var(--border);border-radius:8px;background:#fff;}
 .sub-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(26,14,46,.6);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:24px;}
 .sub-modal.open{display:flex;animation:subFade .2s ease;}
 @keyframes subFade{from{opacity:0}to{opacity:1}}
@@ -334,7 +330,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .sub-modal-close:hover{color:var(--ink);}
 .sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:26px;color:var(--ink);margin-bottom:6px;}
 .sub-modal-note{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
-.sub-modal .sub-thin{margin:0;}
+.sub-modal .sub-embed-wrap{margin:0;}
 .sub-modal-read{display:inline-block;margin-top:16px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
 .sub-modal-read:hover{color:var(--purple-mid);text-decoration:underline;}
 
@@ -963,8 +959,8 @@ if(noMouse){
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
   (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
   document.querySelectorAll('a,button,.expertise-card,.t-card,.event-card').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='50px';ring.style.height='50px';});
-    el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
+    el.addEventListener('mouseenter',()=>{cursor.style.width='30px';cursor.style.height='30px';ring.style.width='50px';ring.style.height='50px';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='22px';cursor.style.height='22px';ring.style.width='32px';ring.style.height='32px';});
   });
 }
 
@@ -1035,7 +1031,13 @@ function initHeroRoleTypewriter(){
     wrap.style.letterSpacing='normal';
     var i=0;
     Array.from(text).forEach(function(ch){
-      if(ch===' '){wrap.appendChild(document.createTextNode(' '));return;}
+      if(ch===' '){
+        var sp=document.createElement('span');
+        sp.style.display='inline-block';
+        sp.style.width='6px';
+        wrap.appendChild(sp);
+        return;
+      }
       var s=document.createElement('span');
       s.className='tl-letter';
       s.textContent=ch;
@@ -1259,21 +1261,40 @@ function toggleEvents(){
 <script>
 /* Newsletter popup — the Substack card opens this; it offers both Subscribe and Read */
 var subCur='btwtheblocks';
+var SUB_DEFAULT_NOTE='Reflections on crypto, Web3 &amp; building — straight to your inbox.';
 function openSub(sub,name){
   subCur=sub;
   var n=document.getElementById('subModalName');if(n)n.textContent=name;
+  var note=document.getElementById('subModalNote');if(note)note.innerHTML=SUB_DEFAULT_NOTE;
   var rd=document.getElementById('subModalRead');if(rd)rd.href='https://'+sub+'.substack.com';
+  var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
   var m=document.getElementById('subModal');if(m)m.classList.add('open');
-  setTimeout(function(){var i=document.querySelector('#subModalForm input');if(i)i.focus();},60);
   return false;
 }
 function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
-function subSubmit(e){
-  e.preventDefault();
-  var input=e.target.querySelector('input');var email=input&&input.value?input.value.trim():'';
-  window.open('https://'+subCur+'.substack.com/subscribe'+(email?'?email='+encodeURIComponent(email):''),'_blank','noopener');
-  closeSub();if(e.target.reset)e.target.reset();return false;
-}
+
+/* Auto subscribe popup — fires once per session after ~60s of an engaged (scrolling) visit */
+(function(){
+  var KEY='vhx_auto_sub_shown';
+  if(sessionStorage.getItem(KEY))return;
+  var scrolled=false;
+  window.addEventListener('scroll',function(){scrolled=true;},{passive:true});
+  function trigger(){
+    if(sessionStorage.getItem(KEY))return;
+    sessionStorage.setItem(KEY,'1');
+    var n=document.getElementById('subModalName');if(n)n.textContent='Before you go…';
+    var note=document.getElementById('subModalNote');
+    if(note)note.textContent="You've been here a minute — that's basically a first date. Join Between the Blocks for the essays that don't make it into a LinkedIn post.";
+    var rd=document.getElementById('subModalRead');if(rd)rd.href='https://btwtheblocks.substack.com';
+    var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://btwtheblocks.substack.com/embed';
+    subCur='btwtheblocks';
+    var m=document.getElementById('subModal');if(m)m.classList.add('open');
+  }
+  setTimeout(function(){
+    if(scrolled){trigger();}
+    else{window.addEventListener('scroll',trigger,{passive:true,once:true});}
+  },60000);
+})();
 /* document always exists, so Escape-to-close binds safely regardless of markup order */
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();});
 
@@ -1400,13 +1421,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeContact
   <div class="sub-modal-box">
     <button class="sub-modal-close" id="subClose" type="button" aria-label="Close" onclick="closeSub()">&times;</button>
     <div class="sub-modal-name" id="subModalName">Between the Blocks</div>
-    <div class="sub-modal-note">Reflections on crypto, Web3 &amp; building — straight to your inbox.</div>
-    <form class="sub-thin" id="subModalForm" onsubmit="return subSubmit(event)">
-      <div class="sub-thin-row">
-        <input type="email" placeholder="Type your email…" required aria-label="Email address" />
-        <button type="submit">Subscribe</button>
-      </div>
-    </form>
+    <div class="sub-modal-note" id="subModalNote">Reflections on crypto, Web3 &amp; building — straight to your inbox.</div>
+    <div class="sub-embed-wrap">
+      <iframe id="subEmbedFrame" class="sub-embed" src="https://btwtheblocks.substack.com/embed" title="Subscribe" scrolling="no"></iframe>
+    </div>
     <a class="sub-modal-read" id="subModalRead" href="https://btwtheblocks.substack.com" target="_blank" rel="noopener">Or read all essays on Substack &rarr;</a>
   </div>
 </div>

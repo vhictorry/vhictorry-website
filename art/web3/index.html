@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Art × Web3 — Victory Adewojo</title>
+<title>NFT — Victory Adewojo</title>
 <link rel="icon" type="image/png" href="/logo-mark.png">
 <link rel="apple-touch-icon" href="/logo-mark.png">
 <meta name="description" content="Victory Adewojo — where classical fine art meets Web3. Physical originals, on-chain editions, and a collection that lives both on a wall and in a wallet.">
@@ -14,9 +14,10 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 :root{
-  --white:#FDFCFF;--offwhite:#F6F3FC;--purple:#6B2FA0;--purple-mid:#8B4DBF;--purple-light:#B07DD9;
+  /* Palette revamp (2026-07-10): dark purple / light purple / off-white / gold */
+  --white:#FFFFFF;--offwhite:#FFFFFF;--purple:#663998;--purple-mid:#8B4DBF;--purple-light:#E4B4FE;
   --purple-pale:#EDE4F8;--purple-xpale:#F7F2FD;--ink:#1A0E2E;--ink-bright:#3E205B;--ink-mid:#3D2B5C;--muted:#7A6B94;
-  --border:rgba(107,47,160,0.15);--border-strong:rgba(107,47,160,0.35);--gold:#C9A84C;
+  --border:rgba(102,57,152,0.15);--border-strong:rgba(102,57,152,0.35);--gold:#FFB335;
 }
 body{background:var(--purple-pale);color:var(--ink);font-family:'Montserrat',sans-serif;cursor:none;overflow-x:hidden}
 /* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ── */
@@ -66,7 +67,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   background:radial-gradient(90% 80% at 85% 15%,rgba(139,77,191,0.30),transparent 60%),var(--ink-bright);
   position:relative;overflow:hidden;text-align:center;
 }
-.web3-hero::after{content:'⬡';position:absolute;bottom:-60px;right:-10px;font-size:280px;color:rgba(255,255,255,0.03);line-height:1;pointer-events:none}
+.web3-hero::after{content:'';position:absolute;bottom:-60px;right:-10px;width:280px;height:280px;background:url('../logo-mark.png') center/contain no-repeat;opacity:0.04;pointer-events:none}
 .web3-hero-inner{position:relative;z-index:2;max-width:720px;margin:0 auto}
 .wh-eyebrow{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple-light);display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px}
 .wh-eyebrow::before,.wh-eyebrow::after{content:'';width:32px;height:1.5px;background:var(--purple-light)}
@@ -90,6 +91,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .we-icon{font-size:30px;margin-bottom:14px}
 .we-title{font-family:'Poppins',sans-serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:8px}
 .we-desc{font-size:14px;line-height:1.7;color:var(--muted);font-weight:300}
+.we-more{margin-top:14px}
+.we-more summary{list-style:none;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);cursor:pointer;display:flex;align-items:center;gap:6px}
+.we-more summary::-webkit-details-marker{display:none}
+.we-more summary::after{content:'+';font-size:13px;line-height:1;transition:transform .2s}
+.we-more[open] summary::after{content:'\2212'}
+.we-more-body{margin-top:10px;font-size:13px;line-height:1.6;color:var(--muted);font-weight:300}
+.we-more-body.soon{color:var(--purple);font-style:italic}
 
 /* ON-CHAIN SHOWCASE (light) */
 .web3-showcase{padding:100px 56px;background:var(--offwhite)}
@@ -160,7 +168,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
     <li><a href="/about/">About</a></li>
     <li><a href="/gallery/">Gallery</a></li>
     <li><a href="/#portfolioSection">Portfolio</a></li>
-    <li><a href="#" class="active">Art × Web3</a></li>
+    <li><a href="#" class="active">NFT</a></li>
     <li><a href="/#exhibitions">Exhibitions</a></li>
     <li><a href="/#press">Press</a></li>
     <li><a href="https://vhictorry.com/">Tech &rarr;</a></li>
@@ -172,7 +180,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 <!-- ═══ HERO ═══ -->
 <section class="web3-hero">
   <div class="web3-hero-inner fade-up">
-    <div class="wh-eyebrow">Art × Web3</div>
+    <div class="wh-eyebrow">NFT</div>
     <h1 id="web3Heading">Enter my <em>NFT world.</em></h1>
     <!-- INTRO: editable in Sanity (Art Web3 → intro), falls back to this if no document exists yet -->
     <p class="intro" id="web3Intro">I live at the intersection of classical fine art and Web3. Paintings leave my studio two ways — framed and shipped to a collector, or minted and held on-chain. Both are real. Both are permanent.</p>
@@ -197,21 +205,25 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
       <div class="we-icon">🖼️</div>
       <div class="we-title">Physical Originals</div>
       <p class="we-desc">Signed originals on canvas, shipped worldwide with a certificate of authenticity.</p>
+      <details class="we-more"><summary>Learn more</summary><div class="we-more-body">Every original ships insured and fully signed, with a numbered certificate of authenticity tying it to its on-chain record. Framing options and worldwide shipping quotes are available on request — reach out via the contact page for a piece you're interested in.</div></details>
     </div>
     <div class="we-card fade-up">
       <div class="we-icon">⛓️</div>
       <div class="we-title">NFT Editions</div>
       <p class="we-desc">Limited digital editions minted on-chain. Own a provably scarce piece of the work.</p>
+      <details class="we-more"><summary>Learn more</summary><div class="we-more-body">Editions are minted in small, fixed runs with on-chain provenance tied back to the physical piece. Each mint includes full metadata and a permanent link to the original artwork record — see the collection below for live pieces.</div></details>
     </div>
     <div class="we-card fade-up">
       <div class="we-icon">📜</div>
       <div class="we-title">Collector Drops</div>
       <p class="we-desc">Exclusive drops for Web3 community members. First access for early believers.</p>
+      <details class="we-more"><summary>Learn more</summary><div class="we-more-body">Drops are announced first to the community — Discord/Telegram members and newsletter subscribers get early access before public release. Subscribe below to be notified ahead of the next one.</div></details>
     </div>
     <div class="we-card fade-up">
       <div class="we-icon">🤝</div>
       <div class="we-title">Commission Work</div>
       <p class="we-desc">Custom pieces available as physical originals, on-chain editions, or both at once.</p>
+      <details class="we-more"><summary>Learn more</summary><div class="we-more-body soon">Coming soon…</div></details>
     </div>
   </div>
 </section>
