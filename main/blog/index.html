@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Between the Blocks — Victory Adewojo</title>
+<link rel="icon" type="image/png" href="../logo-mark.png">
+<link rel="apple-touch-icon" href="../logo-mark.png">
+<meta name="description" content="Blogs on Web3, community, and building — from Victory Adewojo. Published on Between the Blocks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:ital,wght@0,300;0,400;0,500;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --offwhite:#FFFFFF;
+  --purple:#663998; --purple-mid:#8B4DBF;
+  --purple-light:#E4B4FE; --purple-pale:#EDE4F8;
+  --purple-xpale:#F7F2FD; --ink:#1A0E2E;
+  --ink-bright:#3E205B;
+  --ink-mid:#3D2B5C; --muted:#7A6B94;
+  --gold:#FFB335;
+  --border:rgba(102,57,152,0.15);
+  --border-strong:rgba(102,57,152,0.35);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--purple-pale);color:var(--ink);font-family:'Montserrat',sans-serif;overflow-x:hidden;cursor:none;}
+.blog-hero,.blog-list-section,.blog-sub-section{
+  margin:0 24px 24px;border-radius:28px;overflow:hidden;
+  box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
+}
+.blog-hero{margin-top:24px;}
+@media(max-width:900px){
+  .blog-hero,.blog-list-section,.blog-sub-section{margin:0 14px 14px;border-radius:20px;}
+  .blog-hero{margin-top:14px;}
+}
+a{text-decoration:none;color:inherit;}
+.cursor{position:fixed;width:22px;height:22px;background:url('../logo-mark.png') center/contain no-repeat;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;filter:drop-shadow(0 2px 5px rgba(107,47,160,.6));}
+.cursor-ring{position:fixed;width:30px;height:30px;border:1.5px solid var(--purple-mid);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease;opacity:.4;}
+@media (hover:none),(pointer:coarse){
+  body{cursor:auto;}
+  .cursor,.cursor-ring{display:none!important;}
+  a,button{cursor:pointer!important;}
+}
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
+.fade-up.visible{opacity:1;transform:none;}
+.mo-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,var(--purple),var(--purple-light) 60%,var(--gold));pointer-events:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:rgba(253,252,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Poppins',sans-serif;font-size:20px;letter-spacing:1px;color:var(--purple);text-decoration:none;font-weight:700;font-style:italic;}
+.nav-mark{height:26px;width:26px;object-fit:contain;vertical-align:-7px;margin-right:9px;}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-mid);opacity:.7;transition:opacity .2s,color .2s;}
+.nav-links a:hover,.nav-links a.active{opacity:1;color:var(--purple);}
+.nav-cta{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--white);background:var(--purple);border:none;padding:10px 24px;display:inline-block;border-radius:2px;transition:background .2s;}
+.nav-cta:hover{background:var(--purple-mid);}
+.nav-mobile-toggle{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;}
+.nav-mobile-toggle span{display:block;width:22px;height:1.5px;background:var(--ink);}
+
+/* HERO (dark) */
+.blog-hero{
+  padding:160px 56px 90px;
+  display:grid;grid-template-columns:1fr;gap:28px;
+  background:radial-gradient(90% 80% at 85% 15%,rgba(139,77,191,0.30),transparent 60%),var(--ink-bright);
+  position:relative;overflow:hidden;text-align:center;
+}
+.blog-hero::after{content:'';position:absolute;bottom:-60px;right:-10px;width:280px;height:280px;background:url('../logo-mark.png') center/contain no-repeat;opacity:0.14;filter:brightness(0) invert(1);pointer-events:none;}
+.blog-hero-inner{position:relative;z-index:2;max-width:720px;margin:0 auto;}
+.bh-eyebrow{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple-light);display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px;}
+.bh-eyebrow::before,.bh-eyebrow::after{content:'';width:32px;height:1.5px;background:var(--purple-light);}
+.blog-hero h1{font-family:'Poppins',sans-serif;font-size:clamp(40px,6vw,72px);line-height:1.05;font-weight:700;color:var(--white);margin-bottom:22px;}
+.blog-hero h1 em{font-style:italic;color:var(--gold);}
+.blog-hero .intro{font-family:'Montserrat',sans-serif;font-size:20px;line-height:1.75;color:rgba(253,252,255,.88);font-weight:300;max-width:560px;margin:0 auto;}
+
+/* LIST */
+.blog-list-section{padding:100px 56px;background:var(--white);}
+.bl-head{text-align:center;max-width:640px;margin:0 auto 56px;}
+.sec-label{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;}
+.sec-label::after{content:'\2192';font-size:13px;color:var(--purple-light);}
+.bl-head h2{font-family:'Poppins',sans-serif;font-size:clamp(28px,3.2vw,42px);font-weight:700;color:var(--ink);line-height:1.15;}
+.bl-head h2 em{font-style:italic;color:var(--purple);}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.blog-card{background:var(--white);border-radius:2px;border:1.5px solid var(--border);overflow:hidden;transition:box-shadow .3s,border-color .3s,transform .3s;}
+.blog-card:hover{box-shadow:0 12px 40px rgba(107,47,152,0.11);border-color:var(--border-strong);transform:translateY(-4px);}
+.blog-card-thumb{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:52px;transition:transform .5s ease;}
+.blog-card:hover .blog-card-thumb{transform:scale(1.04);}
+.blog-card-body{padding:24px 24px 28px;}
+.blog-card-tag{font-family:'Jost',sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:12px;}
+.blog-card-title{font-family:'Poppins',sans-serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:10px;}
+.blog-card-desc{font-size:13px;line-height:1.75;color:var(--muted);font-weight:300;margin-bottom:14px;}
+.blog-card-cta{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);}
+.bl-empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:15px;grid-column:1/-1;}
+.bl-more-wrap{text-align:center;margin-top:44px;}
+.bl-more-btn{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);background:transparent;border:1.5px solid var(--border-strong);padding:14px 34px;border-radius:2px;transition:all .2s;cursor:none;}
+.bl-more-btn:hover{border-color:var(--purple);background:var(--purple-xpale);}
+
+/* SUBSCRIBE */
+.blog-sub-section{padding:90px 56px;background:var(--ink-bright);text-align:center;position:relative;overflow:hidden;}
+.blog-sub-section::before{content:'';position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(107,47,160,.3),transparent 65%);pointer-events:none;}
+.blog-sub-inner{position:relative;z-index:2;}
+.blog-sub-section h2{font-family:'Poppins',sans-serif;font-size:clamp(26px,3vw,36px);font-weight:700;font-style:italic;color:var(--white);margin-bottom:14px;}
+.blog-sub-section p{font-size:16px;color:rgba(253,252,255,.75);font-weight:300;max-width:480px;margin:0 auto 28px;line-height:1.7;}
+.sub-embed-wrap{max-width:440px;margin:0 auto;position:relative;}
+.sub-embed{display:block;width:100%;height:150px;border:1.5px solid rgba(255,255,255,.2);border-radius:8px;background:#fff;}
+.sub-thanks{width:100%;height:150px;border:1.5px solid rgba(255,255,255,.3);border-radius:8px;background:rgba(253,252,255,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Poppins',sans-serif;font-size:17px;font-weight:600;font-style:italic;color:var(--white);gap:6px;animation:subThanksIn .4s ease;}
+.sub-thanks span{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:400;font-style:normal;color:rgba(253,252,255,.7);}
+@keyframes subThanksIn{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
+
+footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(176,125,217,0.15);}
+.footer-copy{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(253,252,255,.55);}
+.footer-logo{font-family:'Poppins',sans-serif;font-size:18px;letter-spacing:1px;font-weight:700;font-style:italic;color:var(--purple-light);}
+
+@media(max-width:900px){
+  nav{padding:16px 20px;}
+  .nav-links{display:none;position:fixed;top:60px;left:0;right:0;background:var(--white);flex-direction:column;padding:24px 20px;gap:20px;border-bottom:1px solid var(--border);z-index:99;}
+  .nav-links.open{display:flex;}
+  .nav-cta{display:none;}
+  .nav-mobile-toggle{display:flex;}
+  .blog-hero{padding:120px 24px 64px;}
+  .blog-list-section{padding:56px 24px;}
+  .blog-grid{grid-template-columns:1fr 1fr;gap:14px;}
+  .blog-sub-section{padding:64px 24px;}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}
+}
+@media(max-width:540px){
+  .blog-grid{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){.fade-up{opacity:1;transform:none;}.mo-progress{display:none;}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="mo-progress" id="moProgress"></div>
+
+<nav id="mainNav">
+  <a href="/" class="nav-logo"><img class="nav-mark" src="../logo-mark.png" alt="">vhictorry</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#home">Home</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#expertise">Services</a></li>
+    <li><a href="/#testimonials">Testimonials</a></li>
+    <li><a href="/#events">Speaking</a></li>
+    <li><a href="#" class="active">Blog</a></li>
+    <li><a href="https://art.vhictorry.com">Art</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a href="/#contact" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="blog-hero">
+  <div class="blog-hero-inner fade-up">
+    <div class="bh-eyebrow">Between the Blocks</div>
+    <h1>Thoughts on Web3, <em>community &amp; building.</em></h1>
+    <p class="intro">Writings and observations from inside the Web3 space — published on Substack, collected here.</p>
+  </div>
+</section>
+
+<!-- ═══ POSTS ═══ -->
+<section class="blog-list-section">
+  <div class="bl-head fade-up">
+    <div class="sec-label">The Blogs</div>
+    <h2>From the <em>desk</em></h2>
+  </div>
+  <div class="blog-grid" id="blogGrid">
+    <p class="bl-empty" id="blogMsg">Loading posts…</p>
+  </div>
+  <div class="bl-more-wrap" id="blMoreWrap" style="display:none">
+    <button class="bl-more-btn" id="blMoreBtn" type="button">See More</button>
+  </div>
+</section>
+
+<!-- ═══ SUBSCRIBE ═══ -->
+<section class="blog-sub-section">
+  <div class="blog-sub-inner fade-up">
+    <h2>Don't miss the next one</h2>
+    <p>Reflections on crypto, Web3 &amp; building — straight to your inbox, no redirect required.</p>
+    <div class="sub-embed-wrap">
+      <iframe id="subEmbedFrame" class="sub-embed" src="https://btwtheblocks.substack.com/embed" title="Subscribe" scrolling="no"></iframe>
+      <div class="sub-thanks" id="subThanks" style="display:none">Thank you for subscribing! 🎉<br><span>Check your inbox to confirm.</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© <span id="copyYear">2026</span> Victory Adewojo &nbsp;&middot;&nbsp; All Rights Reserved</div>
+  <script>document.getElementById('copyYear').textContent=new Date().getFullYear();</script>
+  <a href="/#home" class="footer-logo">vhictorry</a>
+  <div class="footer-copy">Web3 &nbsp;&middot;&nbsp; Art &nbsp;&middot;&nbsp; Strategy &nbsp;&middot;&nbsp; Community</div>
+</footer>
+
+<script>
+/* CURSOR */
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+const noMouse=window.matchMedia&&matchMedia('(hover:none),(pointer:coarse)').matches;
+if(!noMouse){
+  let mx=-100,my=-100,rx=-100,ry=-100;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function loop(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='30px';cursor.style.height='30px';ring.style.width='50px';ring.style.height='50px';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='22px';cursor.style.height='22px';ring.style.width='32px';ring.style.height='32px';});
+  });
+}
+/* FADE-UP */
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+/* PROGRESS BAR */
+const pb=document.getElementById('moProgress');
+addEventListener('scroll',()=>{const h=document.documentElement,m=h.scrollHeight-h.clientHeight;pb.style.width=(m>0?h.scrollTop/m*100:0)+'%';},{passive:true});
+/* MOBILE NAV */
+const nt=document.getElementById('navToggle');
+if(nt)nt.addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+
+/* Substack's embed is a cross-origin iframe, so we can't read its form state directly.
+   Primary signal: Substack posts a window.message when the embedded form actually submits --
+   if that arrives, we know for certain a subscribe happened. Fallback (only if no message
+   ever arrives): focus leaving the parent page onto the iframe, held for a pause, as a rough
+   proxy -- less exact, since it can't distinguish "clicked into the email field" from "submitted". */
+(function(){
+  var armed=true;
+  function showThanks(){
+    if(!armed)return;
+    armed=false;
+    var frEl=document.getElementById('subEmbedFrame');
+    var thanksEl=document.getElementById('subThanks');
+    if(frEl)frEl.style.display='none';
+    if(thanksEl)thanksEl.style.display='flex';
+  }
+  window.addEventListener('message',function(e){
+    if(!armed||!e.origin||e.origin.indexOf('substack.com')===-1)return;
+    var data=e.data;
+    var text=typeof data==='string'?data:(function(){try{return JSON.stringify(data||{});}catch(x){return '';}})();
+    if(/subscri|success|submit/i.test(text))showThanks();
+  });
+  window.addEventListener('blur',function(){
+    var frEl=document.getElementById('subEmbedFrame');
+    if(!armed||!frEl||document.activeElement!==frEl)return;
+    setTimeout(showThanks,1200);
+  });
+})();
+
+/* ── All blog posts, managed in Sanity Studio (same "mainBlogPost" type as the homepage used) ── */
+const PROJ='3ihweswz',DS='production';
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+async function sanity(q){
+  const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=${encodeURIComponent(q)}`);
+  return(await r.json()).result;
+}
+function blogCard(p){
+  const em=esc(p.emoji||'✍️');
+  const cu=p.coverUrl?esc(p.coverUrl.toLowerCase().endsWith('.gif')?p.coverUrl:p.coverUrl+'?w=800&fit=max&auto=format'):null;
+  return `<div class="blog-card fade-up">
+  <div class="blog-card-thumb" style="background:${cu?`url('${cu}') center/cover no-repeat`:'linear-gradient(135deg,#1A0E2E,#6B2FA0)'};">${cu?'':em}</div>
+  <div class="blog-card-body">
+    <div class="blog-card-tag">${esc(p.tag||'Post')}</div>
+    <div class="blog-card-title">${esc(p.title||'')}</div>
+    <p class="blog-card-desc">${esc(p.description||'')}</p>
+    <a href="${esc(p.url||'https://btwtheblocks.substack.com')}" target="_blank" rel="noopener" class="blog-card-cta">Read on Substack &rarr;</a>
+  </div>
+</div>`;
+}
+const PAGE_SIZE=3;
+(async()=>{
+  const g=document.getElementById('blogGrid');
+  const msg=document.getElementById('blogMsg');
+  const moreWrap=document.getElementById('blMoreWrap');
+  const moreBtn=document.getElementById('blMoreBtn');
+  try{
+    const posts=await sanity(`*[_type=="mainBlogPost"]|order(order asc){title,tag,description,url,emoji,"coverUrl":coverImage.asset->url}`);
+    if(!posts||!posts.length){
+      if(msg)msg.textContent='New blogs are on their way — check back soon, or subscribe below to get them first.';
+      return;
+    }
+    if(msg)msg.remove();
+    g.innerHTML=posts.slice(0,PAGE_SIZE).map(blogCard).join('');
+    g.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+    if(posts.length>PAGE_SIZE){
+      moreWrap.style.display='block';
+      moreBtn.addEventListener('click',()=>{
+        g.insertAdjacentHTML('beforeend',posts.slice(PAGE_SIZE).map(blogCard).join(''));
+        g.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+        moreWrap.remove();
+      });
+    }
+  }catch(e){
+    if(msg)msg.textContent='Could not load posts right now — read them directly on Substack instead.';
+  }
+})();
+</script>
+</body>
+</html>

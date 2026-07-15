@@ -182,7 +182,10 @@ body::before{
   font-family:'Jost',sans-serif;font-size:8px;letter-spacing:2px;
   text-transform:uppercase;color:var(--muted);opacity:.7;
 }
-.sub-embed-wrap{margin:12px 0 0;width:100%;}
+.sub-embed-wrap{margin:12px 0 0;width:100%;position:relative;}
+.sub-thanks{width:100%;height:150px;border:1.5px solid var(--border-strong);border-radius:8px;background:var(--purple-xpale);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;font-style:italic;color:var(--purple);gap:6px;animation:subThanksIn .4s ease;}
+.sub-thanks span{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:400;font-style:normal;color:var(--muted);}
+@keyframes subThanksIn{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
 .sub-embed{display:block;width:100%;height:150px;border:1.5px solid var(--border);border-radius:8px;background:#fff;}
 .sub-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(26,14,46,.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:24px;}
 .sub-modal.open{display:flex;animation:subFade .2s ease;}
@@ -191,7 +194,7 @@ body::before{
 .sub-modal-box{background:#fff;border-radius:16px;padding:34px 26px 28px;max-width:380px;width:100%;position:relative;box-shadow:0 30px 80px rgba(26,14,46,.45);text-align:center;}
 .sub-modal-close{position:absolute;top:8px;right:14px;background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0;}
 .sub-modal-close:hover{color:var(--ink);}
-.sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:24px;color:var(--ink);margin-bottom:6px;}
+.sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:24px;color:var(--purple);margin-bottom:6px;}
 .sub-modal-note{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--muted);margin-bottom:20px;}
 .sub-modal .sub-embed-wrap{margin:0;}
 </style>
@@ -238,7 +241,7 @@ body::before{
       <div class="link-icon">✍</div>
       <div class="link-text">
         <div class="link-title">Newsletter</div>
-        <div class="link-sub">Essays from the studio</div>
+        <div class="link-sub">Blogs from the studio</div>
       </div>
       <div class="link-arrow">→</div>
     </a>
@@ -269,13 +272,14 @@ body::before{
       <div class="link-icon">✍</div>
       <div class="link-text">
         <div class="link-title">Newsletter</div>
-        <div class="link-sub">Essays on community &amp; Web3</div>
+        <div class="link-sub">Writings on community &amp; Web3</div>
       </div>
       <div class="link-arrow">→</div>
     </a>
   </div>
 
-  <div class="foot">© 2026 Victory Adewojo</div>
+  <div class="foot">© <span id="copyYear">2026</span> Victory Adewojo</div>
+  <script>document.getElementById('copyYear').textContent=new Date().getFullYear();</script>
 
 </div>
 
@@ -284,9 +288,10 @@ body::before{
   <div class="sub-modal-box">
     <button class="sub-modal-close" id="subClose" aria-label="Close">&times;</button>
     <div class="sub-modal-name" id="subModalName">Newsletter</div>
-    <div class="sub-modal-note">Fresh essays, straight to your inbox.</div>
+    <div class="sub-modal-note">Fresh blogs, straight to your inbox.</div>
     <div class="sub-embed-wrap">
       <iframe id="subEmbedFrame" class="sub-embed" src="https://inbtwstrokes.substack.com/embed" title="Subscribe" scrolling="no"></iframe>
+      <div class="sub-thanks" id="subThanks" style="display:none">Thank you for subscribing! 🎉<br><span>Check your inbox to confirm.</span></div>
     </div>
   </div>
 </div>
@@ -365,10 +370,48 @@ function openSub(sub,name){
   subCur=sub;
   var n=document.getElementById('subModalName');if(n)n.textContent=name;
   var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
+  resetSubThanks();
   var m=document.getElementById('subModal');if(m)m.classList.add('open');
   return false;
 }
 function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
+
+/* Substack's embed is a cross-origin iframe, so we can't read its form state directly.
+   Primary signal: Substack posts a window.message when the embedded form actually submits --
+   if that arrives, we know for certain a subscribe happened. Fallback (only if no message
+   ever arrives): focus leaving the parent page onto the iframe, held for a pause, as a rough
+   proxy -- less exact, since it can't distinguish "clicked into the email field" from "submitted". */
+(function(){
+  var armed=true, timer=null;
+  function showThanks(){
+    if(!armed)return;
+    armed=false;
+    if(timer)clearTimeout(timer);
+    var frEl=document.getElementById('subEmbedFrame');
+    var thanksEl=document.getElementById('subThanks');
+    if(frEl)frEl.style.display='none';
+    if(thanksEl)thanksEl.style.display='flex';
+  }
+  window.addEventListener('message',function(e){
+    if(!armed||!e.origin||e.origin.indexOf('substack.com')===-1)return;
+    var data=e.data;
+    var text=typeof data==='string'?data:(function(){try{return JSON.stringify(data||{});}catch(x){return '';}})();
+    if(/subscri|success|submit/i.test(text))showThanks();
+  });
+  window.addEventListener('blur',function(){
+    var frEl=document.getElementById('subEmbedFrame');
+    if(!armed||!frEl||document.activeElement!==frEl)return;
+    timer=setTimeout(showThanks,1200);
+  });
+  window.resetSubThanks=function(){
+    armed=true;
+    if(timer)clearTimeout(timer);
+    var frEl=document.getElementById('subEmbedFrame');
+    var thanksEl=document.getElementById('subThanks');
+    if(frEl)frEl.style.display='';
+    if(thanksEl)thanksEl.style.display='none';
+  };
+})();
 (function(){
   var modal=document.getElementById('subModal');if(!modal)return;
   var closeBtn=document.getElementById('subClose');if(closeBtn)closeBtn.addEventListener('click',closeSub);

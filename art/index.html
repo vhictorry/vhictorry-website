@@ -40,15 +40,15 @@ body {
 
 /* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ──
    .marquee-bar is a plain <div> (not <section>), easy to miss — included here too. */
-.page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .process-section, .web3art-teaser,
-.exhibitions-section, .interviews-section, .blog-section, .commission-section {
+.page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .dual-teaser,
+.exhibitions-section, .interviews-section, .blog-teaser, .commission-section {
   margin:0 24px 24px; border-radius:28px; overflow:hidden;
   box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
 }
 .page-hero { margin-top:24px; }
 @media (max-width:900px){
-  .page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .process-section, .web3art-teaser,
-  .exhibitions-section, .interviews-section, .blog-section, .commission-section {
+  .page-hero, .marquee-bar, .gallery-section, .featured-section, .statement-section, .dual-teaser,
+  .exhibitions-section, .interviews-section, .blog-teaser, .commission-section {
     margin:0 14px 14px; border-radius:20px;
   }
   .page-hero { margin-top:14px; }
@@ -204,7 +204,7 @@ nav {
 .hero-featured { position:relative; overflow:hidden; z-index:1; min-height:440px; }
 .hero-featured::before {
   content:''; position:absolute; inset:0; z-index:2; pointer-events:none;
-  background:linear-gradient(90deg, var(--ink) 0%, rgba(26,14,46,0) 24%);
+  background:linear-gradient(90deg, var(--ink-bright) 0%, rgba(62,32,91,0.75) 12%, rgba(62,32,91,0.25) 30%, rgba(62,32,91,0) 55%);
 }
 .hero-featured-label {
   position:absolute; top:22px; right:22px; z-index:3;
@@ -547,27 +547,26 @@ nav {
   .motif-core::after { width:122px; height:122px; }
 }
 
-/* ── PORTFOLIO EMBED ── */
-.portfolio-embed {
-  position:relative; width:100%; padding-top:56.25%;
-  border:1.5px solid var(--border); border-radius:4px;
-  overflow:hidden; background:var(--ink);
+/* ── PORTFOLIO + NFT TEASERS — side by side, one scroll instead of two ── */
+.dual-teaser {
+  display:grid; grid-template-columns:1fr 1fr;
+  background:var(--purple-xpale);
 }
-.portfolio-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+.dual-teaser > div {
+  padding:72px 48px; text-align:center;
+}
+.dual-teaser > div:first-child { border-right:1.5px solid var(--border); }
+.dual-teaser .section-label { justify-content:center; }
+.dual-teaser h2 {
+  font-family:'Poppins',sans-serif;
+  font-size:clamp(24px,2.4vw,32px); font-weight:700; color:var(--ink);
+  line-height:1.15; margin-bottom:16px;
+}
+.dual-teaser h2 em { font-style:italic; color:var(--purple); }
+.dual-teaser p {
+  font-size:15px; line-height:1.8; color:var(--muted); font-weight:300; margin-bottom:24px;
+}
 
-/* ── PROCESS ── */
-.process-section {
-  padding:100px 56px;
-  background:var(--white);
-}
-.process-header {
-  display:grid; grid-template-columns:1fr 1fr; gap:48px;
-  align-items:end; margin-bottom:64px;
-}
-.process-header-right {
-  font-size:16px; line-height:1.9; color:var(--muted);
-  font-weight:300;
-}
 .process-steps {
   display:grid; grid-template-columns:repeat(4,1fr); gap:0;
   border:1.5px solid var(--border);
@@ -593,40 +592,27 @@ nav {
   font-size:14px; line-height:1.85; color:var(--muted); font-weight:300;
 }
 
-/* ── WEB3 + ART TEASER — links out to the standalone /web3/ page ── */
-.web3art-teaser {
+/* ── BLOG TEASER — links out to the standalone /blog/ page ── */
+.blog-teaser {
   padding:80px 64px;
   background:var(--purple-xpale);
   text-align:center;
 }
-.web3art-teaser-inner { max-width:560px; margin:0 auto; }
-.web3art-teaser-inner .section-label { justify-content:center; }
-.web3art-teaser-inner h2 {
+.blog-teaser-inner { max-width:560px; margin:0 auto; }
+.blog-teaser-inner .section-label { justify-content:center; }
+.blog-teaser-inner h2 {
   font-family:'Poppins',sans-serif;
   font-size:clamp(28px,3.2vw,42px); font-weight:700; color:var(--ink);
   line-height:1.15; margin-bottom:16px;
 }
-.web3art-teaser-inner h2 em { font-style:italic; color:var(--purple); }
-.web3art-teaser-inner p {
+.blog-teaser-inner h2 em { font-style:italic; color:var(--purple); }
+.blog-teaser-inner p {
   font-size:16px; line-height:1.8; color:var(--muted); font-weight:300; margin-bottom:28px;
 }
-
-/* ── BLOG ── */
-.blog-section {
-  padding:100px 56px;
-  background:var(--offwhite); position:relative;
-}
-.blog-header {
-  display:grid; grid-template-columns:1fr 1fr; gap:48px;
-  align-items:end; margin-bottom:56px;
-}
-.blog-header-right {
-  font-size:16px; line-height:1.9; color:var(--muted); font-weight:300;
-}
-.blog-grid {
-  display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:24px;
-}
-.sub-embed-wrap { max-width:480px; margin:40px auto 0; width:100%; }
+.sub-embed-wrap { max-width:480px; margin:40px auto 0; width:100%; position:relative; }
+.sub-thanks{width:100%;height:150px;border:1.5px solid var(--border-strong);border-radius:8px;background:var(--purple-xpale);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Poppins',sans-serif;font-size:17px;font-weight:600;font-style:italic;color:var(--purple);gap:6px;animation:subThanksIn .4s ease;}
+.sub-thanks span{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:400;font-style:normal;color:var(--muted);}
+@keyframes subThanksIn{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
 .sub-embed { display:block; width:100%; height:150px; border:1.5px solid var(--border); border-radius:8px; background:#fff; }
 /* Substack card + popup (matches the main site "Between the Blocks" pattern) */
 .blog-substack-link{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:520px;margin:40px auto 0;padding:20px 28px;background:var(--white);border:1.5px solid var(--border);border-radius:4px;text-decoration:none;transition:all .2s;cursor:pointer;}
@@ -641,61 +627,11 @@ nav {
 .sub-modal-box{background:#fff;border-radius:16px;padding:36px 28px 28px;max-width:400px;width:100%;position:relative;box-shadow:0 30px 90px rgba(26,14,46,.5);text-align:center;}
 .sub-modal-close{position:absolute;top:10px;right:15px;background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0;}
 .sub-modal-close:hover{color:var(--ink);}
-.sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:26px;color:var(--ink);margin-bottom:6px;}
+.sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:26px;color:var(--purple);margin-bottom:6px;}
 .sub-modal-note{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
 .sub-modal .sub-embed-wrap{margin:0;}
 .sub-modal-read{display:inline-block;margin-top:16px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
 .sub-modal-read:hover{color:var(--purple-mid);text-decoration:underline;}
-.blog-card {
-  background:var(--white); border-radius:2px;
-  border:1.5px solid var(--border);
-  overflow:hidden; transition:box-shadow .3s, border-color .3s, transform .3s;
-  cursor:none;
-}
-.blog-card:hover {
-  box-shadow:0 12px 40px rgba(107,47,160,0.11);
-  border-color:var(--border-strong); transform:translateY(-4px);
-}
-.blog-card-img {
-  width:100%; display:block; overflow:hidden;
-}
-.blog-card-img-inner {
-  width:100%; transition:transform .5s ease;
-}
-.blog-card:hover .blog-card-img-inner { transform:scale(1.04); }
-.blog-card-body { padding:28px 28px 32px; }
-.blog-tag {
-  font-family:'Jost',sans-serif; font-size:8px;
-  letter-spacing:3px; text-transform:uppercase;
-  color:var(--purple); margin-bottom:12px;
-  display:flex; align-items:center; gap:8px;
-}
-.blog-tag::before { content:''; display:block; width:20px; height:1.5px; background:var(--purple-light); }
-.blog-title {
-  font-family:'Poppins',sans-serif; font-size:20px;
-  font-weight:600; color:var(--ink); line-height:1.25; margin-bottom:12px;
-}
-.blog-card.featured .blog-title { font-size:26px; }
-.blog-excerpt {
-  font-size:14px; line-height:1.85; color:var(--muted); font-weight:300; margin-bottom:20px;
-}
-.blog-meta {
-  display:flex; align-items:center; justify-content:space-between;
-  padding-top:16px; border-top:1.5px solid var(--border);
-}
-.blog-date {
-  font-family:'Jost',sans-serif; font-size:8px;
-  letter-spacing:2px; text-transform:uppercase; color:var(--muted);
-}
-.blog-read {
-  font-family:'Jost',sans-serif; font-size:8px;
-  letter-spacing:2px; text-transform:uppercase;
-  color:var(--purple); text-decoration:none;
-  display:flex; align-items:center; gap:6px;
-  transition:gap .2s;
-}
-.blog-read:hover { gap:10px; }
-
 /* ── COMMISSIONS ── */
 .commission-section {
   padding:100px 56px;
@@ -1070,13 +1006,13 @@ footer {
   .featured-main-work { height:380px; }
   .featured-sidebar { flex-direction:row; height:200px; }
   .statement-section { grid-template-columns:1fr; padding:52px 24px; gap:48px; }
-  .process-section { padding:52px 24px; }
-  .process-header { grid-template-columns:1fr; gap:14px; align-items:start; margin-bottom:36px; }
+  .dual-teaser { grid-template-columns:1fr; }
+  .dual-teaser > div:first-child { border-right:none; border-bottom:1.5px solid var(--border); }
+  .dual-teaser > div { padding:44px 24px; }
   .process-steps { grid-template-columns:1fr 1fr; }
   .process-step { border-right:1.5px solid var(--border); border-bottom:1.5px solid var(--border); }
   .process-step:nth-child(2n) { border-right:none; }
   .process-step:nth-last-child(-n+2) { border-bottom:none; }
-  .web3art-teaser { padding:52px 24px; }
   .exhibitions-section { padding:44px 24px; }
   .exhibitions-header { grid-template-columns:1fr; }
   .exhibition-item { grid-template-columns:60px 1fr; gap:16px; }
@@ -1084,9 +1020,7 @@ footer {
   .interviews-section { padding:44px 24px; }
   .interviews-header { grid-template-columns:1fr; }
   .interviews-grid { grid-template-columns:1fr; }
-  .blog-section { padding:44px 24px; }
-  .blog-header { grid-template-columns:1fr; gap:16px; }
-  .blog-grid { grid-template-columns:1fr; }
+  .blog-teaser { padding:52px 24px; }
   .commission-section { padding:52px 24px; }
   .commission-inner { grid-template-columns:1fr; gap:48px; }
   .commission-form { padding:32px 24px; }
@@ -1105,7 +1039,6 @@ footer {
   .process-step { border-right:none; border-bottom:1.5px solid var(--border); }
   .process-step:last-child { border-bottom:none; }
   .hero-stats { gap:10px; }
-  .blog-grid { grid-template-columns:1fr; }
 }
 /* Teaser grid drops to 2 columns on phones — matches the 2-clear / 2-blurred split (JS uses the same 640 breakpoint) */
 @media (max-width:640px){
@@ -1169,11 +1102,11 @@ footer {
     <li><a href="#" class="active">Art</a></li>
     <li><a href="about/">About</a></li>
     <li><a href="gallery/">Gallery</a></li>
-    <li><a href="#portfolioSection">Portfolio</a></li>
+    <li><a href="portfolio/">Portfolio</a></li>
     <li><a href="web3/">NFT</a></li>
     <li><a href="#exhibitions">Exhibitions</a></li>
     <li><a href="#press">Press</a></li>
-    <li><a href="#blog">From the Studio</a></li>
+    <li><a href="blog/">Blog</a></li>
     <li><a href="https://vhictorry.com/">Tech &rarr;</a></li>
   </ul>
   <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
@@ -1490,23 +1423,15 @@ footer {
 
 <!-- PROCESS -->
 <!-- Appears once a Canva link is added in "Art Page — Hero Section" in Sanity Studio -->
-<section class="process-section" id="portfolioSection" style="display:none;">
-  <div class="process-header fade-up">
-    <div>
-      <div class="section-label">The Portfolio</div>
-      <h2 class="section-heading" id="portfolioHeading">Flip through<br><em class="fx-pendulum" role="img" aria-label="the full body of work"><b aria-hidden="true" style="--i:0">t</b><b aria-hidden="true" style="--i:1">h</b><b aria-hidden="true" style="--i:2">e</b> <b aria-hidden="true" style="--i:3">f</b><b aria-hidden="true" style="--i:4">u</b><b aria-hidden="true" style="--i:5">l</b><b aria-hidden="true" style="--i:6">l</b> <b aria-hidden="true" style="--i:7">b</b><b aria-hidden="true" style="--i:8">o</b><b aria-hidden="true" style="--i:9">d</b><b aria-hidden="true" style="--i:10">y</b> <b aria-hidden="true" style="--i:11">o</b><b aria-hidden="true" style="--i:12">f</b> <b aria-hidden="true" style="--i:13">w</b><b aria-hidden="true" style="--i:14">o</b><b aria-hidden="true" style="--i:15">r</b><b aria-hidden="true" style="--i:16">k</b></em></h2>
-    </div>
-    <p class="process-header-right" id="portfolioNote">
-      A curated presentation of works and series — it plays on its own. Sit back.
-    </p>
+<!-- PORTFOLIO — teaser, links out to the standalone Portfolio page -->
+<!-- PORTFOLIO + NFT — two compact teasers side by side instead of two full-width scrolls -->
+<section class="dual-teaser">
+  <div class="portfolio-teaser-inner fade-up">
+    <div class="section-label">The Portfolio</div>
+    <h2>Flip through <em>the full body of work.</em></h2>
+    <p>A curated presentation of works and series — it plays on its own. Sit back.</p>
+    <a href="portfolio/" class="btn-primary">View the Portfolio →</a>
   </div>
-  <div class="portfolio-embed fade-up">
-    <iframe id="portfolioFrame" src="" loading="lazy" allowfullscreen allow="autoplay; fullscreen"></iframe>
-  </div>
-</section>
-
-<!-- WEB3 + ART — teaser, links out to the standalone Art × Web3 page -->
-<section class="web3art-teaser">
   <div class="web3art-teaser-inner fade-up">
     <div class="section-label">NFT</div>
     <h2>Where the canvas <em>meets the chain.</em></h2>
@@ -1608,76 +1533,14 @@ footer {
   </div>
 </section>
 
-<!-- BLOG -->
-<section class="blog-section" id="blog">
-  <div class="blog-header fade-up">
-    <div>
-      <div class="section-label">From the Studio</div>
-      <h2 class="section-heading">Thoughts on <em class="fx-pendulum" role="img" aria-label="art &amp; living"><b aria-hidden="true" style="--i:0">a</b><b aria-hidden="true" style="--i:1">r</b><b aria-hidden="true" style="--i:2">t</b> <b aria-hidden="true" style="--i:3">&amp;</b> <b aria-hidden="true" style="--i:4">l</b><b aria-hidden="true" style="--i:5">i</b><b aria-hidden="true" style="--i:6">v</b><b aria-hidden="true" style="--i:7">i</b><b aria-hidden="true" style="--i:8">n</b><b aria-hidden="true" style="--i:9">g</b></em></h2>
-    </div>
-    <p class="blog-header-right">
-      I write the way I paint &mdash; slowly, and only when something is worth saying. On process. On symbols. On what chess has to do with everything.
-    </p>
+<!-- BLOG — teaser, links out to the standalone Blog page -->
+<section class="blog-teaser">
+  <div class="blog-teaser-inner fade-up">
+    <div class="section-label">From the Studio</div>
+    <h2>Thoughts on <em>art &amp; living.</em></h2>
+    <p>I write the way I paint — slowly, and only when something is worth saying. On process. On symbols. On what chess has to do with everything.</p>
+    <a href="blog/" class="btn-primary">Read the Writings →</a>
   </div>
-  <div class="blog-grid" id="blogGrid">
-
-    <!-- Featured Post -->
-    <div class="blog-card featured fade-up">
-      <div class="blog-card-img">
-        <div class="blog-card-img-inner" style="height:280px;background:linear-gradient(135deg,#1A0E2E 0%,#3D2B5C 40%,#6B2FA0 100%);display:flex;align-items:center;justify-content:center;font-size:90px;">&#9823;</div>
-      </div>
-      <div class="blog-card-body">
-        <div class="blog-tag">Process &middot; Featured</div>
-        <div class="blog-title">Why I Paint Chess Pieces &mdash; And What They&rsquo;re Really About</div>
-        <p class="blog-excerpt">The chess piece is never just a chess piece. It&rsquo;s a stand-in for every conversation I&rsquo;ve watched where two people played entirely different games while sitting at the same board. Here&rsquo;s where the symbol came from, and why it keeps returning.</p>
-        <div class="blog-meta">
-          <span class="blog-date">March 2025</span>
-          <a href="#" class="blog-read">Read &rarr;</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Post 2 -->
-    <div class="blog-card fade-up">
-      <div class="blog-card-img">
-        <div class="blog-card-img-inner" style="height:180px;background:linear-gradient(180deg,#3D2B5C,#B07DD9);display:flex;align-items:center;justify-content:center;font-size:64px;">&#9760;</div>
-      </div>
-      <div class="blog-card-body">
-        <div class="blog-tag">Philosophy</div>
-        <div class="blog-title">On Skeletons: What Remains After Transformation</div>
-        <p class="blog-excerpt">The skeleton doesn&rsquo;t mean death. It means what survives it. Here&rsquo;s why I keep returning to bones as a symbol of endurance.</p>
-        <div class="blog-meta">
-          <span class="blog-date">Feb 2025</span>
-          <a href="#" class="blog-read">Read &rarr;</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Post 3 -->
-    <div class="blog-card fade-up">
-      <div class="blog-card-img">
-        <div class="blog-card-img-inner" style="height:180px;background:linear-gradient(225deg,#6B2FA0,#C9A84C);display:flex;align-items:center;justify-content:center;font-size:64px;">&#129419;</div>
-      </div>
-      <div class="blog-card-body">
-        <div class="blog-tag">Art &times; Web3</div>
-        <div class="blog-title">Collecting Art On-Chain: What It Actually Means to Own a Painting</div>
-        <p class="blog-excerpt">Physical or digital &mdash; what makes a work of art &ldquo;yours&rdquo;? A short essay on provenance, permanence, and what Web3 changes.</p>
-        <div class="blog-meta">
-          <span class="blog-date">Jan 2025</span>
-          <a href="#" class="blog-read">Read &rarr;</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  <!-- Subscribe — opens the popup (same box + modal pattern as the main site) -->
-  <a href="#" onclick="return openSub('inbtwstrokes','In Between Strokes')" class="blog-substack-link fade-up">
-    <div>
-      <div class="blog-substack-label">Substack &nbsp;&middot;&nbsp; In Between Strokes</div>
-      <div class="blog-substack-title">Read the essays &amp; subscribe</div>
-    </div>
-    <span class="blog-substack-arrow">&#8594;</span>
-  </a>
 </section>
 
 <!-- COMMISSIONS -->
@@ -1737,7 +1600,8 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-copy">© 2025 Victory Adewojo · All Rights Reserved</div>
+  <div class="footer-copy">© <span id="copyYear">2026</span> Victory Adewojo · All Rights Reserved</div>
+  <script>document.getElementById('copyYear').textContent=new Date().getFullYear();</script>
   <div class="footer-center">
     <a href="https://vhictorry.com/" class="footer-logo">vhictorry</a>
     <div class="footer-social" id="artSocial"></div>
@@ -2066,31 +1930,6 @@ const heights=[520,380,300,450,340,420,360,480,320];
   }catch(e){}
 })();
 
-/* Blog posts */
-function blogCard(p){
-  const em=esc(p.emoji||'✍️');
-  const cu=p.coverUrl?esc(p.coverUrl.toLowerCase().endsWith('.gif')?p.coverUrl:p.coverUrl+'?w=800&fit=max&auto=format'):null;
-  return `<div class="blog-card fade-up">
-  <div class="blog-card-img"><div class="blog-card-img-inner" style="height:180px;background:${cu?`url('${cu}') center/cover no-repeat`:'linear-gradient(135deg,#1A0E2E,#6B2FA0)'};display:flex;align-items:center;justify-content:center;font-size:64px;">${cu?'':em}</div></div>
-  <div class="blog-card-body">
-    <div class="blog-tag">${esc(p.tag||'')}</div>
-    <div class="blog-title">${esc(p.title||'')}</div>
-    <p class="blog-excerpt">${esc(p.description||'')}</p>
-    <div class="blog-meta"><a href="${esc(p.url||'https://btwtheblocks.substack.com')}" target="_blank" rel="noopener" class="blog-read">Read →</a></div>
-  </div>
-</div>`;
-}
-(async()=>{
-  const g=document.getElementById('blogGrid');
-  if(!g)return;
-  try{
-    const posts=await sanityFetch(`*[_type=="blogPost"]|order(order asc){_id,title,tag,description,url,emoji,"coverUrl":coverImage.asset->url}`);
-    if(!posts.length)return;
-    g.innerHTML=posts.map(blogCard).join('');
-    g.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
-  }catch(e){}
-})();
-
 /* Exhibitions */
 function exhibRow(ex){
   const tClass=ex.status==='featured'?'featured':ex.status==='upcoming'?'featured':'';
@@ -2198,16 +2037,6 @@ function interviewCard(iv){
         mi.innerHTML=span+span;
       }
     }
-    /* Canva portfolio embed — the link is used EXACTLY as pasted in Sanity, unchanged. */
-    if(h.portfolioUrl){
-      const sec=document.getElementById('portfolioSection');
-      if(sec){
-        document.getElementById('portfolioFrame').src=h.portfolioUrl;
-        if(h.portfolioHeadingPlain)document.getElementById('portfolioHeading').innerHTML=esc(h.portfolioHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(h.portfolioHeadingAccent?` ${pendulumHTML(h.portfolioHeadingAccent)}`:'');
-        if(h.portfolioNote)document.getElementById('portfolioNote').textContent=h.portfolioNote;
-        sec.style.display='';
-      }
-    }
   }catch(e){}
   initHeroTypewriter();
 })();
@@ -2309,10 +2138,48 @@ function openSub(sub,name){
   var note=document.getElementById('subModalNote');if(note)note.innerHTML=SUB_DEFAULT_NOTE;
   var rd=document.getElementById('subModalRead');if(rd)rd.href='https://'+sub+'.substack.com';
   var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
+  resetSubThanks();
   var m=document.getElementById('subModal');if(m)m.classList.add('open');
   return false;
 }
 function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
+
+/* Substack's embed is a cross-origin iframe, so we can't read its form state directly.
+   Primary signal: Substack posts a window.message when the embedded form actually submits --
+   if that arrives, we know for certain a subscribe happened. Fallback (only if no message
+   ever arrives): focus leaving the parent page onto the iframe, held for a pause, as a rough
+   proxy -- less exact, since it can't distinguish "clicked into the email field" from "submitted". */
+(function(){
+  var armed=true, timer=null;
+  function showThanks(){
+    if(!armed)return;
+    armed=false;
+    if(timer)clearTimeout(timer);
+    var frEl=document.getElementById('subEmbedFrame');
+    var thanksEl=document.getElementById('subThanks');
+    if(frEl)frEl.style.display='none';
+    if(thanksEl)thanksEl.style.display='flex';
+  }
+  window.addEventListener('message',function(e){
+    if(!armed||!e.origin||e.origin.indexOf('substack.com')===-1)return;
+    var data=e.data;
+    var text=typeof data==='string'?data:(function(){try{return JSON.stringify(data||{});}catch(x){return '';}})();
+    if(/subscri|success|submit/i.test(text))showThanks();
+  });
+  window.addEventListener('blur',function(){
+    var frEl=document.getElementById('subEmbedFrame');
+    if(!armed||!frEl||document.activeElement!==frEl)return;
+    timer=setTimeout(showThanks,1200);
+  });
+  window.resetSubThanks=function(){
+    armed=true;
+    if(timer)clearTimeout(timer);
+    var frEl=document.getElementById('subEmbedFrame');
+    var thanksEl=document.getElementById('subThanks');
+    if(frEl)frEl.style.display='';
+    if(thanksEl)thanksEl.style.display='none';
+  };
+})();
 
 /* Auto subscribe popup — fires once per session after ~60s of an engaged (scrolling) visit */
 (function(){
@@ -2328,6 +2195,7 @@ function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.r
     if(note)note.textContent="You've been here a minute — the paintings must be talking to you. Join In Between Strokes for the stories behind the canvas.";
     var rd=document.getElementById('subModalRead');if(rd)rd.href='https://inbtwstrokes.substack.com';
     var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://inbtwstrokes.substack.com/embed';
+    resetSubThanks();
     subCur='inbtwstrokes';
     var m=document.getElementById('subModal');if(m)m.classList.add('open');
   }
@@ -2347,8 +2215,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSub();}
     <div class="sub-modal-note" id="subModalNote">New paintings, process notes &amp; reflections &mdash; straight to your inbox.</div>
     <div class="sub-embed-wrap">
       <iframe id="subEmbedFrame" class="sub-embed" src="https://inbtwstrokes.substack.com/embed" title="Subscribe" scrolling="no"></iframe>
+      <div class="sub-thanks" id="subThanks" style="display:none">Thank you for subscribing! 🎉<br><span>Check your inbox to confirm.</span></div>
     </div>
-    <a class="sub-modal-read" id="subModalRead" href="https://inbtwstrokes.substack.com" target="_blank" rel="noopener">Or read all essays on Substack &rarr;</a>
+    <a class="sub-modal-read" id="subModalRead" href="https://inbtwstrokes.substack.com" target="_blank" rel="noopener">Or read all blogs on Substack &rarr;</a>
   </div>
 </div>
 

@@ -14,7 +14,7 @@
     html { scroll-behavior:smooth; }
     body { background:var(--purple-pale); color:var(--ink); font-family:'Montserrat',sans-serif; cursor:none; overflow-x:hidden; }
     /* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ── */
-    .gallery-hero, .gallery-section {
+    .gallery-hero, .gallery-section, .series-section {
       margin:0 24px 24px; border-radius:28px; overflow:hidden;
       box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
     }
@@ -23,8 +23,9 @@
        carries no margin of its own -- gallery-section needs an explicit top gap or it sits
        flush against the filter bar above it. */
     .gallery-section { margin-top:20px; }
+    .series-section { margin-top:0; }
     @media (max-width:900px){
-      .gallery-hero, .gallery-section { margin:0 14px 14px; border-radius:20px; }
+      .gallery-hero, .gallery-section, .series-section { margin:0 14px 14px; border-radius:20px; }
       .gallery-hero { margin-top:14px; }
       .gallery-section { margin-top:14px; }
     }
@@ -85,6 +86,23 @@
     .gallery-stat { text-align:center; }
     .gallery-stat-num { font-family:'Poppins',sans-serif; font-size:32px; font-weight:700; font-style:italic; color:var(--purple); line-height:1; }
     .gallery-stat-label { font-family:'Jost',sans-serif; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:6px; }
+
+    /* ── SERIES ── */
+    .series-section { padding:70px 56px; background:var(--purple-xpale); }
+    .series-head { text-align:center; max-width:600px; margin:0 auto 40px; }
+    .series-label { font-family:'Jost',sans-serif; font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:14px; }
+    .series-heading { font-family:'Poppins',sans-serif; font-size:clamp(26px,3vw,38px); font-weight:700; color:var(--ink); line-height:1.15; }
+    .series-heading em { font-style:italic; color:var(--purple); }
+    .series-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; max-width:1000px; margin:0 auto; }
+    .series-card { background:var(--white); border:1.5px solid var(--border); border-radius:6px; overflow:hidden; cursor:pointer; transition:all .3s ease; }
+    .series-card:hover { border-color:var(--border-strong); box-shadow:0 16px 36px -22px rgba(26,14,46,.4); transform:translateY(-4px); }
+    .series-card-img { aspect-ratio:16/10; background-size:cover; background-position:center; background-color:var(--purple-pale); }
+    .series-card-body { padding:22px 24px 26px; }
+    .series-card-count { font-family:'Jost',sans-serif; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+    .series-card-title { font-family:'Poppins',sans-serif; font-size:19px; font-weight:600; font-style:italic; color:var(--ink); margin-bottom:8px; }
+    .series-card-desc { font-size:13px; line-height:1.7; color:var(--muted); font-weight:300; margin-bottom:12px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+    .series-card-cta { font-family:'Jost',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--purple); }
+    @media (max-width:900px){ .series-section { padding:48px 24px; } }
 
     /* ── FILTER TABS (underline style) ── */
     .filter-bar {
@@ -167,6 +185,10 @@
     .lightbox-inner { display:grid; grid-template-columns:1fr 380px; max-width:1080px; width:100%; height:88vh; background:var(--white); border-radius:4px; overflow:hidden; }
     .lightbox-img-wrap { position:relative; overflow:hidden; min-height:0; }
     .lightbox-img { width:100%; height:100%; min-height:400px; background-size:contain; background-repeat:no-repeat; background-position:center; background-color:var(--purple-xpale); }
+    .lightbox-views { position:absolute; left:16px; bottom:16px; z-index:2; display:flex; gap:8px; }
+    .lightbox-view-thumb { width:52px; height:52px; border-radius:4px; overflow:hidden; border:2px solid rgba(253,252,255,.8); cursor:pointer; background-size:cover; background-position:center; box-shadow:0 6px 16px rgba(26,14,46,.35); transition:transform .2s,border-color .2s; }
+    .lightbox-view-thumb:hover { transform:translateY(-3px); }
+    .lightbox-view-thumb.active { border-color:var(--gold); }
     .lightbox-panel { padding:48px 40px; overflow-y:auto; display:flex; flex-direction:column; min-height:0; }
     .lightbox-badge { font-family:'Jost',sans-serif; font-size:8px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
     .lightbox-badge.soon { color:var(--muted); }
@@ -243,11 +265,11 @@
     <li><a href="/">Art</a></li>
     <li><a href="/about/">About</a></li>
     <li><a href="#" class="active">Gallery</a></li>
-    <li><a href="/#portfolioSection">Portfolio</a></li>
+    <li><a href="/portfolio/">Portfolio</a></li>
     <li><a href="/web3/">NFT</a></li>
     <li><a href="/#exhibitions">Exhibitions</a></li>
     <li><a href="/#press">Press</a></li>
-    <li><a href="/#blog">From the Studio</a></li>
+    <li><a href="/blog/">Blog</a></li>
     <li><a href="https://vhictorry.com/">Tech &rarr;</a></li>
   </ul>
   <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
@@ -272,6 +294,15 @@
       <div class="gallery-stat-label">Available Now</div>
     </div>
   </div>
+</section>
+
+<!-- Series — appears automatically once you've grouped works into a Series in Sanity Studio -->
+<section class="series-section" id="seriesSection" style="display:none">
+  <div class="series-head fade-up">
+    <div class="series-label">Explore by Series</div>
+    <h2 class="series-heading">Bodies of work, <em>told in full</em></h2>
+  </div>
+  <div class="series-grid" id="seriesGrid"></div>
 </section>
 
 <div class="filter-bar">
@@ -309,6 +340,7 @@
   <div class="lightbox-inner">
     <div class="lightbox-img-wrap">
       <div class="lightbox-img" id="lightboxImg"></div>
+      <div class="lightbox-views" id="lightboxViews" style="display:none"></div>
     </div>
     <div class="lightbox-panel">
       <div class="lightbox-badge" id="lightboxBadge"></div>
@@ -322,7 +354,8 @@
 </div>
 
 <footer>
-  <div class="footer-copy">© 2025 Victory Adewojo · All Rights Reserved</div>
+  <div class="footer-copy">© <span id="copyYear">2026</span> Victory Adewojo · All Rights Reserved</div>
+  <script>document.getElementById('copyYear').textContent=new Date().getFullYear();</script>
   <a href="https://vhictorry.com/" class="footer-logo">vhictorry</a>
   <div class="footer-copy">Art · Web3 · Community · Strategy</div>
 </footer>
@@ -361,6 +394,25 @@ function openLightbox(card){
   lbImg.style.cssText=full
     ?`background-image:url('${imgSrc(full,1600)}');`
     :`background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);`;
+  /* "Other Views" — up to 2 extra photos of the same piece, set in Sanity Studio */
+  const lbViews=document.getElementById('lightboxViews');
+  let extra=[];
+  try{extra=JSON.parse(card.dataset.extra||'[]');}catch(e){}
+  if(full&&extra.length){
+    const all=[full,...extra];
+    lbViews.innerHTML=all.map((u,i)=>`<div class="lightbox-view-thumb${i===0?' active':''}" style="background-image:url('${imgSrc(u,200)}')" data-full="${imgSrc(u,1600)}"></div>`).join('');
+    lbViews.style.display='flex';
+    lbViews.querySelectorAll('.lightbox-view-thumb').forEach(t=>{
+      t.addEventListener('click',()=>{
+        lbImg.style.cssText=`background-image:url('${t.dataset.full}');`;
+        lbViews.querySelectorAll('.lightbox-view-thumb').forEach(o=>o.classList.remove('active'));
+        t.classList.add('active');
+      });
+    });
+  }else{
+    lbViews.style.display='none';
+    lbViews.innerHTML='';
+  }
   const av=card.dataset.avail;
   lbBadge.textContent=av==='available'?'Available':av==='sold'?'Sold':'Details Soon';
   lbBadge.className='lightbox-badge'+(av!=='available'?' soon':'');
@@ -454,7 +506,8 @@ function cardHTML(aw){
     ?`<img class="card-img" src="${esc(imgSrc(aw.imageUrl,1200))}" alt="${title}" loading="lazy">`
     :`<div class="card-img" style="height:280px;background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);"></div>`;
   const series=esc(aw.series||'');
-  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-img="${esc(aw.imageUrl||'')}" data-buy="${esc(aw.buyUrl||'')}" data-series="${series}" data-title="${title}" data-medium="${esc(aw.medium||'')}" data-year="${esc(aw.year||'')}" data-size="${dims}" data-desc="${desc}">
+  const extra=esc(JSON.stringify(aw.extraViewUrls||[]));
+  return `<article class="gallery-card fade-up" data-cat="${cats}" data-avail="${av}" data-img="${esc(aw.imageUrl||'')}" data-extra="${extra}" data-buy="${esc(aw.buyUrl||'')}" data-series="${series}" data-title="${title}" data-medium="${esc(aw.medium||'')}" data-year="${esc(aw.year||'')}" data-size="${dims}" data-desc="${desc}">
   ${media}
   <div class="card-badge ${bClass}">${bText}</div>
   <div class="card-overlay">
@@ -478,7 +531,8 @@ function featureHTML(aw){
   const series=esc(aw.series||'');
   const desc=esc(aw.description||'');
   const bg=aw.imageUrl?`background-image:url('${esc(imgSrc(aw.imageUrl,1500))}');`:`background:linear-gradient(135deg,#2D1045,#6B2FA0,#B07DD9);`;
-  return `<article class="gallery-feature fade-up" data-cat="${cats}" data-avail="${av}" data-img="${esc(aw.imageUrl||'')}" data-buy="${esc(aw.buyUrl||'')}" data-series="${series}" data-title="${title}" data-medium="${esc(aw.medium||'')}" data-year="${esc(aw.year||'')}" data-size="${dims}" data-desc="${desc}">
+  const extra=esc(JSON.stringify(aw.extraViewUrls||[]));
+  return `<article class="gallery-feature fade-up" data-cat="${cats}" data-avail="${av}" data-img="${esc(aw.imageUrl||'')}" data-extra="${extra}" data-buy="${esc(aw.buyUrl||'')}" data-series="${series}" data-title="${title}" data-medium="${esc(aw.medium||'')}" data-year="${esc(aw.year||'')}" data-size="${dims}" data-desc="${desc}">
     <div class="gf-imgwrap"><div class="gf-img" style="${bg}"></div><div class="gf-badge${bClass}">${bText}</div></div>
     <div class="gf-body">
       <div class="gf-tagline">Featured Work${aw.series?` · <span class="gf-series">◆ ${series}</span>`:''}</div>
@@ -494,7 +548,7 @@ async function loadGallery(){
   const grid=document.getElementById('galleryGrid');
   const msg=document.getElementById('galleryMsg');
   try{
-    const works=await sanity(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,category,status,medium,year,dimensions,description,buyUrl,"series":series->title}`);
+    const works=await sanity(`*[_type=="artwork"]|order(order asc){_id,title,"imageUrl":image.asset->url,"extraViewUrls":extraViews[].asset->url,category,status,medium,year,dimensions,description,buyUrl,"series":series->title}`);
     if(!works.length){
       msg.innerHTML='No artworks yet — <a href="https://vhictorry.sanity.studio" target="_blank" style="color:var(--purple);">add your first piece in Sanity Studio.</a>';
       return;
@@ -528,6 +582,51 @@ async function loadGallery(){
   }
 }
 loadGallery();
+
+/* SERIES — a dedicated showcase for each Series set up in Sanity Studio, above the filter bar */
+async function loadSeries(){
+  try{
+    const series=await sanity(`*[_type=="series"]|order(order asc){_id,title,description,"count":count(*[_type=="artwork" && references(^._id)]),"coverUrl":*[_type=="artwork" && references(^._id)]|order(order asc)[0].image.asset->url}`);
+    if(!series||!series.length)return;
+    const section=document.getElementById('seriesSection');
+    const grid=document.getElementById('seriesGrid');
+    grid.innerHTML=series.map(s=>{
+      const bg=s.coverUrl?`background-image:url('${esc(imgSrc(s.coverUrl,700))}');`:'';
+      const count=s.count||0;
+      return `<div class="series-card fade-up" data-series-filter="s:${esc(s.title)}">
+        <div class="series-card-img" style="${bg}"></div>
+        <div class="series-card-body">
+          <div class="series-card-count">${count} ${count===1?'Work':'Works'}</div>
+          <div class="series-card-title">${esc(s.title)}</div>
+          ${s.description?`<p class="series-card-desc">${esc(s.description)}</p>`:''}
+          <span class="series-card-cta">View Series &rarr;</span>
+        </div>
+      </div>`;
+    }).join('');
+    section.style.display='block';
+    grid.querySelectorAll('.series-card').forEach(card=>{
+      obs.observe(card);
+      card.addEventListener('click',()=>{
+        const target=card.dataset.seriesFilter;
+        let pill=[...document.querySelectorAll('.filter-pill')].find(p=>p.dataset.filter===target);
+        if(!pill){
+          /* Series pill may not exist yet if the artwork list is still loading — create it. */
+          pill=document.createElement('button');
+          pill.className='filter-pill';
+          pill.dataset.filter=target;
+          pill.textContent='◆ '+target.slice(2);
+          document.querySelector('.filter-pills').appendChild(pill);
+        }
+        document.querySelectorAll('.filter-pill').forEach(x=>x.classList.remove('active'));
+        pill.classList.add('active');
+        expanded=false;
+        applyFilter();
+        document.querySelector('.filter-bar').scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+  }catch(e){}
+}
+loadSeries();
 
 /* MOBILE NAV */
 const navToggle=document.getElementById('navToggle');

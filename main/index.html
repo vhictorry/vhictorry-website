@@ -28,13 +28,13 @@ body{background:var(--purple-pale);color:var(--ink);font-family:'Montserrat',san
 
 /* ── SECTION CARDS — rounded blocks floating on the page background instead of hard-edged full-bleed bands ──
    .marquee-bar and .web3-strip are plain <div>s (not <section>), easy to miss — included here too. */
-#home,.marquee-bar,#about,#expertise,.web3-strip,.projects-section,#testimonials,#events,#art-teaser,#blog,#contact{
+#home,.marquee-bar,#about,#expertise,.web3-strip,.projects-section,#testimonials,#events,#art-teaser,.blog-teaser,#contact{
   margin:0 24px 24px;border-radius:28px;overflow:hidden;
   box-shadow:0 20px 60px -30px rgba(26,14,46,.28);
 }
 #home{margin-top:24px;}
 @media(max-width:900px){
-  #home,.marquee-bar,#about,#expertise,.web3-strip,.projects-section,#testimonials,#events,#art-teaser,#blog,#contact{
+  #home,.marquee-bar,#about,#expertise,.web3-strip,.projects-section,#testimonials,#events,#art-teaser,.blog-teaser,#contact{
     margin:0 14px 14px;border-radius:20px;
   }
   #home{margin-top:14px;}
@@ -164,7 +164,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .about-badge span:first-child{font-family:'Poppins',sans-serif;font-size:26px;color:var(--white);line-height:1;font-weight:700;}
 .about-badge span:last-child{font-family:'Jost',sans-serif;font-size:7px;letter-spacing:1px;color:rgba(255,255,255,.75);text-align:center;text-transform:uppercase;}
 .about-text{font-size:16px;line-height:1.9;color:var(--ink-mid);font-weight:300;margin-bottom:20px;}
-.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;border-top:1.5px solid var(--border);padding-top:32px;margin-top:32px;}
+.about-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border-top:1.5px solid var(--border);padding-top:32px;margin-top:32px;}
 .stat-number{font-family:'Poppins',sans-serif;font-size:44px;color:var(--purple);line-height:1;font-weight:700;}
 .stat-label{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 
@@ -308,19 +308,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .btn-outline{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);background:transparent;border:1.5px solid var(--border-strong);padding:14px 36px;border-radius:2px;transition:all .2s;cursor:none;display:inline-block;}
 .btn-outline:hover{border-color:var(--purple);background:var(--purple-xpale);}
 
-/* BLOG */
-#blog{padding:100px 56px;background:var(--offwhite);}
-.blog-header{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:56px;}
-.blog-header-right{font-size:16px;line-height:1.9;color:var(--muted);font-weight:300;}
-.blog-embed-wrap{border:1.5px solid var(--border);border-radius:4px;overflow:hidden;background:var(--white);margin-bottom:32px;}
-.blog-embed-wrap iframe{display:block;width:100%;}
+/* BLOG TEASER — links out to the standalone /blog/ page */
+.blog-teaser{padding:80px 64px;background:var(--purple-xpale);text-align:center;}
+.blog-teaser-inner{max-width:560px;margin:0 auto;}
+.blog-teaser-inner .section-label{justify-content:center;}
+.blog-teaser-inner h2{font-family:'Poppins',sans-serif;font-size:clamp(28px,3.2vw,42px);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:16px;}
+.blog-teaser-inner h2 em{font-style:italic;color:var(--purple);}
+.blog-teaser-inner p{font-size:16px;line-height:1.8;color:var(--muted);font-weight:300;margin-bottom:28px;}
 .blog-substack-link{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;background:var(--white);border:1.5px solid var(--border);border-radius:4px;text-decoration:none;transition:all .2s;}
 .blog-substack-link:hover{border-color:var(--border-strong);background:var(--purple-xpale);}
 .blog-substack-label{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);}
 .blog-substack-title{font-family:'Poppins',sans-serif;font-size:18px;color:var(--ink);font-style:italic;}
 .blog-substack-arrow{font-family:'Jost',sans-serif;font-size:12px;color:var(--purple);}
-.sub-embed-wrap{max-width:480px;margin:28px auto 0;width:100%;}
+.sub-embed-wrap{max-width:480px;margin:28px auto 0;width:100%;position:relative;}
 .sub-embed{display:block;width:100%;height:150px;border:1.5px solid var(--border);border-radius:8px;background:#fff;}
+.sub-thanks{width:100%;height:150px;border:1.5px solid var(--border-strong);border-radius:8px;background:var(--purple-xpale);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Poppins',sans-serif;font-size:17px;font-weight:600;font-style:italic;color:var(--purple);gap:6px;animation:subThanksIn .4s ease;}
+.sub-thanks span{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:400;font-style:normal;color:var(--muted);}
+@keyframes subThanksIn{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
 .sub-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(26,14,46,.6);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:24px;}
 .sub-modal.open{display:flex;animation:subFade .2s ease;}
 @keyframes subFade{from{opacity:0}to{opacity:1}}
@@ -328,7 +332,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .sub-modal-box{background:#fff;border-radius:16px;padding:36px 28px 28px;max-width:400px;width:100%;position:relative;box-shadow:0 30px 90px rgba(26,14,46,.5);text-align:center;}
 .sub-modal-close{position:absolute;top:10px;right:15px;background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0;}
 .sub-modal-close:hover{color:var(--ink);}
-.sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:26px;color:var(--ink);margin-bottom:6px;}
+.sub-modal-name{font-family:'Poppins',sans-serif;font-style:italic;font-weight:700;font-size:26px;color:var(--purple);margin-bottom:6px;}
 .sub-modal-note{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--muted);margin-bottom:22px;}
 .sub-modal .sub-embed-wrap{margin:0;}
 .sub-modal-read{display:inline-block;margin-top:16px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;cursor:pointer;}
@@ -361,15 +365,6 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 .footer-logo{font-family:'Poppins',sans-serif;font-size:18px;letter-spacing:1px;font-weight:700;font-style:italic;color:var(--purple-light);text-decoration:none;}
 
 /* BLOG GRID */
-.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
-.blog-card{background:var(--white);border:1.5px solid var(--border);border-radius:4px;overflow:hidden;transition:box-shadow .3s,border-color .3s;display:flex;flex-direction:column;}
-.blog-card:hover{box-shadow:0 10px 30px rgba(107,47,160,0.09);border-color:var(--border-strong);}
-.blog-card-thumb{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:40px;}
-.blog-card-body{padding:20px 22px 24px;flex:1;display:flex;flex-direction:column;}
-.blog-card-tag{font-family:'Jost',sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:10px;}
-.blog-card-title{font-family:'Poppins',sans-serif;font-size:17px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:10px;}
-.blog-card-desc{font-size:13px;line-height:1.75;color:var(--muted);font-weight:300;margin-bottom:16px;flex:1;}
-.blog-card-cta{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);text-decoration:none;align-self:flex-start;}
 
 /* HERO CREDENTIALS */
 .hero-credentials{position:absolute;left:-20px;top:387px;display:flex;flex-direction:column;gap:8px;z-index:4;}
@@ -408,9 +403,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
   .events-header{grid-template-columns:1fr;}
   .events-grid{grid-template-columns:1fr;}
   .events-hidden.show{grid-template-columns:1fr;}
-  #blog{padding:52px 24px;}
-  .blog-header{grid-template-columns:1fr;}
-  .blog-grid{grid-template-columns:1fr;}
+  .blog-teaser{padding:52px 24px;}
   #contact{grid-template-columns:1fr;padding:52px 24px;}
   footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}
 }
@@ -499,6 +492,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
     <li><a href="#expertise">Services</a></li>
     <li><a href="#testimonials">Testimonials</a></li>
     <li><a href="#events">Speaking</a></li>
+    <li><a href="blog/">Blog</a></li>
     <li><a href="https://art.vhictorry.com">Art</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -579,7 +573,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
   </div>
   <div class="about-content fade-up">
     <div class="section-label">Who I Am</div>
-    <h2 class="section-heading">I didn&rsquo;t read about<br>Web3. <em class="fx-typewriter" style="--tw-ch:20">I built inside it.</em></h2>
+    <h2 class="section-heading">I didn&rsquo;t read about<br>Web3. <em class="fx-typewriter" style="--tw-ch:13">I built inside it.</em></h2>
     <p class="about-text">Victory Adewojo is a Web3 Community Builder, Operations Specialist, Brand Strategist, and the founder of Pontys. With over five years of hands-on experience in the decentralized space, she has worked with Web3 brands across community management, Discord structure, operational systems, and personal brand development.</p>
     <p class="about-text">Holding an MBA, Victory brings both strategic rigour and practical Web3 experience to every engagement. She understands how businesses are built and how this particular industry moves — a combination that is rare and, for her clients, consistently valuable.</p>
     <p class="about-text">She works with a selective client base, prioritising depth of engagement over volume. Her track record spans community builds, brand consultations, and operational frameworks that have brought measurable structure to projects that previously ran on instinct alone.</p>
@@ -588,6 +582,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
       <div><div class="stat-number">50+</div><div class="stat-label">Projects Done</div></div>
       <div><div class="stat-number">30+</div><div class="stat-label">Happy Clients</div></div>
       <div><div class="stat-number">5+</div><div class="stat-label">Years Active</div></div>
+      <div><div class="stat-number">100%</div><div class="stat-label">Remote Ready</div></div>
     </div>
   </div>
 </section>
@@ -597,7 +592,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
   <div class="expertise-top fade-up">
     <div>
       <div class="section-label">My Services</div>
-      <h2 class="section-heading" style="margin-bottom:0;">What I actually <em class="fx-typewriter" style="--tw-ch:12">do for you</em></h2>
+      <h2 class="section-heading" style="margin-bottom:0;">What I actually <em class="fx-typewriter" style="--tw-ch:9">do for you</em></h2>
     </div>
   </div>
   <div class="expertise-grid">
@@ -638,7 +633,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 <div class="web3-strip">
   <div class="web3-text fade-up">
     <div class="section-label" style="color:var(--purple-light);">Web3 Native</div>
-    <h2>Fluent in Web3<br><em class="fx-typewriter" style="--tw-ch:17">from the inside</em></h2>
+    <h2>Fluent in Web3<br><em class="fx-typewriter" style="--tw-ch:13">from the inside</em></h2>
     <p>This is not an outside perspective on Web3. The experience here was built from within — managing communities through market cycles, navigating DAOs, watching protocols rise and collapse, and learning firsthand what keeps people engaged in a space that is constantly shifting beneath everyone&rsquo;s feet.</p>
     <div class="chain-tags">
       <span class="chain-tag">DeFi</span>
@@ -739,7 +734,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
   <div class="events-header fade-up">
     <div>
       <div class="section-label">Speaking</div>
-      <h2 class="section-heading">Featured &amp; <em class="fx-typewriter" style="--tw-ch:17">in conversation</em></h2>
+      <h2 class="section-heading">Featured &amp; <em class="fx-typewriter" style="--tw-ch:14">in conversation</em></h2>
     </div>
     <p class="events-header-right">
       Speaking engagements, panel features, and community conversations across the Web3 space. From onboarding developers to Women in DeFi summits — showing up where the work is being done.
@@ -829,7 +824,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 <section id="art-teaser">
   <div class="art-teaser-text fade-up">
     <div class="section-label">Fine Art</div>
-    <h2>Stories told through <em class="fx-typewriter" style="--tw-ch:14">brushstrokes</em></h2>
+    <h2>Stories told through <em class="fx-typewriter" style="--tw-ch:12">brushstrokes</em></h2>
     <p>Victory&rsquo;s art lives both on canvas and on-chain — paintings that explore identity, transformation, freedom, and constraint. Original works available physically and as on-chain editions for collectors in the Web3 space.</p>
     <a href="https://art.vhictorry.com" class="btn-ghost btn-ghost--onDark">View the Art &rarr;</a>
   </div>
@@ -846,60 +841,20 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
   </div>
 </section>
 
-<section id="blog">
-  <div class="blog-header fade-up">
-    <div>
-      <div class="section-label">From the Desk</div>
-      <h2 class="section-heading">Thoughts on Web3,<br><em class="fx-typewriter" style="--tw-ch:22">community &amp; building</em></h2>
-    </div>
-    <p class="blog-header-right">
-      Essays, observations, and notes from inside the Web3 space. Published on Substack. Subscribe to get new pieces directly in your inbox.
-    </p>
+<section class="blog-teaser">
+  <div class="blog-teaser-inner fade-up">
+    <div class="section-label">From the Desk</div>
+    <h2>Thoughts on Web3, <em>community &amp; building.</em></h2>
+    <p>Writings, observations, and notes from inside the Web3 space — published on Substack, collected on their own page.</p>
+    <a href="blog/" class="btn-primary">Read the Blogs →</a>
   </div>
-  <!-- Blog cards loaded from Sanity Studio — manage posts at https://vhictorry.sanity.studio -->
-  <div class="blog-grid fade-up" id="blogGrid">
-    <div class="blog-card">
-      <div class="blog-card-thumb" style="background:linear-gradient(135deg,#1A0E2E,#6B2FA0);">📖</div>
-      <div class="blog-card-body">
-        <div class="blog-card-tag">Essay</div>
-        <div class="blog-card-title">The Difference Between an Audience and a Community</div>
-        <p class="blog-card-desc">On why most Web3 projects confuse follower counts with community health — and what actually keeps people around.</p>
-        <a href="https://btwtheblocks.substack.com" target="_blank" rel="noopener" class="blog-card-cta">Read on Substack →</a>
-      </div>
-    </div>
-    <div class="blog-card">
-      <div class="blog-card-thumb" style="background:linear-gradient(135deg,#3D2B5C,#B07DD9);">✍️</div>
-      <div class="blog-card-body">
-        <div class="blog-card-tag">Strategy</div>
-        <div class="blog-card-title">What Five Years in Web3 Actually Taught Me</div>
-        <p class="blog-card-desc">Lessons from half a decade inside the space — on patience, market cycles, and building things worth keeping.</p>
-        <a href="https://btwtheblocks.substack.com" target="_blank" rel="noopener" class="blog-card-cta">Read on Substack →</a>
-      </div>
-    </div>
-    <div class="blog-card">
-      <div class="blog-card-thumb" style="background:linear-gradient(135deg,#6B2FA0,#C9A84C);">🏗️</div>
-      <div class="blog-card-body">
-        <div class="blog-card-tag">Observation</div>
-        <div class="blog-card-title">Discord Architecture for Projects That Want to Last</div>
-        <p class="blog-card-desc">Structure isn&rsquo;t bureaucracy — it&rsquo;s the foundation that lets a community run without you in the room.</p>
-        <a href="https://btwtheblocks.substack.com" target="_blank" rel="noopener" class="blog-card-cta">Read on Substack →</a>
-      </div>
-    </div>
-  </div>
-  <a href="#" onclick="return openSub('btwtheblocks','Between the Blocks')" class="blog-substack-link fade-up">
-    <div>
-      <div class="blog-substack-label">Substack &nbsp;&middot;&nbsp; Between the Blocks</div>
-      <div class="blog-substack-title">Read the essays &amp; subscribe</div>
-    </div>
-    <span class="blog-substack-arrow">&#8594;</span>
-  </a>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
   <div class="contact-left fade-up">
     <div class="section-label">Get In Touch</div>
-    <h2>Let&rsquo;s make<br><em class="fx-typewriter" style="--tw-ch:17">something real.</em></h2>
+    <h2>Let&rsquo;s make<br><em class="fx-typewriter" style="--tw-ch:14">something real.</em></h2>
     <p>A community that holds. A brand with a real point of view. If any of that resonates — I&rsquo;d like to hear from you.</p>
     <div class="c-items">
       <div class="c-item"><div class="c-icon"><svg viewBox="0 0 24 24"><path d="M3 6.5l9 6 9-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg></div><div class="c-detail"><span>Email</span>vhictorryx@gmail.com</div></div>
@@ -942,7 +897,8 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-copy">&copy; 2025 Victory Adewojo &nbsp;&middot;&nbsp; All Rights Reserved</div>
+  <div class="footer-copy">&copy; <span id="copyYear">2026</span> Victory Adewojo &nbsp;&middot;&nbsp; All Rights Reserved</div>
+  <script>document.getElementById('copyYear').textContent=new Date().getFullYear();</script>
   <a href="#home" class="footer-logo">vhictorry</a>
   <div class="footer-copy">Web3 &nbsp;&middot;&nbsp; Art &nbsp;&middot;&nbsp; Strategy &nbsp;&middot;&nbsp; Community</div>
 </footer>
@@ -1095,8 +1051,21 @@ function toggleEvents(){
         mi.innerHTML=s+s;
       }
       if(hp.aboutHeadingPlain){
-        const twCh=hp.aboutHeadingAccent?hp.aboutHeadingAccent.length+2:0;
-        document.querySelector('#about .section-heading').innerHTML=esc(hp.aboutHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(hp.aboutHeadingAccent?` <em class="fx-typewriter" style="--tw-ch:${twCh}">${esc(hp.aboutHeadingAccent)}</em>`:'');
+        document.querySelector('#about .section-heading').innerHTML=esc(hp.aboutHeadingPlain).replace(/\s*\/\s*/g,'<br>')+(hp.aboutHeadingAccent?` <em class="fx-typewriter" id="aboutHeadingAccentEm">${esc(hp.aboutHeadingAccent)}</em>`:'');
+        /* Measure the actual rendered text width instead of guessing from character count —
+           a fixed char-count buffer overshoots for narrow-letter phrases and leaves a big gap
+           before the blinking caret (this was a real, reported bug). */
+        const twEm=document.getElementById('aboutHeadingAccentEm');
+        if(twEm){
+          const range=document.createRange();range.selectNodeContents(twEm);
+          const textW=range.getBoundingClientRect().width;
+          const probe=document.createElement('span');
+          probe.style.cssText='position:absolute;visibility:hidden;font:inherit;width:1ch;';
+          twEm.appendChild(probe);
+          const chPx=probe.getBoundingClientRect().width;
+          probe.remove();
+          twEm.style.setProperty('--tw-ch',(textW/chPx+1.5).toFixed(1));
+        }
       }
       if(hp.aboutText){
         const first=document.querySelector('#about .about-text');
@@ -1108,7 +1077,7 @@ function toggleEvents(){
       if(hp.badgeValue)document.querySelector('.about-badge span:first-child').textContent=hp.badgeValue;
       if(hp.badgeLabel)document.querySelector('.about-badge span:last-child').textContent=hp.badgeLabel;
       if(Array.isArray(hp.aboutStats)&&hp.aboutStats.length){
-        document.querySelector('.about-stats').innerHTML=hp.aboutStats.slice(0,3).map(s=>`<div><div class="stat-number">${esc(s.value||'')}</div><div class="stat-label">${esc(s.label||'')}</div></div>`).join('');
+        document.querySelector('.about-stats').innerHTML=hp.aboutStats.slice(0,4).map(s=>`<div><div class="stat-number">${esc(s.value||'')}</div><div class="stat-label">${esc(s.label||'')}</div></div>`).join('');
       }
       if(hp.web3Text)document.querySelector('.web3-text p').textContent=hp.web3Text;
       if(Array.isArray(hp.chainTags)&&hp.chainTags.length)document.querySelector('.chain-tags').innerHTML=hp.chainTags.map(t=>`<span class="chain-tag">${esc(t)}</span>`).join('');
@@ -1189,30 +1158,6 @@ function toggleEvents(){
   initHeroRoleTypewriter();
 })();
 
-/* ── SANITY CMS — BLOG ── */
-(async function(){
-  const PROJ='3ihweswz',DS='production';
-  async function sanity(q){
-    const r=await fetch(`https://${PROJ}.apicdn.sanity.io/v2024-01-01/data/query/${DS}?query=${encodeURIComponent(q)}`);
-    return(await r.json()).result||[];
-  }
-  const posts=await sanity(`*[_type=="mainBlogPost"]|order(order asc){title,tag,description,url,emoji,"coverUrl":coverImage.asset->url}`);
-  if(!posts.length)return;
-  const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  const grads=['linear-gradient(135deg,#1A0E2E,#6B2FA0)','linear-gradient(135deg,#3D2B5C,#B07DD9)','linear-gradient(135deg,#6B2FA0,#C9A84C)'];
-  const cimg=u=>u.toLowerCase().endsWith('.gif')?u:u+'?w=800&fit=max&auto=format';
-  const grid=document.getElementById('blogGrid');
-  grid.innerHTML=posts.map((p,i)=>`
-    <div class="blog-card">
-      <div class="blog-card-thumb" style="background:${p.coverUrl?`url('${esc(cimg(p.coverUrl))}') center/cover no-repeat`:grads[i%grads.length]};">${p.coverUrl?'':esc(p.emoji||'✍️')}</div>
-      <div class="blog-card-body">
-        <div class="blog-card-tag">${esc(p.tag||'Post')}</div>
-        <div class="blog-card-title">${esc(p.title)}</div>
-        <p class="blog-card-desc">${esc(p.description||'')}</p>
-        ${p.url?`<a href="${esc(p.url)}" target="_blank" rel="noopener" class="blog-card-cta">Read Post →</a>`:''}
-      </div>
-    </div>`).join('');
-})();
 </script>
 
 <!-- ═══ MOTION LAYER · behaviour (added 2026-07-08) — page-agnostic; no-ops where a target is absent ═══ -->
@@ -1268,10 +1213,48 @@ function openSub(sub,name){
   var note=document.getElementById('subModalNote');if(note)note.innerHTML=SUB_DEFAULT_NOTE;
   var rd=document.getElementById('subModalRead');if(rd)rd.href='https://'+sub+'.substack.com';
   var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://'+sub+'.substack.com/embed';
+  resetSubThanks();
   var m=document.getElementById('subModal');if(m)m.classList.add('open');
   return false;
 }
 function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.remove('open');}
+
+/* Substack's embed is a cross-origin iframe, so we can't read its form state directly.
+   Primary signal: Substack posts a window.message when the embedded form actually submits --
+   if that arrives, we know for certain a subscribe happened. Fallback (only if no message
+   ever arrives): focus leaving the parent page onto the iframe, held for a pause, as a rough
+   proxy -- less exact, since it can't distinguish "clicked into the email field" from "submitted". */
+(function(){
+  var armed=true, timer=null;
+  function showThanks(){
+    if(!armed)return;
+    armed=false;
+    if(timer)clearTimeout(timer);
+    var frEl=document.getElementById('subEmbedFrame');
+    var thanksEl=document.getElementById('subThanks');
+    if(frEl)frEl.style.display='none';
+    if(thanksEl)thanksEl.style.display='flex';
+  }
+  window.addEventListener('message',function(e){
+    if(!armed||!e.origin||e.origin.indexOf('substack.com')===-1)return;
+    var data=e.data;
+    var text=typeof data==='string'?data:(function(){try{return JSON.stringify(data||{});}catch(x){return '';}})();
+    if(/subscri|success|submit/i.test(text))showThanks();
+  });
+  window.addEventListener('blur',function(){
+    var frEl=document.getElementById('subEmbedFrame');
+    if(!armed||!frEl||document.activeElement!==frEl)return;
+    timer=setTimeout(showThanks,1200);
+  });
+  window.resetSubThanks=function(){
+    armed=true;
+    if(timer)clearTimeout(timer);
+    var frEl=document.getElementById('subEmbedFrame');
+    var thanksEl=document.getElementById('subThanks');
+    if(frEl)frEl.style.display='';
+    if(thanksEl)thanksEl.style.display='none';
+  };
+})();
 
 /* Auto subscribe popup — fires once per session after ~60s of an engaged (scrolling) visit */
 (function(){
@@ -1284,9 +1267,10 @@ function closeSub(){var m=document.getElementById('subModal');if(m)m.classList.r
     sessionStorage.setItem(KEY,'1');
     var n=document.getElementById('subModalName');if(n)n.textContent='Before you go…';
     var note=document.getElementById('subModalNote');
-    if(note)note.textContent="You've been here a minute — that's basically a first date. Join Between the Blocks for the essays that don't make it into a LinkedIn post.";
+    if(note)note.textContent="You've been here a minute — that's basically a first date. Join Between the Blocks for the blogs that don't make it into a LinkedIn post.";
     var rd=document.getElementById('subModalRead');if(rd)rd.href='https://btwtheblocks.substack.com';
     var fr=document.getElementById('subEmbedFrame');if(fr)fr.src='https://btwtheblocks.substack.com/embed';
+    resetSubThanks();
     subCur='btwtheblocks';
     var m=document.getElementById('subModal');if(m)m.classList.add('open');
   }
@@ -1424,8 +1408,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeContact
     <div class="sub-modal-note" id="subModalNote">Reflections on crypto, Web3 &amp; building — straight to your inbox.</div>
     <div class="sub-embed-wrap">
       <iframe id="subEmbedFrame" class="sub-embed" src="https://btwtheblocks.substack.com/embed" title="Subscribe" scrolling="no"></iframe>
+      <div class="sub-thanks" id="subThanks" style="display:none">Thank you for subscribing! 🎉<br><span>Check your inbox to confirm.</span></div>
     </div>
-    <a class="sub-modal-read" id="subModalRead" href="https://btwtheblocks.substack.com" target="_blank" rel="noopener">Or read all essays on Substack &rarr;</a>
+    <a class="sub-modal-read" id="subModalRead" href="https://btwtheblocks.substack.com" target="_blank" rel="noopener">Or read all blogs on Substack &rarr;</a>
   </div>
 </div>
 

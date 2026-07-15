@@ -67,7 +67,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   background:radial-gradient(90% 80% at 85% 15%,rgba(139,77,191,0.30),transparent 60%),var(--ink-bright);
   position:relative;overflow:hidden;text-align:center;
 }
-.web3-hero::after{content:'';position:absolute;bottom:-60px;right:-10px;width:280px;height:280px;background:url('../logo-mark.png') center/contain no-repeat;opacity:0.04;pointer-events:none}
+.web3-hero::after{content:'';position:absolute;bottom:-60px;right:-10px;width:280px;height:280px;background:url('../logo-mark.png') center/contain no-repeat;opacity:0.14;filter:brightness(0) invert(1);pointer-events:none}
 .web3-hero-inner{position:relative;z-index:2;max-width:720px;margin:0 auto}
 .wh-eyebrow{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--purple-light);display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px}
 .wh-eyebrow::before,.wh-eyebrow::after{content:'';width:32px;height:1.5px;background:var(--purple-light)}
@@ -167,10 +167,11 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
     <li><a href="/">Art</a></li>
     <li><a href="/about/">About</a></li>
     <li><a href="/gallery/">Gallery</a></li>
-    <li><a href="/#portfolioSection">Portfolio</a></li>
+    <li><a href="/portfolio/">Portfolio</a></li>
     <li><a href="#" class="active">NFT</a></li>
     <li><a href="/#exhibitions">Exhibitions</a></li>
     <li><a href="/#press">Press</a></li>
+    <li><a href="/blog/">Blog</a></li>
     <li><a href="https://vhictorry.com/">Tech &rarr;</a></li>
   </ul>
   <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -255,7 +256,8 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
 </section>
 
 <footer>
-  <div class="footer-copy">© 2025 Victory Adewojo · All Rights Reserved</div>
+  <div class="footer-copy">© <span id="copyYear">2026</span> Victory Adewojo · All Rights Reserved</div>
+  <script>document.getElementById('copyYear').textContent=new Date().getFullYear();</script>
   <a href="https://vhictorry.com/" class="footer-logo">vhictorry</a>
   <div class="footer-copy">Art · Web3 · Community · Strategy</div>
 </footer>
