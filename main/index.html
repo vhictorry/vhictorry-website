@@ -831,7 +831,7 @@ footer{background:var(--ink-bright);padding:32px 56px;display:flex;justify-conte
     <p>Victory&rsquo;s art lives both on canvas and on-chain — paintings that explore identity, transformation, freedom, and constraint. Original works available physically and as on-chain editions for collectors in the Web3 space.</p>
     <a href="https://art.vhictorry.com" class="btn-ghost btn-ghost--onDark">View the Art &rarr;</a>
   </div>
-  <div class="art-teaser-visual fade-up">
+  <div class="art-teaser-visual fade-up" id="artTeaserVisual">
     <div class="art-tile" style="height:300px;">
       <div class="art-tile-placeholder" style="width:100%;height:100%;background:linear-gradient(135deg,#1A0E2E,#6B2FA0);font-size:80px;">&#9823;</div>
     </div>
@@ -1030,7 +1030,7 @@ function toggleEvents(){
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   const img=(u,w)=>u.toLowerCase().endsWith('.gif')?u:u+`?w=${w}&fit=max&auto=format`;
   try{
-    const hp=await q(`*[_type=="homePage"][0]{...,"heroPhotoUrl":heroPhoto.asset->url,"aboutMainUrl":aboutPhotoMain.asset->url,"aboutAccentUrl":aboutPhotoAccent.asset->url,"resumeFileUrl":resume.asset->url,"projectLogos":projectLogos[]{name,"url":logo.asset->url}}`);
+    const hp=await q(`*[_type=="homePage"][0]{...,"heroPhotoUrl":heroPhoto.asset->url,"aboutMainUrl":aboutPhotoMain.asset->url,"aboutAccentUrl":aboutPhotoAccent.asset->url,"resumeFileUrl":resume.asset->url,"projectLogos":projectLogos[]{name,"url":logo.asset->url},"artTeaserUrls":artTeaserImages[].asset->url}`);
     if(hp){
       if(hp.eyebrow)document.querySelector('.hero-eyebrow').textContent=hp.eyebrow;
       /* Only the "rest" text after the cycling role is CMS-editable now, so a custom Short Bio
@@ -1053,6 +1053,14 @@ function toggleEvents(){
         const eg=document.getElementById('expertiseGrid');
         eg.innerHTML=hp.services.map((s,i)=>`<div class="expertise-card fade-up"><div class="card-num">${String(i+1).padStart(2,'0')}</div><span class="card-icon">${esc(s.icon||'')}</span><h3 class="card-title">${esc(s.title||'')}</h3><p class="card-desc">${esc(s.description||'')}</p></div>`).join('');
         eg.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+      }
+      if(Array.isArray(hp.artTeaserUrls)&&hp.artTeaserUrls.filter(Boolean).length){
+        const urls=hp.artTeaserUrls.filter(Boolean);
+        const heights=[300,140,140];
+        document.getElementById('artTeaserVisual').innerHTML=urls.slice(0,3).map((u,i)=>{
+          const src=u.toLowerCase().endsWith('.gif')?u:u+'?w=800&fit=max&auto=format';
+          return `<div class="art-tile" style="height:${heights[i]}px;"><img src="${esc(src)}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`;
+        }).join('');
       }
       if(Array.isArray(hp.marqueeItems)&&hp.marqueeItems.length){
         const mi=document.querySelector('.marquee-inner');

@@ -114,6 +114,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .ws-card-body{padding:18px 20px}
 .ws-card-title{font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:4px}
 .ws-card-meta{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.ws-card-onchain{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.5px;color:var(--muted);opacity:.75;margin-bottom:10px}
 .ws-card-link{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple)}
 .ws-empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:15px;grid-column:1/-1}
 
@@ -328,7 +329,7 @@ const imgSrc=(u,w)=>u.toLowerCase().endsWith('.gif')?u:u+`?w=${w}&fit=max&auto=f
   const grid=document.getElementById('web3ShowcaseGrid');
   const msg=document.getElementById('web3ShowcaseMsg');
   try{
-    const works=await sanity(`*[_type=="artwork" && (count((category[])[@ in ["nft","web3"]]) > 0)]|order(order asc){title,"imageUrl":image.asset->url,category,medium,year,chain,buyUrl}`);
+    const works=await sanity(`*[_type=="artwork" && (count((category[])[@ in ["nft","web3"]]) > 0)]|order(order asc){title,"imageUrl":image.asset->url,category,medium,year,chain,editionSize,tokenId,contractAddress,mintDate,buyUrl}`);
     if(!works||!works.length){
       if(msg)msg.textContent='On-chain pieces will appear here once tagged “NFT / Web3” in Sanity Studio.';
       return;
@@ -337,13 +338,20 @@ const imgSrc=(u,w)=>u.toLowerCase().endsWith('.gif')?u:u+`?w=${w}&fit=max&auto=f
     grid.innerHTML=works.map(w=>{
       const img=w.imageUrl?`<img src="${imgSrc(w.imageUrl,700)}" alt="${esc(w.title||'')}" loading="lazy">`:'⛓️';
       const chain=w.chain||'On-Chain';
-      const meta=[w.medium,w.year].filter(Boolean).join(' · ');
+      const meta=[w.medium,w.year,w.editionSize].filter(Boolean).join(' · ');
       const link=w.buyUrl?`<a class="ws-card-link" href="${esc(w.buyUrl)}" target="_blank" rel="noopener">${w.buyUrl.includes('opensea')?'View on OpenSea →':'View piece →'}</a>`:'';
+      const onchainBits=[
+        w.mintDate?`Minted ${esc(w.mintDate)}`:'',
+        w.tokenId?`Token #${esc(w.tokenId)}`:'',
+        w.contractAddress?`Contract ${esc(w.contractAddress.slice(0,6))}…${esc(w.contractAddress.slice(-4))}`:'',
+      ].filter(Boolean).join(' · ');
+      const onchainLine=onchainBits?`<div class="ws-card-onchain">${onchainBits}</div>`:'';
       return `<div class="ws-card fade-up">
         <div class="ws-card-img"><span class="ws-chain-badge">${esc(chain)}</span>${img}</div>
         <div class="ws-card-body">
           <div class="ws-card-title">${esc(w.title||'Untitled')}</div>
           ${meta?`<div class="ws-card-meta">${esc(meta)}</div>`:''}
+          ${onchainLine}
           ${link}
         </div>
       </div>`;
